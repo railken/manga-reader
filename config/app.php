@@ -171,6 +171,9 @@ return [
         /*
          * Application Service Providers...
          */
+        Railken\Laravel\Manager\ManagerServiceProvider::class,
+        Railken\Laravel\App\AppServiceProvider::class,
+        
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,

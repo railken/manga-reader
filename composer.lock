@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f2120fa77d42a42b4210cdbe1c114e2",
+    "content-hash": "aebf3177d248ea865388a555a1aac35b",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1171,6 +1171,60 @@
                 "shell"
             ],
             "time": "2017-07-29T19:30:02+00:00"
+        },
+        {
+            "name": "railken/laravel-application",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/railken/laravel-application.git",
+                "reference": "49077707805fa2bf81b9a894a9a6b5ab63f1341f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/railken/laravel-application/zipball/49077707805fa2bf81b9a894a9a6b5ab63f1341f",
+                "reference": "49077707805fa2bf81b9a894a9a6b5ab63f1341f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "~5.1",
+                "php": ">=5.6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Railken\\Laravel\\App\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2017-09-18T16:10:14+00:00"
+        },
+        {
+            "name": "railken/laravel-manager",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/railken/laravel-manager.git",
+                "reference": "73848c0dc902b9fd7f9380ac0c82eecd3428a93e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/railken/laravel-manager/zipball/73848c0dc902b9fd7f9380ac0c82eecd3428a93e",
+                "reference": "73848c0dc902b9fd7f9380ac0c82eecd3428a93e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "~5.1",
+                "php": ">=5.6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Railken\\Laravel\\Manager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2017-06-04T19:41:12+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -3828,7 +3882,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "railken/laravel-application": 20,
+        "railken/laravel-manager": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
