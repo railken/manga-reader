@@ -33,7 +33,8 @@ class UserManager extends ModelManager
 	public function fill(ModelContract $entity, array $params)
 	{
 
-		$params = $this->getOnlyParams($params, ['name']);
+
+		$params = $this->getOnlyParams($params, ['username', 'role', 'password', 'email']);
 
 		$entity->fill($params);
 
@@ -51,7 +52,8 @@ class UserManager extends ModelManager
 	public function save(ModelContract $entity)
 	{
 		$this->throwExceptionParamsNull([
-			'name' => $entity->name,
+			'email' => $entity->email,
+			'username' => $entity->username,
 		]);
 
 		return parent::save($entity);
