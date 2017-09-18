@@ -13,12 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api,errors')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 
-Route::group(['prefix' => 'v1'], function() {
+Route::group(['middleware' => 'errors', 'prefix' => 'v1'], function() {
 
 
 	Route::any('/sign-in', ['uses' => '\Api\Http\Controllers\Auth\AuthController@signIn']);

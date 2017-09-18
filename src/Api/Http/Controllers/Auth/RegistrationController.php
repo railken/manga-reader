@@ -20,12 +20,8 @@ class RegistrationController extends Controller
     {
         $um = new UserManager();
             
-        try {
-            $um->create($request->only(['username','password','password_repeat','email']));
-        } catch (Exception $e) {
-            return $this->error(['message' => $e->getMessage()]);
-        }
+        $um->create($request->only(['username', 'password', 'email']));
 
-        return $this->success(['message' => 'ok']);
+        return $this->success(['message' => 'ok', 'code' => 'USER_REGISTERED']);
     }
 }

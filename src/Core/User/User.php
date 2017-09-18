@@ -43,4 +43,11 @@ class User extends Authenticatable implements ModelContract
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    public function setPasswordAttribute($pass)
+    {
+
+        $this->attributes['password'] = bcrypt($pass);
+
+    }
 }
