@@ -5,8 +5,9 @@ namespace Core\User;
 use Railken\Laravel\Manager\ModelContract;
 use Railken\Laravel\Manager\ModelManager;
 use Railken\Laravel\Manager\Permission\AgentContract;
-
+use Railken\Bag;
 use Core\User\User;
+use Illuminate\Support\Collection;
 
 class UserManager extends ModelManager
 {
@@ -18,24 +19,61 @@ class UserManager extends ModelManager
 	{
 		$this->repository = new UserRepository($this);
 		$this->serializer = new UserSerializer($this);
+		$this->validator = new UserValidator();
 
 		parent::__construct($agent);
+	}
+	
+	/**
+	 * Validate required params
+	 *
+	 * @param array $params
+	 *
+	 * @return Collection
+	 */
+	public function required(Bag $params)
+	{
+		return $this->validator->validate($params);
+	}
+	
+	/**
+	 * Validate params
+	 *
+	 * @param array $params
+	 *
+	 * @return Collection
+	 */
+	public function validate(Bag $params)
+	{
+		return $this->validator->validate($params);
+	}
+
+	/**
+	 * Validate required params
+	 *
+	 * @param array $params
+	 *
+	 * @return Collection
+	 */
+	public function uniqueness(Bag $params)
+	{
+		return $this->validator->validate($params);
 	}
 
 	/**
 	 * Fill the entity
 	 *
 	 * @param ModelContract $entity
-	 * @param array $params
+	 * @param Bag $params
 	 *
 	 * @return ModelContract
 	 */
-	public function fill(ModelContract $entity, array $params)
+	public function fill(ModelContract $entity, Bag $params)
 	{
 
-		$params = $this->getOnlyParams($params, ['username', 'role', 'password', 'email']);
+		$params = $params->only(['username', 'role', 'password', 'email']);
 
-		$entity->fill($params);
+		$entity->fill($params->all());
 
 		return $entity;
 

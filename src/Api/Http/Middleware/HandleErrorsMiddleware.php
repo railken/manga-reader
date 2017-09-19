@@ -5,6 +5,8 @@ namespace Api\Http\Middleware;
 use Closure;
 use DB;
 use Exception;
+use Api\Exceptions\BadRequestException;
+use Illuminate\Http\JsonResponse;
 
 class HandleErrorsMiddleware
 {
@@ -19,7 +21,13 @@ class HandleErrorsMiddleware
         if ($exception) {
 
             DB::rollback();
-            // $response = // A new response is generated here.
+
+            if ($exception instanceof BadRequestException) {
+                $message = $exception->getMessage();
+                $response = new JsonResponse(['status' => 'error', 'message' => 'Bad Request', 'errors' => $message], 400);
+            }
+
+            
         }
 
         if (!$exception)

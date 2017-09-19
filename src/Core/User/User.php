@@ -12,6 +12,9 @@ class User extends Authenticatable implements ModelContract
 {
     use HasApiTokens, Notifiable, SoftDeletes;
 
+    const ROLE_USER = 'user';
+    const ROLE_ADMIN = 'admin';
+    
 	/**
 	 * The table associated with the model.
 	 *
