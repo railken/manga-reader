@@ -61,10 +61,10 @@ class UserAttributeException extends Exception
 	public function toArray()
 	{
 		return [
-			'value' => $this->getValue(),
 			'code' => $this->getCode(),
 			'attribute' => $this->getAttribute(),
-			'message' => $this->getMessage()
+			'message' => $this->getMessage(),
+			'value' => $this->getValue(),
 		];
 	}
 

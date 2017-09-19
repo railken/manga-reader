@@ -2,7 +2,7 @@
 
 namespace Core\User\Exceptions;
 
-class UserAttributeEmailInvalidException extends UserAttributeException
+class UserEmailNotValidException extends UserAttributeException
 {
 
 	/**

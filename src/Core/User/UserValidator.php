@@ -31,20 +31,20 @@ class UserValidator
 		$errors = new Collection();
 
 		if ($params->exists('email') && !$this->validEmail($params->get('email'))) 
-			$errors->push(new Exceptions\UserAttributeEmailInvalidException($params->get('email')));
+			$errors->push(new Exceptions\UserEmailNotValidException($params->get('email')));
 		
 		
 
 		if ($params->exists('role') && !$this->validRole($params->get('role')))
-			$errors->push(new Exceptions\UserAttributeRoleInvalidException($params->get('role')));
+			$errors->push(new Exceptions\UserRoleNotValidException($params->get('role')));
 
 
 		if ($params->exists('username') && !$this->validUsername($params->get('username')))
-			$errors->push(new Exceptions\UserAttributeUsernameInvalidException($params->get('username')));
+			$errors->push(new Exceptions\UserUsernameNotValidException($params->get('username')));
 
 
 		if ($params->exists('password') && !$this->validPassword($params->get('password')))
-			$errors->push(new Exceptions\UserAttributePasswordInvalidException($params->get('password')));
+			$errors->push(new Exceptions\UserPasswordNotValidException($params->get('password')));
 
 		return $errors;
 	}

@@ -2,7 +2,7 @@
 
 namespace Core\User\Exceptions;
 
-class UserAttributeRoleException extends UserAttributeException
+class UserPasswordNotValidException extends UserAttributeException
 {
 
 	/**
@@ -10,20 +10,19 @@ class UserAttributeRoleException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'role';
+	protected $attribute = 'password';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_ROLE_INVALID';
+	protected $code = 'USER_PASSWORD_INVALID';
 
 	/**
 	 * The message
 	 *
 	 * @var string
 	 */
-	protected $message = "The %s must be ".User::ROLE_ADMIN." or ".User::ROLE_USER."";
-
+	protected $message = "The %s must be at least 8 characters in length";
 }
