@@ -10,8 +10,9 @@
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
-        "railken/laravel-application": "*@dev",
-        "railken/laravel-manager": "*@dev"
+        "railken/bag": "^1.0",
+        "railken/laravel-application": "^1.0",
+        "railken/laravel-manager": "^2.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

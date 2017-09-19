@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a398df85270280ca759a52df02f66e6",
+    "content-hash": "98c6e2af39cea3fd8298565f5e9c1b78",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -695,16 +695,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.4",
+            "version": "v5.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d3e0493bead126cf7fb9a005c64e6b58a9190e51"
+                "reference": "7a7b7c92ac6feae474cfe036a06643f5052d2e40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d3e0493bead126cf7fb9a005c64e6b58a9190e51",
-                "reference": "d3e0493bead126cf7fb9a005c64e6b58a9190e51",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7a7b7c92ac6feae474cfe036a06643f5052d2e40",
+                "reference": "7a7b7c92ac6feae474cfe036a06643f5052d2e40",
                 "shasum": ""
             },
             "require": {
@@ -823,7 +823,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-09-13T13:36:29+00:00"
+            "time": "2017-09-19T17:46:51+00:00"
         },
         {
             "name": "laravel/passport",
@@ -1850,17 +1850,43 @@
             "time": "2017-07-29T19:30:02+00:00"
         },
         {
-            "name": "railken/laravel-application",
-            "version": "dev-master",
+            "name": "railken/bag",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/railken/laravel-application.git",
-                "reference": "49077707805fa2bf81b9a894a9a6b5ab63f1341f"
+                "url": "https://github.com/railken/bag.git",
+                "reference": "8d4b0e68f3d66e67943bf8294c2a17487f9031e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/laravel-application/zipball/49077707805fa2bf81b9a894a9a6b5ab63f1341f",
-                "reference": "49077707805fa2bf81b9a894a9a6b5ab63f1341f",
+                "url": "https://api.github.com/repos/railken/bag/zipball/8d4b0e68f3d66e67943bf8294c2a17487f9031e5",
+                "reference": "8d4b0e68f3d66e67943bf8294c2a17487f9031e5",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Railken\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2017-09-19T19:27:54+00:00"
+        },
+        {
+            "name": "railken/laravel-application",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/railken/laravel-application.git",
+                "reference": "d440666e67cd1584d9f4ac44b7d718c38eb24818"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/railken/laravel-application/zipball/d440666e67cd1584d9f4ac44b7d718c38eb24818",
+                "reference": "d440666e67cd1584d9f4ac44b7d718c38eb24818",
                 "shasum": ""
             },
             "require": {
@@ -1874,25 +1900,26 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2017-09-18T16:10:14+00:00"
+            "time": "2017-09-18T19:33:14+00:00"
         },
         {
             "name": "railken/laravel-manager",
-            "version": "dev-master",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/laravel-manager.git",
-                "reference": "73848c0dc902b9fd7f9380ac0c82eecd3428a93e"
+                "reference": "d57310ddd0bfe17e7052ba2f80b1729b2a3ea175"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/laravel-manager/zipball/73848c0dc902b9fd7f9380ac0c82eecd3428a93e",
-                "reference": "73848c0dc902b9fd7f9380ac0c82eecd3428a93e",
+                "url": "https://api.github.com/repos/railken/laravel-manager/zipball/d57310ddd0bfe17e7052ba2f80b1729b2a3ea175",
+                "reference": "d57310ddd0bfe17e7052ba2f80b1729b2a3ea175",
                 "shasum": ""
             },
             "require": {
                 "illuminate/console": "~5.1",
-                "php": ">=5.6.4"
+                "php": ">=5.6.4",
+                "railken/bag": "^1.0"
             },
             "type": "library",
             "autoload": {
@@ -1901,7 +1928,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2017-06-04T19:41:12+00:00"
+            "time": "2017-09-19T19:31:09+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -4671,10 +4698,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "railken/laravel-application": 20,
-        "railken/laravel-manager": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
