@@ -24,22 +24,21 @@ class RegistrationController extends Controller
     public function index(Request $request)
     {
         $um = new UserManager();
-        
-        $params = new Bag($request->only(['username', 'password', 'email']));
 
-        $errors = new Collection();
+        $params = new Bag();
 
-        // $errors = $errors->merge($um->required($params));
-        $errors = $errors->merge($um->validate($params));
-        // $errors = $errors->merge($um->uniqueness($params));
+        $result = $um->register($request->only(['username', 'password', 'email']));
 
-        if ($errors->count() !== 0)
+        $errors = $result->getErrors();
+
+        if ($errors->count() !== 0) {
             throw new BadRequestException($errors);
+        }
 
-        $um->create($params);
+        $user = $result->getResource();
 
         return $this->success([
-            'message' => 'ok', 
+            'message' => 'ok',
             'code' => 'USER_REGISTERED'
         ]);
     }

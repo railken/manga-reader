@@ -180,6 +180,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Core\User\UserServiceProvider::class,
+
     ],
 
     /*

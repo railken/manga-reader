@@ -17,12 +17,13 @@ class UserPasswordNotValidException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_PASSWORD_INVALID';
+	protected $code = 'USER_PASSWORD_NOT_VALID';
 
 	/**
 	 * The message
 	 *
 	 * @var string
 	 */
-	protected $message = "The %s must be at least 8 characters in length";
+	protected $message = "The %s is not valid";
+
 }

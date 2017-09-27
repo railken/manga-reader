@@ -17,13 +17,13 @@ class UserRoleNotValidException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_ROLE_INVALID';
+	protected $code = 'USER_ROLE_NOT_VALID';
 
 	/**
 	 * The message
 	 *
 	 * @var string
 	 */
-	protected $message = "The %s must be ".User::ROLE_ADMIN." or ".User::ROLE_USER."";
+	protected $message = "The %s is not valid";
 
 }

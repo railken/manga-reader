@@ -2,7 +2,7 @@
 
 namespace Core\User\Exceptions;
 
-class UserEmailNotValidException extends UserAttributeException
+class UserPasswordNotDefinedException extends UserAttributeException
 {
 
 	/**
@@ -10,20 +10,20 @@ class UserEmailNotValidException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'email';
+	protected $attribute = 'password';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_EMAIL_NOT_VALID';
+	protected $code = 'USER_PASSWORD_NOT_DEFINED';
 
 	/**
 	 * The message
 	 *
 	 * @var string
 	 */
-	protected $message = "The %s is not valid";
+	protected $message = "The %s is required";
 
 }

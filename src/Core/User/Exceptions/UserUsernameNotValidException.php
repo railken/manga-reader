@@ -17,12 +17,13 @@ class UserUsernameNotValidException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_USERNAME_INVALID';
+	protected $code = 'USER_USERNAME_NOT_VALID';
 
 	/**
 	 * The message
 	 *
 	 * @var string
 	 */
-	protected $message = "The %s must be at least 3 characters in length";
+	protected $message = "The %s is not valid";
+
 }

@@ -2,13 +2,14 @@
 
 namespace Core\User;
 
-use Laravel\Passport\HasApiTokens;
-use Railken\Laravel\Manager\ModelContract;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Railken\Laravel\Manager\Contracts\EntityContract;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable implements ModelContract
+class User extends Model implements EntityContract
 {
     use HasApiTokens, Notifiable, SoftDeletes;
 
@@ -49,8 +50,27 @@ class User extends Authenticatable implements ModelContract
 
     public function setPasswordAttribute($pass)
     {
-
         $this->attributes['password'] = bcrypt($pass);
+    }
+    
 
+    /**
+     * Return if has role user
+     *
+     * @return bool
+     */
+    public function isRoleUser()
+    {
+        return $this->role == static::ROLE_USER;
+    }
+
+    /**
+     * Return if has role admin
+     *
+     * @return bool
+     */
+    public function isRoleAdmin()
+    {
+        return $this->role == static::ROLE_ADMIN;
     }
 }
