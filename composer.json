@@ -12,7 +12,7 @@
         "laravel/tinker": "~1.0",
         "railken/bag": "^1.0",
         "railken/laravel-application": "^1.0",
-        "railken/laravel-manager": "^2.0"
+        "railken/laravel-manager": "^2.2.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

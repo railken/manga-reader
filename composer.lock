@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "98c6e2af39cea3fd8298565f5e9c1b78",
+    "content-hash": "c0c235631a702b92e2497f5bc1ef9d10",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -695,16 +695,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.7",
+            "version": "v5.5.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "7a7b7c92ac6feae474cfe036a06643f5052d2e40"
+                "reference": "bfbe20d32ee9f98c89df852847827407a5127be4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/7a7b7c92ac6feae474cfe036a06643f5052d2e40",
-                "reference": "7a7b7c92ac6feae474cfe036a06643f5052d2e40",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/bfbe20d32ee9f98c89df852847827407a5127be4",
+                "reference": "bfbe20d32ee9f98c89df852847827407a5127be4",
                 "shasum": ""
             },
             "require": {
@@ -823,7 +823,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-09-19T17:46:51+00:00"
+            "time": "2017-09-24T19:09:38+00:00"
         },
         {
             "name": "laravel/passport",
@@ -1851,16 +1851,16 @@
         },
         {
             "name": "railken/bag",
-            "version": "v1.1.0",
+            "version": "v1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/bag.git",
-                "reference": "8d4b0e68f3d66e67943bf8294c2a17487f9031e5"
+                "reference": "db0caded04b19e1fb0aee0f57f31ffe768dc6fe6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/bag/zipball/8d4b0e68f3d66e67943bf8294c2a17487f9031e5",
-                "reference": "8d4b0e68f3d66e67943bf8294c2a17487f9031e5",
+                "url": "https://api.github.com/repos/railken/bag/zipball/db0caded04b19e1fb0aee0f57f31ffe768dc6fe6",
+                "reference": "db0caded04b19e1fb0aee0f57f31ffe768dc6fe6",
                 "shasum": ""
             },
             "require-dev": {
@@ -1873,7 +1873,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2017-09-19T19:27:54+00:00"
+            "time": "2017-09-26T20:53:42+00:00"
         },
         {
             "name": "railken/laravel-application",
@@ -1904,22 +1904,27 @@
         },
         {
             "name": "railken/laravel-manager",
-            "version": "v2.0.0",
+            "version": "v2.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/railken/laravel-manager.git",
-                "reference": "d57310ddd0bfe17e7052ba2f80b1729b2a3ea175"
+                "url": "https://github.com/railken/entity-manager-laravel.git",
+                "reference": "afb0fadbc4e36a5535e8000d036eb874a1d6d49a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/laravel-manager/zipball/d57310ddd0bfe17e7052ba2f80b1729b2a3ea175",
-                "reference": "d57310ddd0bfe17e7052ba2f80b1729b2a3ea175",
+                "url": "https://api.github.com/repos/railken/entity-manager-laravel/zipball/afb0fadbc4e36a5535e8000d036eb874a1d6d49a",
+                "reference": "afb0fadbc4e36a5535e8000d036eb874a1d6d49a",
                 "shasum": ""
             },
             "require": {
                 "illuminate/console": "~5.1",
-                "php": ">=5.6.4",
-                "railken/bag": "^1.0"
+                "php": ">=7.0.0",
+                "railken/bag": "^1.0",
+                "respect/validation": "^1.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "~6.0"
             },
             "type": "library",
             "autoload": {
@@ -1928,20 +1933,26 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2017-09-19T19:31:09+00:00"
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "laravel"
+            ],
+            "time": "2017-09-27T20:53:44+00:00"
         },
         {
             "name": "ramsey/uuid",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "0ef23d1b10cf1bc576e9d865a7e9c47982c5715e"
+                "reference": "45cffe822057a09e05f7bd09ec5fb88eeecd2334"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/0ef23d1b10cf1bc576e9d865a7e9c47982c5715e",
-                "reference": "0ef23d1b10cf1bc576e9d865a7e9c47982c5715e",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/45cffe822057a09e05f7bd09ec5fb88eeecd2334",
+                "reference": "45cffe822057a09e05f7bd09ec5fb88eeecd2334",
                 "shasum": ""
             },
             "require": {
@@ -2010,7 +2021,72 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2017-08-04T13:39:04+00:00"
+            "time": "2017-09-22T20:46:04+00:00"
+        },
+        {
+            "name": "respect/validation",
+            "version": "1.1.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Respect/Validation.git",
+                "reference": "5ab87d1dd932872f6670136a513f72ff9ea41c67"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Respect/Validation/zipball/5ab87d1dd932872f6670136a513f72ff9ea41c67",
+                "reference": "5ab87d1dd932872f6670136a513f72ff9ea41c67",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "symfony/polyfill-mbstring": "^1.2"
+            },
+            "require-dev": {
+                "egulias/email-validator": "~1.2",
+                "malkusch/bav": "~1.0",
+                "mikey179/vfsstream": "^1.5",
+                "phpunit/phpunit": "~4.0",
+                "symfony/validator": "~2.6.9",
+                "zendframework/zend-validator": "~2.3"
+            },
+            "suggest": {
+                "egulias/email-validator": "Strict (RFC compliant) email validation",
+                "ext-bcmath": "Arbitrary Precision Mathematics",
+                "ext-mbstring": "Multibyte String Functions",
+                "fabpot/php-cs-fixer": "Fix PSR2 and other coding style issues",
+                "malkusch/bav": "German bank account validation",
+                "symfony/validator": "Use Symfony validator through Respect\\Validation",
+                "zendframework/zend-validator": "Use Zend Framework validator through Respect\\Validation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Respect\\Validation\\": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD Style"
+            ],
+            "authors": [
+                {
+                    "name": "Respect/Validation Contributors",
+                    "homepage": "https://github.com/Respect/Validation/graphs/contributors"
+                }
+            ],
+            "description": "The most awesome validation engine ever created for PHP",
+            "homepage": "http://respect.github.io/Validation/",
+            "keywords": [
+                "respect",
+                "validation",
+                "validator"
+            ],
+            "time": "2017-03-14T09:44:11+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3905,16 +3981,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.3.0",
+            "version": "6.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9501bab711403a1ab5b8378a8adb4ec3db3debdb"
+                "reference": "c0ff817b36a827e64bf5f57bc72278150cf30a77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9501bab711403a1ab5b8378a8adb4ec3db3debdb",
-                "reference": "9501bab711403a1ab5b8378a8adb4ec3db3debdb",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c0ff817b36a827e64bf5f57bc72278150cf30a77",
+                "reference": "c0ff817b36a827e64bf5f57bc72278150cf30a77",
                 "shasum": ""
             },
             "require": {
@@ -3985,7 +4061,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-08-04T05:20:39+00:00"
+            "time": "2017-09-24T07:25:54+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
