@@ -21,7 +21,7 @@ Route::middleware('auth:api,errors')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'errors', 'prefix' => 'v1'], function() {
 
 
-	Route::any('/sign-in', ['uses' => '\Api\Http\Controllers\Auth\AuthController@signIn']);
+	Route::any('/sign-in', ['as' => 'login', 'uses' => '\Api\Http\Controllers\Auth\AuthController@signIn']);
 	Route::any('/sign-up', ['uses' => '\Api\Http\Controllers\Auth\RegistrationController@index']);
 
     Route::any('/oauth/{name}/access_token', ['uses' => '\Api\Http\Controllers\Auth\SignInController@accessToken']);
@@ -29,6 +29,8 @@ Route::group(['middleware' => 'errors', 'prefix' => 'v1'], function() {
 
     Route::group(['middleware' => 'auth:api'], function() {
         Route::any('/user', ['uses' => '\Api\Http\Controllers\User\UserController@index']);
+
+        Route::get('/manga', ['uses' => '\Api\Http\Controllers\Manga\MangaController@index']);
 
     });
 });

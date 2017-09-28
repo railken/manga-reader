@@ -181,6 +181,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Core\User\UserServiceProvider::class,
+        Core\Manga\MangaServiceProvider::class,
 
     ],
 
