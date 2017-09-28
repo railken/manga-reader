@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Model implements EntityContract
+class User extends Authenticatable implements EntityContract
 {
     use HasApiTokens, Notifiable, SoftDeletes;
 
