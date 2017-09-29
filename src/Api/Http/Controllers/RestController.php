@@ -33,6 +33,61 @@ abstract class RestController extends Controller
         return $this->manager->serializer->serialize($entity);
     }
 
+
+    /**
+     * Filter query with where 
+     *
+     * @param QueryBuilder $query
+     * @param stdClass $filter
+     * @param string $logic_operator
+     *
+     * @return void
+     */
+    public function filter($query, $filter, $logic_operator = "and")
+    {
+
+        if (!$filter)
+            return;
+
+        if (is_array($filter)) {
+            foreach($filter as $filter)
+                $this->filter($query, $filter, $logic_operator);
+
+            return;
+        }   
+
+        $values = $filter->v;
+        $operator = $filter->o;
+
+        $key = isset($filter->k) ? $filter->k : null;
+
+
+        $sub_where = null;
+
+        if ($logic_operator == 'and')
+            $sub_where = "where";
+
+        if ($logic_operator == 'or')
+            $sub_where = 'orWhere';
+
+        $operator == "or" && $query->{"{$sub_where}"}(function($sub_query) use ($values) {
+            $this->filter($sub_query, $values, "or");
+         });
+
+        $operator == "and" && $query->{"{$sub_where}"}(function($sub_query) use ($values) {
+             $this->filter($sub_query, $values, "and");
+        });
+
+
+        $operator == "in" && $query->{"{$sub_where}In"}($key, $values);
+        $operator == "start_with" && $query->{"{$sub_where}"}($key, 'like', '%'.$values);
+        $operator == "end_with" && $query->{"{$sub_where}"}($key, 'like', $values.'%');
+        $operator == "contains" && $query->{"{$sub_where}"}($key, 'like', '%'.$values.'%');
+        $operator == ">" && $query->{"{$sub_where}"}($key, '>', $values);
+        $operator == "<" && $query->{"{$sub_where}"}($key, '<', $values);
+        $operator == "==" && $query->{"{$sub_where}"}($key, '==', $values);
+    }
+    
     /**
      * Return a json response of view list
      *
