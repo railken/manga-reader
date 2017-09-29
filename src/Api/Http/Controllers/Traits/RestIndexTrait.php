@@ -24,7 +24,8 @@ trait RestIndexTrait
         $filter = new Filter();
         $filter->build($query, json_decode($request->input('filter')));
 
-        $paginator = Paginator::retrieve($query, $request->input('page', 1), $request->input('show', 10));
+        $paginator = new Paginator();
+        $paginator = $paginator->execute($query, $request->input('page', 1), $request->input('show', 10));
 
         $sort = [
             'field' => strtolower($request->input('sort_field', 'id')),
@@ -33,15 +34,15 @@ trait RestIndexTrait
 
         $resources = $query
             ->orderBy($sort['field'], $sort['direction'])
-            ->skip($paginator->getFirstResult())
-            ->take($paginator->getMaxResults())
+            ->skip($paginator->get('first_result'))
+            ->take($paginator->get('max_results'))
             ->get();
 
         return $this->success([
             'resources' => $resources->map(function($record) {
                 return $this->manager->serializer->serialize($record);
             }),
-            'pagination' => $paginator,
+            'pagination' => $paginator->all(),
             'sort' => $sort,
             'filter' => $filter
         ]);
