@@ -13,7 +13,7 @@ abstract class RestController extends Controller
 {
 
     use RestIndexTrait;
-    
+
     /**
      * Return a new instance of Manager
      *
@@ -35,7 +35,6 @@ abstract class RestController extends Controller
     {
         return $this->manager->serializer->serialize($entity);
     }
-    
 
     /**
      * Return a json response to insert
@@ -57,14 +56,13 @@ abstract class RestController extends Controller
         return $this->show($entity->id, $request);
     }
 
-
     /**
      * Return a json response to get
      *
      * @param Request $request
      *
      * @return Response
-    */
+     */
     public function show($id, Request $request)
     {
         $this->initialize($request);
@@ -83,6 +81,7 @@ abstract class RestController extends Controller
             ]
         ]);
     }
+
     /**
      * Return a json response to insert
      *
@@ -100,7 +99,6 @@ abstract class RestController extends Controller
         if (empty($entity)) {
             abort(404);
         }
-
 
         $manager->update($entity, $request->all());
 
