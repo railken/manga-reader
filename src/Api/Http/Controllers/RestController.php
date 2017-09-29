@@ -7,10 +7,13 @@ use Api\Helper\Paginator;
 
 use Railken\Laravel\Manager\ModelContract;
 use Illuminate\Http\Request;
+use Api\Http\Controllers\Traits\RestIndexTrait;
 
 abstract class RestController extends Controller
 {
 
+    use RestIndexTrait;
+    
     /**
      * Return a new instance of Manager
      *
@@ -33,59 +36,6 @@ abstract class RestController extends Controller
         return $this->manager->serializer->serialize($entity);
     }
     
-    /**
-     * Return a json response of view list
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    public function index(Request $request)
-    {
-        $this->initialize($request);
-        $manager = $this->getManager();
-
-        $query = $manager->getRepository()->getQuery();
-
-        $searches = $request->input('search', []);
-
-        
-        $query->where(function ($qb) use ($searches) {
-            foreach ($searches as $name => $search) {
-                $qb->where($name, $search);
-            }
-        });
-
-        $query->where('user_id', $this->getUser()->id);
-
-        $paginator = Paginator::retrieve($query, $request->input('page', 1), $request->input('show', 10));
-
-        $sort = [
-            'field' => strtolower($request->input('sort_field', 'id')),
-            'direction' => strtolower($request->input('sort_direction', 'desc')),
-        ];
-
-        $results = $query
-            ->orderBy($sort['field'], $sort['direction'])
-            ->skip($paginator->getFirstResult())
-            ->take($paginator->getMaxResults())
-            ->get();
-
-
-        foreach ($results as $n => $k) {
-            $results[$n] = $this->serialize($k);
-        }
-
-        return $this->success([
-            'message' => 'ok',
-            'data' => [
-                'resources' => $results,
-                'pagination' => $paginator,
-                'sort' => $sort,
-                'search' => $searches,
-            ]
-        ]);
-    }
 
     /**
      * Return a json response to insert
