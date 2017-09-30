@@ -20,9 +20,10 @@ class Filter
         if (!$filter)
             return;
 
+
         if (is_array($filter)) {
-            foreach($filter as $filter)
-                $this->build($query, $filter, $logic_operator);
+            foreach($filter as $s_filter)
+                $this->build($query, $s_filter, $logic_operator);
 
             return;
         }   
@@ -51,6 +52,8 @@ class Filter
         $operator == "end_with"     && $query->{"{$sub_where}"}($key, 'like', $values.'%');
         $operator == "contains"     && $query->{"{$sub_where}"}($key, 'like', '%'.$values.'%');
 
-        in_array($operator, [">", "<", "=="]) && $query->{"{$sub_where}"}($key, $operator, $values);
+        $operator == "eq"           && $query->{"{$sub_where}"}($key, '=', $values);
+        $operator == "gt"           && $query->{"{$sub_where}"}($key, '>', $values);
+        $operator == "lt"           && $query->{"{$sub_where}"}($key, '<', $values);
     }
 }

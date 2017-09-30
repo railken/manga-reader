@@ -19,7 +19,6 @@ trait RestIndexTrait
      */
     public function index(Request $request)
     {
-
         $query = $this->manager->repository->getQuery();
 
         $filter = new Filter();
@@ -36,6 +35,7 @@ trait RestIndexTrait
             ->skip($paginator->get('first_result'))
             ->take($paginator->get('max_results'))
             ->get();
+
 
         return $this->success([
             'resources' => $resources->map(function($record) {
