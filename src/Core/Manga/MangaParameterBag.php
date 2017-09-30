@@ -21,20 +21,7 @@ class MangaParameterBag extends ParameterBag
 	 */
 	public function filterWrite(AgentContract $agent)
 	{
-
-		$this->filter(['name']);
-
-		if ($agent instanceof UserAgentContract) {
-			// ..
-		}
-
-		if ($agent instanceof GuestAgentContract) {
-		    // ..
-		}
-
-		if ($agent instanceof SystemAgentContract) {
-		    // ..
-		}
+		$this->filter(['title', 'overview', 'aliases', 'mangafox_url', 'mangafox_uid', 'mangafox_id', 'status']);
 
 		return $this;
 	}
@@ -48,19 +35,7 @@ class MangaParameterBag extends ParameterBag
 	 */
 	public function filterRead(AgentContract $agent)
 	{
-		$this->filter(['id', 'name', 'created_at', 'updated_at']);
-
-		if ($agent instanceof UserAgentContract) {
-			// ..
-		}
-
-		if ($agent instanceof GuestAgentContract) {
-			// ..
-		}
-
-		if ($agent instanceof SystemAgentContract) {
-			// ..
-		}
+		$this->filter(['title', 'overview', 'aliases', 'mangafox_url', 'mangafox_uid', 'mangafox_id', 'status']);
 
 		return $this;
 	}

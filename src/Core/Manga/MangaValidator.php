@@ -14,29 +14,6 @@ class MangaValidator extends ModelValidator
 {
 
     /**
-     * Validate name
-     *
-     * @param EntityContract $entity
-     * @param ParameterBag $parameters
-     *
-     * @return Collection
-     */
-    public function validateName(EntityContract $entity, ParameterBag $parameters)
-    {
-        $errors = new Collection();
-
-        !$entity->exists && !$parameters->exists('name') &&
-            $errors->push(new Exceptions\MangaNameNotDefinedException($parameters->get('name')));
-
-        $parameters->exists('name') &&
-            !(v::length(1,255)->validate($parameters->get('name'))) &&
-            $errors->push(new Exceptions\MangaNameNotValidException($parameters->get('name')));
-
-
-        return $errors;
-    }
-
-    /**
      * Validate title
      *
      * @param EntityContract $entity
@@ -71,9 +48,6 @@ class MangaValidator extends ModelValidator
     {
         $errors = new Collection();
 
-        !$entity->exists && !$parameters->exists('aliases') &&
-            $errors->push(new Exceptions\MangaAliasesNotDefinedException($parameters->get('aliases')));
-
         $parameters->exists('aliases') &&
             !(v::length(1,255)->validate($parameters->get('aliases'))) &&
             $errors->push(new Exceptions\MangaAliasesNotValidException($parameters->get('aliases')));
@@ -93,9 +67,6 @@ class MangaValidator extends ModelValidator
     public function validateStatus(EntityContract $entity, ParameterBag $parameters)
     {
         $errors = new Collection();
-
-        !$entity->exists && !$parameters->exists('status') &&
-            $errors->push(new Exceptions\MangaStatusNotDefinedException($parameters->get('status')));
 
         $parameters->exists('status') &&
             !(v::length(1,255)->validate($parameters->get('status'))) &&
@@ -117,12 +88,78 @@ class MangaValidator extends ModelValidator
     {
         $errors = new Collection();
 
-        !$entity->exists && !$parameters->exists('overview') &&
-            $errors->push(new Exceptions\MangaOverviewNotDefinedException($parameters->get('overview')));
-
         $parameters->exists('overview') &&
             !(v::length(1,255)->validate($parameters->get('overview'))) &&
             $errors->push(new Exceptions\MangaOverviewNotValidException($parameters->get('overview')));
+
+
+        return $errors;
+    }
+
+    /**
+     * Validate mangafox_url
+     *
+     * @param EntityContract $entity
+     * @param ParameterBag $parameters
+     *
+     * @return Collection
+     */
+    public function validateMangafoxUrl(EntityContract $entity, ParameterBag $parameters)
+    {
+        $errors = new Collection();
+
+        !$entity->exists && !$parameters->exists('mangafox_url') &&
+            $errors->push(new Exceptions\MangaMangafoxUrlNotDefinedException($parameters->get('mangafox_url')));
+
+        $parameters->exists('mangafox_url') &&
+            !(v::length(1,255)->validate($parameters->get('mangafox_url'))) &&
+            $errors->push(new Exceptions\MangaMangafoxUrlNotValidException($parameters->get('mangafox_url')));
+
+
+        return $errors;
+    }
+
+    /**
+     * Validate mangafox_uid
+     *
+     * @param EntityContract $entity
+     * @param ParameterBag $parameters
+     *
+     * @return Collection
+     */
+    public function validateMangafoxUid(EntityContract $entity, ParameterBag $parameters)
+    {
+        $errors = new Collection();
+
+        !$entity->exists && !$parameters->exists('mangafox_uid') &&
+            $errors->push(new Exceptions\MangaMangafoxUidNotDefinedException($parameters->get('mangafox_uid')));
+
+        $parameters->exists('mangafox_uid') &&
+            !(v::length(1,255)->validate($parameters->get('mangafox_uid'))) &&
+            $errors->push(new Exceptions\MangaMangafoxUidNotValidException($parameters->get('mangafox_uid')));
+
+
+        return $errors;
+    }
+
+    /**
+     * Validate mangafox_id
+     *
+     * @param EntityContract $entity
+     * @param ParameterBag $parameters
+     *
+     * @return Collection
+     */
+    public function validateMangafoxId(EntityContract $entity, ParameterBag $parameters)
+    {
+        $errors = new Collection();
+
+        !$entity->exists && !$parameters->exists('mangafox_id') &&
+            $errors->push(new Exceptions\MangaMangafoxIdNotDefinedException($parameters->get('mangafox_id')));
+
+        $parameters->exists('mangafox_id') &&
+            !(v::length(1,255)->validate($parameters->get('mangafox_id'))) &&
+            $errors->push(new Exceptions\MangaMangafoxIdNotValidException($parameters->get('mangafox_id')));
 
 
         return $errors;

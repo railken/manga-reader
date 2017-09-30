@@ -23,7 +23,7 @@ class Manga extends Model implements EntityContract
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name'];
+	protected $fillable = ['title', 'overview', 'aliases', 'mangafox_url', 'mangafox_uid', 'mangafox_id', 'status'];
 
 	/**
 	 * The attributes that should be mutated to dates.

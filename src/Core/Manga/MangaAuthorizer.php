@@ -46,11 +46,6 @@ class MangaAuthorizer implements ModelAuthorizerContract
 		}
 
 		# GuestAgent can always do anything.
-		if ($this->manager->agent instanceof GuestAgentContract) {
-			// ...
-		}
-
-		# GuestAgent can always do anything.
 		if ($this->manager->agent instanceof UserAgentContract) {
 			// ...
 			!$this->manager->agent->can($operation, $entity) && $errors->push(new Exceptions\MangaNotAuthorizedException($entity));

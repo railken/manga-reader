@@ -18,7 +18,7 @@ class MangaPolicy implements ModelPolicyContract
      */
     public function interact(AgentContract $agent, EntityContract $entity = null)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -30,7 +30,7 @@ class MangaPolicy implements ModelPolicyContract
      */
     public function create(AgentContract $agent)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -43,7 +43,7 @@ class MangaPolicy implements ModelPolicyContract
      */
     public function retrieve(AgentContract $agent, EntityContract $entity)
     {
-        return $this->interact($agent, $entity);
+        return true;
     }
 
     /**
