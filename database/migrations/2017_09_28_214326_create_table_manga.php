@@ -16,6 +16,10 @@ class CreateTableManga extends Migration
         Schema::create('manga', function($table) {
             $table->increments('id');
             $table->string('title');
+            $table->string('artist')->nullable();
+            $table->string('author')->nullable();
+            $table->text('genres')->nullable();
+            $table->string('released_year')->nullable();
             $table->string('mangafox_url');
             $table->string('mangafox_uid');
             $table->string('mangafox_id');

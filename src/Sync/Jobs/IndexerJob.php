@@ -14,6 +14,12 @@ class IndexerJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 5;
 
     /**
      * Create a new job instance.
@@ -22,7 +28,6 @@ class IndexerJob implements ShouldQueue
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -32,21 +37,28 @@ class IndexerJob implements ShouldQueue
      */
     public function handle()
     {
-
+        $mangafox = new Mangafox();
         $manager = new MangaManager();
-        $list = (new Mangafox())->index()->get();
+
+        $list = $mangafox->index()->get();
 
         $results = $list->results;
 
-
         foreach ($results as $result) {
 
-            $response = $manager->updateOrCreate(['mangafox_uid' => $result->uid], [
-                'title' => $result->name,
-                'mangafox_url' => $result->url,
-                'mangafox_uid' => $result->uid,
-                'mangafox_id' => $result->id
-            ]);
+            if (!$manager->findOneBy(['mangafox_uid' => $result->uid])) {
+
+                $manager->create([
+                    'title' => $result->name,
+                    'mangafox_url' => $result->url,
+                    'mangafox_uid' => $result->uid,
+                    'mangafox_id' => $result->id
+                ]);
+
+                dispatch((new \Sync\Jobs\IndexMangaJob($result->uid))->onQueue('sync.index'));
+
+            }
+
         }
 
     }
