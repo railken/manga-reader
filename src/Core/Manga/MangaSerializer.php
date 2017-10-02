@@ -39,8 +39,8 @@ class MangaSerializer implements ModelSerializerContract
 		$bag->set('aliases', $entity->aliases);
 		$bag->set('overview', $entity->overview);
 		$bag->set('status', $entity->status);
-		$bag->set('created_at', $entity->created_at);
-		$bag->set('updated_at', $entity->updated_at);
+		$bag->set('created_at', $entity->created_at->format('Y-m-d'));
+		$bag->set('updated_at', $entity->updated_at->format('Y-m-d'));
 
 		return $bag;
 	}
