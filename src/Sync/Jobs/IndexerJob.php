@@ -19,7 +19,7 @@ class IndexerJob implements ShouldQueue
      *
      * @var int
      */
-    public $tries = 5;
+    public $tries = 3;
 
     /**
      * Create a new job instance.
