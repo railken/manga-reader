@@ -2,6 +2,8 @@
 
 namespace Api\Helper;
 
+use Api\Helper\Exceptions as Exceptions;
+
 class Filter
 {
 
@@ -25,7 +27,7 @@ class Filter
     {
 
         if (is_string($filter)) {
-            $filter = $this->stringToObj($filter);
+            $filter = $this->transform($filter);
         }
 
         if (!$filter)
@@ -39,10 +41,10 @@ class Filter
             return;
         }   
 
-        $values = $filter->v;
-        $operator = $filter->o;
+        $values = $filter->value;
+        $operator = $filter->operator;
 
-        $key = isset($filter->k) ? $filter->k : null;
+        $key = isset($filter->key) ? $filter->key : null;
 
 
 
@@ -72,18 +74,25 @@ class Filter
         $operator == "lt"           && $query->{"{$sub_where}"}($key, '<', $values);
     }
 
-    public function stringToObj($string)
+    /**
+     * Convert the string query into an object (e.g.) 
+     *
+     * @param string $query (e.g.) title eq 'something' 
+     *
+     * @return Object
+     */
+    public function transform($query)
     {
 
-        try {
-            $filter = "(".$string.")";
+        $filter = "(".$query.")";
+        $buffer_string = "";
 
-            $buffer_string = "";
-            $node = new \stdClass();
-            $node->parts = [];
-            $node->childs = [];
+        try {
+
+            $node = new FilterSupportNode();
             $in_string = false;
             $escape = false;
+
             foreach (str_split($filter) as $char) {
 
                 if ($char == "\\") {
@@ -105,9 +114,7 @@ class Filter
                             if (!empty(trim($buffer_string)))
                                 $node->parts[] = $buffer_string;
 
-                            $new = new \stdClass();
-                            $new->parts = [];
-                            $new->childs = [];
+                            $new = new FilterSupportNode();
                             $new->parent = $node;
                             $new->parent->childs[] = $new;
                             $node = $new;
@@ -128,39 +135,31 @@ class Filter
                             $current_value = null;
                             $last_logic_operator = "and";
 
-
                             // 
                             $subs = [];
 
                             foreach ($node->parts as $part) {
 
-                                switch ($part) {
-                                    case "or": case "and":
-                                        $current_key = null;
-                                        $current_value = null;
-                                        $current_operator = null;
-                                        $last_logic_operator = $part;
-                                    break;
+                                if (in_array($part, ['or', 'and'])) {
 
-                                    case "eq": case "gt": case "lt": case "in": case "contains":
+                                    $current_key = null;
+                                    $current_value = null;
+                                    $current_operator = null;
+                                    $last_logic_operator = $part;
+                                } else if (in_array($part, ['eq', 'gt', 'lt', 'in', 'contains'])) {
 
-                                        if ($current_key !== null)
-                                            $current_operator = $part;
+                                    if ($current_key !== null)
+                                        $current_operator = $part;
+                                } else {
 
-                                    break;
+                                    if ($current_key !== null && $current_value == null) {
+                                        $current_value = $part;
+                                    }
 
-                                    default:
+                                    if ($current_key == null) {
+                                        $current_key = $part;
+                                    } 
 
-                                        if ($current_key !== null && $current_value == null) {
-                                            $current_value = $part;
-                                        }
-
-                                        if ($current_key == null) {
-                                            $current_key = $part;
-                                        } 
-
-
-                                    break;
                                 }
 
                                 if ($current_key !== null && $current_operator !== null && $current_value !== null) {
@@ -168,22 +167,19 @@ class Filter
                                     if ($current_value[0] == "\"")
                                         $current_value = substr($current_value, 1, -1);
 
-                                    $sub = new \stdClass();
-                                    $sub->o = $current_operator;
-                                    $sub->k = $current_key;
-                                    $sub->v = $current_value;
-                                    $subs[] = $sub;
+                                    if ($current_operator == "in")
+                                        $current_value = explode(",", $current_value);
+
+                                    $subs[] = new FilterNode($current_key, $current_operator, $current_value);
                                 }
                             }
 
-                            $node->v = array_merge($node->childs, $subs);
-                            $node->o = $last_logic_operator;
-                            unset($node->parts);
-                            unset($node->childs);
 
+
+                            $node->value = array_merge($node->childs, $subs);
+                            $node->operator = $last_logic_operator;
                             $child = $node;
                             $node = $node->parent;
-                            unset($child->parent);
                             $buffer_string = "";
 
                         break;
@@ -211,13 +207,13 @@ class Filter
 
 
             if ($in_string) {
-                # error...
+                throw new Exceptions\FilterSyntaxException($string);
             }
 
             return $node->childs[0];
         
         } catch (\Exception $e) {
-            throw new \Exception("Syntax error in: {$string}");
+            throw new Exceptions\FilterSyntaxException($string);
         }
     }
 }

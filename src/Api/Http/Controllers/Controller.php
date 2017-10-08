@@ -30,7 +30,7 @@ class Controller extends AppController
      * 
      * @return \Illuminate\Http\Response
      */
-    public function error($data, $code = 200)
+    public function error($data, $code = 400)
     {
         return response()->json(array_merge(['status' => 'error'], $data), $code);
     }

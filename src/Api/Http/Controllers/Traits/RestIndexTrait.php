@@ -7,6 +7,8 @@ use Api\Helper\Paginator;
 use Api\Helper\Filter;
 use Api\Helper\Sorter;
 
+use Api\Helper\Exceptions\FilterSyntaxException;
+
 trait RestIndexTrait
 {
 
@@ -21,8 +23,12 @@ trait RestIndexTrait
     {
         $query = $this->manager->repository->getQuery();
 
-        $filter = new Filter($this->only);
-        $filter->build($query, $request->input('filter'));
+        try {
+            $filter = new Filter($this->only);
+            $filter->build($query, $request->input('query'));
+        } catch (FilterSyntaxException $e) {
+            return $this->error(["message" => "syntax error detected in filter"]);
+        }
 
         $paginator = new Paginator();
         $paginator = $paginator->execute($query, $request->input('page', 1), $request->input('show', 10));
