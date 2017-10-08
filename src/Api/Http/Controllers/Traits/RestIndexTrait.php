@@ -21,8 +21,8 @@ trait RestIndexTrait
     {
         $query = $this->manager->repository->getQuery();
 
-        $filter = new Filter();
-        $filter->build($query, json_decode($request->input('filter')));
+        $filter = new Filter($this->only);
+        $filter->build($query, $request->input('filter'));
 
         $paginator = new Paginator();
         $paginator = $paginator->execute($query, $request->input('page', 1), $request->input('show', 10));
