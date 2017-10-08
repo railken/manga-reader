@@ -25,6 +25,22 @@ class MangaController extends Controller
         'released_year'
     ];
 
+    protected $selectable = [
+        'id',
+        'title', 
+        'overview', 
+        'aliases', 
+        'mangafox_url', 
+        'mangafox_uid', 
+        'mangafox_id', 
+        'status', 
+        'artist', 
+        'author', 
+        'aliases', 
+        'genres', 
+        'released_year'
+    ];
+
     /**
      * Construct
      *

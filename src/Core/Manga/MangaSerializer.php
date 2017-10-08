@@ -20,7 +20,7 @@ class MangaSerializer implements ModelSerializerContract
 	{
 		$bag = $this->serializeBrief($entity);
 
-		return $bag->all();
+		return $bag;
 	}
 
 	/**
@@ -36,11 +36,18 @@ class MangaSerializer implements ModelSerializerContract
 
 		$bag->set('id', $entity->id);
 		$bag->set('title', $entity->title);
-		$bag->set('aliases', $entity->aliases);
+		$bag->set('aliases', explode(";", $entity->aliases));
 		$bag->set('overview', $entity->overview);
 		$bag->set('status', $entity->status);
-		$bag->set('created_at', $entity->created_at->format('Y-m-d'));
-		$bag->set('updated_at', $entity->updated_at->format('Y-m-d'));
+		$bag->set('mangafox_url', $entity->mangafox_url);
+		$bag->set('mangafox_uid', $entity->mangafox_uid);
+		$bag->set('mangafox_id', $entity->mangafox_id);
+		$bag->set('artist', $entity->artist);
+		$bag->set('author', $entity->author);
+		$bag->set('genres', explode(";", $entity->genres));
+		$bag->set('released_year', $entity->released_year);
+		$bag->set('created_at', $entity->created_at ? $entity->created_at->format('Y-m-d') : null);
+		$bag->set('updated_at', $entity->updated_at ? $entity->updated_at->format('Y-m-d') : null);
 
 		return $bag;
 	}
