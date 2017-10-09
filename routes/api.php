@@ -31,6 +31,7 @@ Route::group(['middleware' => 'errors', 'prefix' => 'v1'], function() {
         Route::any('/user', ['uses' => '\Api\Http\Controllers\User\UserController@index']);
 
         Route::get('/manga', ['uses' => '\Api\Http\Controllers\Manga\MangaController@index']);
+        Route::get('/manga/{id}', ['uses' => '\Api\Http\Controllers\Manga\MangaController@show']);
 
     });
 });

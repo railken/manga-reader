@@ -19,6 +19,7 @@ class MangaSerializer implements ModelSerializerContract
 	public function serialize(EntityContract $entity)
 	{
 		$bag = $this->serializeBrief($entity);
+		$bag->set('chapters', collect());
 
 		return $bag;
 	}

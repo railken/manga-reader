@@ -3,12 +3,14 @@
 namespace Api\Http\Controllers\Manga;
 
 use Api\Http\Controllers\Traits\RestIndexTrait;
+use Api\Http\Controllers\Traits\RestShowTrait;
 use Api\Http\Controllers\Controller;
 use Core\Manga\MangaManager;
 
 class MangaController extends Controller
 {
     use RestIndexTrait;
+    use RestShowTrait;
 
     protected $only = [
         'title', 

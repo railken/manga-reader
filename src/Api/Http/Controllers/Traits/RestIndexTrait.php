@@ -54,7 +54,7 @@ trait RestIndexTrait
         return $this->success([
             'resources' => $resources->map(function($record) use ($select) {
 
-                return $this->manager->serializer->serialize($record)->only($select->toArray())->all();
+                return $this->manager->serializer->serializeBrief($record)->only($select->toArray())->all();
             }),
             'pagination' => $paginator->all(),
             'sort' => $sort,
