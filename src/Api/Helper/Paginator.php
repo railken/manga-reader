@@ -14,6 +14,12 @@ class Paginator
      */
     public function execute($query, $page = 1, $take = 10)
     {
+        $take = (int)$take;
+        $page = (int)$page;
+
+        $take <= 0 && $take = 10;
+        $page <= 0 && $page = 1;
+
         $total = $query->count();
         $first = ($page - 1) * $take;
         $last = $first + $take;
