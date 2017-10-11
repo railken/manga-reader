@@ -48,12 +48,26 @@ class User extends Authenticatable implements EntityContract
      */
     protected $dates = ['deleted_at'];
 
+    /**
+     * Library relation
+     */
+    public function library()
+    {
+        return $this->belongsToMany(\Core\Manga\Manga::class, 'libraries', 'user_id', 'manga_id');
+    }
+
+    /**
+     * Set password attribute
+     *
+     * @param string $pass
+     *
+     * @return void
+     */
     public function setPasswordAttribute($pass)
     {
         $this->attributes['password'] = bcrypt($pass);
     }
     
-
     /**
      * Return if has role user
      *
