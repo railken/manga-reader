@@ -72,7 +72,7 @@ class LibraryController extends Controller
             $filter = new Filter($this->only);
             $filter->build($query, $request->input('query'));
         } catch (FilterSyntaxException $e) {
-            return $this->error(["message" => "syntax error detected in filter"]);
+            return $this->error(["code" => "REQUEST_QUERY_SYNTAX_ERROR", "message" => "syntax error detected in filter"]);
         }
 
         # Pagination
@@ -123,14 +123,14 @@ class LibraryController extends Controller
         $resource = $this->manager->repository->findOneByIdOrSlug($key);
 
         if (!$resource)
-            return $this->not_found();
+            return $this->error(['code' => 'LIBRARY_MANGA_NOT_FOUND', 'message' => 'manga not found']);
 
         if ($user->library()->where('manga_id', $resource->id)->first())
-            return $this->error(['message' => 'already in the library']);
+            return $this->error(['code' => 'LIBRARY_MANGA_ALREADY_IN', 'message' => 'manga already in the library']);
 
         $user->library()->attach($resource);
 
-        return $this->success(['message' => 'added to the library']);
+        return $this->success(['code' => 'LIBRARY_MANGA_ADDED', 'message' => 'manga added to the library']);
     }
 
     /**
@@ -147,13 +147,13 @@ class LibraryController extends Controller
         $resource = $this->manager->repository->findOneByIdOrSlug($key);
 
         if (!$resource)
-            return $this->not_found();
+            return $this->error(['code' => 'LIBRARY_MANGA_NOT_FOUND', 'message' => 'manga not found']);
 
         if (!$user->library()->where('manga_id', $resource->id)->first())
-            return $this->error(['message' => 'already not in the library']);
+            return $this->error(['code' => 'LIBRARY_MANGA_ALREADY_NOT_IN', 'message' => 'manga already not in the library']);
 
         $user->library()->detach($resource);
 
-        return $this->success(['message' => 'removed from the library']);
+        return $this->success(['code' => 'LIBRARY_MANGA_REMOVED', 'message' => 'manga removed from the library']);
     }
 }

@@ -28,7 +28,7 @@ trait RestIndexTrait
             $filter = new Filter($this->only);
             $filter->build($query, $request->input('query'));
         } catch (FilterSyntaxException $e) {
-            return $this->error(["message" => "syntax error detected in filter"]);
+            return $this->error(["code" => "REQUEST_QUERY_SYNTAX_ERROR", "message" => "syntax error detected in filter"]);
         }
 
         # Pagination
