@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateTableLibraries extends Migration
 {
@@ -17,7 +18,7 @@ class CreateTableLibraries extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('manga_id')->unsigned();
             $table->primary(['user_id', 'manga_id']);
-            $table->timestamps();
+            $table->datetime('added_at')->default(DB::raw("CURRENT_TIMESTAMP"));
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('manga_id')->references('id')->on('manga');
 
