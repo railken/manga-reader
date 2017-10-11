@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Railken\Mangafox\Mangafox;
 use Core\Manga\MangaManager;
+use Cocur\Slugify\Slugify;
 
 class IndexerJob implements ShouldQueue
 {
@@ -50,6 +51,7 @@ class IndexerJob implements ShouldQueue
 
                 $manager->create([
                     'title' => $result->name,
+                    'slug' => (new Slugify())->slugify($result->name),
                     'mangafox_url' => $result->url,
                     'mangafox_uid' => $result->uid,
                     'mangafox_id' => $result->id

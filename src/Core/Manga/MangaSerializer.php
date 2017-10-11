@@ -37,6 +37,7 @@ class MangaSerializer implements ModelSerializerContract
 
 		$bag->set('id', $entity->id);
 		$bag->set('title', $entity->title);
+		$bag->set('slug', $entity->slug);
 		$bag->set('aliases', explode(";", $entity->aliases));
 		$bag->set('overview', $entity->overview);
 		$bag->set('status', $entity->status);

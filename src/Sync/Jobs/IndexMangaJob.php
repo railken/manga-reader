@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Railken\Mangafox\Mangafox;
 use Core\Manga\MangaManager;
 use Illuminate\Support\Facades\Storage;
+use Cocur\Slugify\Slugify;
 
 class IndexMangaJob implements ShouldQueue
 {
@@ -44,6 +45,7 @@ class IndexMangaJob implements ShouldQueue
 
         $entity = $this->manager->updateOrCreate(['mangafox_uid' => $result->uid], [
             'title' => $result->name,
+            'slug' => (new Slugify())->slugify($result->name),
             'artist' => $result->artist,
             'author' => $result->author,
             'aliases' => implode(";", $result->aliases),
@@ -54,7 +56,6 @@ class IndexMangaJob implements ShouldQueue
             'mangafox_url' => $result->url,
             'mangafox_uid' => $result->uid
         ]);
-
 
         $entity = $entity->getResource();
 
