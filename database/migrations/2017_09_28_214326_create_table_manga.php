@@ -39,6 +39,6 @@ class CreateTableManga extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('manga');
     }
 }
