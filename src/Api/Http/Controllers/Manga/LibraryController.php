@@ -107,4 +107,29 @@ class LibraryController extends Controller
             'filter' => $filter
         ]);
     }
+        
+
+    /**
+     * Add a manga
+     *
+     * @param mixed $key
+     * @param Request $request
+     *
+     * @return response
+     */
+    public function addManga($key, Request $request)
+    {
+        $user = $this->getUser();
+        $resource = $this->manager->repository->findOneByIdOrSlug($key);
+
+        if (!$resource)
+            return $this->not_found();
+
+        if ($user->library()->where('manga_id', $resource->id)->first())
+            return $this->error(['message' => 'already in the library']);
+
+        $user->library()->attach($resource);
+
+        return $this->success(['message' => 'added to the library']);
+    }
 }
