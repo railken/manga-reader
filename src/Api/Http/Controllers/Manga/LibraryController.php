@@ -120,15 +120,15 @@ class LibraryController extends Controller
     public function addManga($key, Request $request)
     {
         $user = $this->getUser();
-        $resource = $this->manager->repository->findOneByIdOrSlug($key);
+        $manga = $this->manager->repository->findOneByIdOrSlug($key);
 
-        if (!$resource)
+        if (!$manga)
             return $this->error(['code' => 'LIBRARY_MANGA_NOT_FOUND', 'message' => 'manga not found']);
 
-        if ($user->library()->where('manga_id', $resource->id)->first())
+        if ($user->hasMangaInLibrary($manga))
             return $this->error(['code' => 'LIBRARY_MANGA_ALREADY_IN', 'message' => 'manga already in the library']);
 
-        $user->library()->attach($resource);
+        $user->library()->attach($manga);
 
         return $this->success(['code' => 'LIBRARY_MANGA_ADDED', 'message' => 'manga added to the library']);
     }
@@ -144,15 +144,15 @@ class LibraryController extends Controller
     public function removeManga($key, Request $request)
     {
         $user = $this->getUser();
-        $resource = $this->manager->repository->findOneByIdOrSlug($key);
+        $manga = $this->manager->repository->findOneByIdOrSlug($key);
 
-        if (!$resource)
+        if (!$manga)
             return $this->error(['code' => 'LIBRARY_MANGA_NOT_FOUND', 'message' => 'manga not found']);
 
-        if (!$user->library()->where('manga_id', $resource->id)->first())
+        if (!$user->hasMangaInLibrary($manga))
             return $this->error(['code' => 'LIBRARY_MANGA_ALREADY_NOT_IN', 'message' => 'manga already not in the library']);
 
-        $user->library()->detach($resource);
+        $user->library()->detach($manga);
 
         return $this->success(['code' => 'LIBRARY_MANGA_REMOVED', 'message' => 'manga removed from the library']);
     }

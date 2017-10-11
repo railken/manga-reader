@@ -8,6 +8,7 @@ use Railken\Laravel\Manager\Contracts\EntityContract;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Core\Manga\Manga;
 
 class User extends Authenticatable implements EntityContract
 {
@@ -53,7 +54,19 @@ class User extends Authenticatable implements EntityContract
      */
     public function library()
     {
-        return $this->belongsToMany(\Core\Manga\Manga::class, 'libraries', 'user_id', 'manga_id');
+        return $this->belongsToMany(Manga::class, 'libraries', 'user_id', 'manga_id');
+    }
+
+    /** 
+     * Has manga in library
+     *
+     * @param Manga $manga
+     *
+     * @return void
+     */
+    public function hasMangaInLibrary(Manga $manga)
+    {
+        return $this->library()->where('manga_id', $manga->id)->first();
     }
 
     /**
