@@ -132,4 +132,28 @@ class LibraryController extends Controller
 
         return $this->success(['message' => 'added to the library']);
     }
+
+    /**
+     * Remove a manga
+     *
+     * @param mixed $key
+     * @param Request $request
+     *
+     * @return response
+     */
+    public function removeManga($key, Request $request)
+    {
+        $user = $this->getUser();
+        $resource = $this->manager->repository->findOneByIdOrSlug($key);
+
+        if (!$resource)
+            return $this->not_found();
+
+        if (!$user->library()->where('manga_id', $resource->id)->first())
+            return $this->error(['message' => 'already not in the library']);
+
+        $user->library()->detach($resource);
+
+        return $this->success(['message' => 'removed from the library']);
+    }
 }
