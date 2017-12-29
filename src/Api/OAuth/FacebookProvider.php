@@ -2,6 +2,8 @@
 
 namespace Api\OAuth;
 
+use Illuminate\Http\Request;
+
 class FacebookProvider extends Provider
 {
 
@@ -33,7 +35,7 @@ class FacebookProvider extends Provider
      *
      * @return array
      */
-    public function getAccessToken($request)
+    public function issueAccessToken(Request $request)
     {
         $client = new \GuzzleHttp\Client();
 
@@ -94,12 +96,13 @@ class FacebookProvider extends Provider
             throw $e;
         }
 
+        if (!isset($body->email))
+            throw new Exceptions\EmailNotFoundException();
 
-        $user->firstname = $body->first_name;
-        $user->lastname = $body->last_name;
+        $user->username = $body->first_name;
         $user->email = $body->email;
-        $user->id = $body->id;
 
+        $user->id = $body->id;
        
         $user->avatar = "{$this->url}/{$user->id}/picture";
 

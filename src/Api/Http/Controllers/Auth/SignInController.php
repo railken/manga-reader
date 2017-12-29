@@ -7,6 +7,8 @@ use Api\Http\Controllers\Controller;
 use Core\User\UserManager;
 use Api\OAuth\GithubProvider;
 use Api\OAuth\GitlabProvider;
+use Api\OAuth\GoogleProvider;
+use Api\OAuth\FacebookProvider;
 
 class SignInController extends Controller
 {
@@ -20,6 +22,8 @@ class SignInController extends Controller
     protected $providers = [
         'github' => GithubProvider::class,
         'gitlab' => GitlabProvider::class,
+        'google' => GoogleProvider::class,
+        'facebook' => FacebookProvider::class,
     ];
 
     /**
@@ -163,7 +167,13 @@ class SignInController extends Controller
 
         try {
             $provider_user = $provider->getUser($access_token);
+        } catch (\Api\Oauth\Exceptions\EmailNotFoundException $e) {
+            return $this->error([
+                'code' => 'EMAIL_NOT_FOUND',
+                'message' => 'Email not found'
+            ]);
         } catch (\Exception $e) {
+            echo $e;
             return $this->error([
                 'message' => 'Token invalid or expired'
             ]);

@@ -2,6 +2,8 @@
 
 namespace Api\OAuth;
 
+use Illuminate\Http\Request;
+
 class GoogleProvider extends Provider
 {
 
@@ -34,7 +36,7 @@ class GoogleProvider extends Provider
      *
      * @return array
      */
-    public function getAccessToken($request)
+    public function issueAccessToken(Request $request)
     {
 
         $client = new \GuzzleHttp\Client();
@@ -91,10 +93,8 @@ class GoogleProvider extends Provider
             throw $e;
         }
 
-
-        $user->firstname = explode(" ",$body->name)[0];
-        $user->lastname = explode(" ",$body->name)[1];
         $user->email = $body->email;
+        $user->username = $body->name ? $body->name : explode("@", $user->email)[0];
         $user->id = $body->id;
         $user->avatar = $body->picture;
 
