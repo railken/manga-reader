@@ -19,45 +19,50 @@ class GithubProvider extends Provider
      */
     protected $url = 'https://github.com/login/oauth';
 
+   
     /**
      * Construct
      *
      */
     public function __construct()
     {
-        
     }
+
 
     /**
      * Issue access token
      *
      * @return array
      */
-    public function getAccessToken($request)
+    public function issueAccessToken($request)
     {
         $client = new \GuzzleHttp\Client();
 
         try {
             $params =  [
                 'form_params' => [
-                    'client_id' => $request->input('client_id'),
-                    'client_secret' => $request->input('client_secret'),
-                    'code' => $request->input('code')
+                    'client_id' => $this->client_id,
+                    'client_secret' => $this->client_secret,
+                    'code' => $request->request->get('code')
                 ],
                 'headers' => [
                     'Accept' => 'application/json'
                 ]
             ];
 
+
+
             $response = $client->request('POST', $this->url."/access_token", $params);
         } catch (\Exception $e) {
-            throw $e;
+            echo $e;
         }
 
         $body = json_decode($response->getBody());
 
         return $body;
     }
+
+
 
     /**
      * Retrieve User
@@ -75,18 +80,16 @@ class GithubProvider extends Provider
                     'Accept' => 'application/json',
                     'Authorization' => "token {$token}"
                 ],
-                'http_errors' => true
+                'http_errors' => false
             ]);
 
             $body = json_decode($response->getBody());
         } catch (\Exception $e) {
-            throw $e;
+            return $this->error([]);
         }
 
-        $user->firstname = $body->name;
-        $user->lastname = $body->name;
+        $user->username = $body->name;
         $user->avatar = $body->avatar_url;
-
 
         try {
             $response = $client->request('GET', "https://api.github.com/user/emails", [
@@ -105,4 +108,5 @@ class GithubProvider extends Provider
 
         return $user;
     }
+
 }

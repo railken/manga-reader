@@ -14,4 +14,13 @@ class UserRepository extends ModelRepository
 	 */
 	public $entity = User::class;
 
+	/**
+	 * Find user by email
+	 *
+	 * @param string email
+	 */
+	public function findOneByEmail($email)
+	{
+		return $this->findOneBy(['email' => $email]);
+	}
 }

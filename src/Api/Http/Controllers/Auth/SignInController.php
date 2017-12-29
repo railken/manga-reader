@@ -44,8 +44,47 @@ class SignInController extends Controller
      */
     public function __construct(UserManager $manager)
     {
-        $this->serializer = $serializer;
         $this->manager = $manager;
+    }
+
+
+    /**
+     * Sign in a user
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function signIn(Request $request)
+    {
+        $client = new \GuzzleHttp\Client();
+
+        try {
+            $oauth_client = \DB::table('oauth_clients')->where('password_client', 1)->first();
+
+            $response = $client->request('POST', $request->getUriForPath('').'/api/v1/oauth/token', [
+                'form_params' => [
+                    'scope' => '*',
+                    'grant_type' => 'password',
+                    'username' => $request->input('username'),
+                    'password' => $request->input('password'),
+                    'client_id' => $oauth_client->id,
+                    'client_secret' => $oauth_client->secret,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return $this->error(['message' => 'Credenziali errate']);
+        }
+
+        $body = json_decode($response->getBody());
+
+
+        if (isset($body->access_token))
+            return $this->success(['data' => $body]);
+
+
+        return $this->error(['message' => $body->error]);
+
     }
 
     /**
@@ -65,8 +104,9 @@ class SignInController extends Controller
         }
 
         try {
-
-            $response = $provider->getAccessToken($request);
+            $provider->setClientId($request->input('client_id'));
+            $provider->setClientSecret($request->input('client_secret'));
+            $response = $provider->issueAccessToken($request);
             $access_token = $response->access_token;
 
         } catch (\Exception $e) {
@@ -75,14 +115,29 @@ class SignInController extends Controller
             ]);
         } 
 
-        return $this->success(['data' => [
-            'resource' => [
-                'access_token' => $access_token
-            ]
-        ]]);
+        return $this->success([
+            'access_token' => $access_token,
+            'provider' => $provider->getName(),
+        ]);
 
     }
 
+    /**
+     * Serialize token
+     *
+     * @param Token $token
+     *
+     * @return array
+     */
+    public function serializeToken($token)
+    {
+
+        return [
+            'access_token' => $token->accessToken,
+            'token_type' => 'Bearer',
+            'expire_in' => 0
+        ];
+    }
 
     /**
      * Request token and generate a new one
@@ -116,23 +171,27 @@ class SignInController extends Controller
             ]);
         } 
 
-        $user = $this->manager->getRepository()->findByEmail($provider_user->email);
+        $user = $this->manager->getRepository()->findOneByEmail($provider_user->email);
 
         if (!$user) {
-            $user = $this->manager->create([
+            $result = $this->manager->create([
                 'username' => $provider_user->username,
                 'role' => 'user',
-                'password' => null,
+                'password' => sha1(str_random()),
                 'avatar' => $provider_user->avatar,
                 'email' => $provider_user->email
             ]);
+
+            if (!$result->ok()) {
+                return $this->error(['errors' => $result->getSimpleErrors()]);
+            }
+
+            $user = $result->getResource();
         }
 
         $token = $user->createToken('login');
 
-        return $this->success(['data' => [
-            'resource' => $this->serializer->token($token)
-        ]]);
+        return $this->success($this->serializeToken($token));
     }
 
 }
