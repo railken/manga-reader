@@ -2,6 +2,8 @@
 
 namespace Api\OAuth;
 
+use Illuminate\Http\Request;
+
 class GitlabProvider extends Provider
 {
 
@@ -33,7 +35,7 @@ class GitlabProvider extends Provider
      *
      * @return array
      */
-    public function getAccessToken($request)
+    public function issueAccessToken(Request $request)
     {
         $client = new \GuzzleHttp\Client();
 

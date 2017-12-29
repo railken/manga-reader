@@ -2,6 +2,8 @@
 
 namespace Api\OAuth;
 
+use Illuminate\Http\Request;
+
 class GithubProvider extends Provider
 {
 
@@ -34,15 +36,15 @@ class GithubProvider extends Provider
      *
      * @return array
      */
-    public function issueAccessToken($request)
+    public function issueAccessToken(Request $request)
     {
         $client = new \GuzzleHttp\Client();
 
         try {
             $params =  [
                 'form_params' => [
-                    'client_id' => $this->client_id,
-                    'client_secret' => $this->client_secret,
+                    'client_id' => $this->request->get('client_id'),
+                    'client_secret' => $this->request->get('client_secret'),
                     'code' => $request->request->get('code')
                 ],
                 'headers' => [

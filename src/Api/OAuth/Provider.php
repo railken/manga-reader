@@ -2,7 +2,7 @@
 
 namespace Api\OAuth;
 
-class Provider
+abstract class Provider implements ProviderContract
 {
 
     /**

@@ -104,8 +104,6 @@ class SignInController extends Controller
         }
 
         try {
-            $provider->setClientId($request->input('client_id'));
-            $provider->setClientSecret($request->input('client_secret'));
             $response = $provider->issueAccessToken($request);
             $access_token = $response->access_token;
 
