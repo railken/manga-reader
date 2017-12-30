@@ -2,7 +2,7 @@
 
 namespace Core\User\Exceptions;
 
-class $NAMENotFoundException extends UserException
+class UserNotFoundException extends UserException
 {
 
 	/**

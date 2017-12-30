@@ -1,8 +1,9 @@
 <?php
 
-namespace Core\User\Exceptions;
+namespace Core\User\Attributes\Username\Exceptions;
+use Core\User\Exceptions\UserAttributeException;
 
-class UserRoleNotDefinedException extends UserAttributeException
+class UserUsernameNotDefinedException extends UserAttributeException
 {
 
 	/**
@@ -10,14 +11,14 @@ class UserRoleNotDefinedException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'role';
+	protected $attribute = 'username';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_ROLE_NOT_DEFINED';
+	protected $code = 'USER_USERNAME_NOT_DEFINED';
 
 	/**
 	 * The message

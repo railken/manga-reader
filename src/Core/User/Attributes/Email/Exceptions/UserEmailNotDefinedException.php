@@ -1,8 +1,9 @@
 <?php
 
-namespace Core\User\Exceptions;
+namespace Core\User\Attributes\Email\Exceptions;
+use Core\User\Exceptions\UserAttributeException;
 
-class UserNameNotDefinedException extends UserAttributeException
+class UserEmailNotDefinedException extends UserAttributeException
 {
 
 	/**
@@ -10,14 +11,14 @@ class UserNameNotDefinedException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'name';
+	protected $attribute = 'email';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_NAME_NOT_DEFINED';
+	protected $code = 'USER_EMAIL_NOT_DEFINED';
 
 	/**
 	 * The message

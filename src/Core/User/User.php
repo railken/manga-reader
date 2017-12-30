@@ -13,9 +13,6 @@ use Core\Manga\Manga;
 class User extends Authenticatable implements EntityContract
 {
     use HasApiTokens, Notifiable, SoftDeletes;
-
-    const ROLE_USER = 'user';
-    const ROLE_ADMIN = 'admin';
     
 	/**
 	 * The table associated with the model.
@@ -79,25 +76,5 @@ class User extends Authenticatable implements EntityContract
     public function setPasswordAttribute($pass)
     {
         $this->attributes['password'] = bcrypt($pass);
-    }
-    
-    /**
-     * Return if has role user
-     *
-     * @return bool
-     */
-    public function isRoleUser()
-    {
-        return $this->role == static::ROLE_USER;
-    }
-
-    /**
-     * Return if has role admin
-     *
-     * @return bool
-     */
-    public function isRoleAdmin()
-    {
-        return $this->role == static::ROLE_ADMIN;
     }
 }

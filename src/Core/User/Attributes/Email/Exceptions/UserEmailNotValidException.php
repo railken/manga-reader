@@ -1,8 +1,9 @@
 <?php
 
-namespace Core\User\Exceptions;
+namespace Core\User\Attributes\Email\Exceptions;
+use Core\User\Exceptions\UserAttributeException;
 
-class UserRoleNotValidException extends UserAttributeException
+class UserEmailNotValidException extends UserAttributeException
 {
 
 	/**
@@ -10,14 +11,14 @@ class UserRoleNotValidException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'role';
+	protected $attribute = 'email';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_ROLE_NOT_VALID';
+	protected $code = 'USER_EMAIL_NOT_VALID';
 
 	/**
 	 * The message

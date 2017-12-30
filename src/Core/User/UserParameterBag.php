@@ -9,24 +9,22 @@ class UserParameterBag extends ParameterBag
 {
 
 	/**
-	 * Filter current bag using agent
+	 * Filter current bag
 	 *
 	 * @return $this
 	 */
 	public function filterWrite()
 	{
-
 		return $this;
 	}
 
 	/**
-	 * Filter current bag using agent for a search
+	 * Filter current bag for a search
 	 *
 	 * @return $this
 	 */
 	public function filterRead()
 	{
-
 		return $this;
 	}
 

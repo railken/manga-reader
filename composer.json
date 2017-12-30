@@ -13,7 +13,7 @@
         "laravel/tinker": "~1.0",
         "railken/bag": "^1.0",
         "railken/laravel-application": "^1.0",
-        "railken/laravel-manager": "^2.4.0",
+        "railken/laravel-manager": "^2.5.0",
         "railken/mangafox": "^1.1"
     },
     "require-dev": {

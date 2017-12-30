@@ -1,8 +1,9 @@
 <?php
 
-namespace Core\User\Exceptions;
+namespace Core\User\Attributes\Password\Exceptions;
+use Core\User\Exceptions\UserAttributeException;
 
-class UserNameNotValidException extends UserAttributeException
+class UserPasswordNotValidException extends UserAttributeException
 {
 
 	/**
@@ -10,14 +11,14 @@ class UserNameNotValidException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'name';
+	protected $attribute = 'password';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_NAME_NOT_VALID';
+	protected $code = 'USER_PASSWORD_NOT_VALID';
 
 	/**
 	 * The message

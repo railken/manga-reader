@@ -1,8 +1,9 @@
 <?php
 
-namespace Core\User\Exceptions;
+namespace Core\User\Attributes\Email\Exceptions;
+use Core\User\Exceptions\UserAttributeException;
 
-class UserEmailNotDefinedException extends UserAttributeException
+class UserEmailNotUniqueException extends UserAttributeException
 {
 
 	/**
@@ -17,7 +18,7 @@ class UserEmailNotDefinedException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_EMAIL_NOT_DEFINED';
+	protected $code = 'USER_EMAIL_NOT_UNIQUE';
 
 	/**
 	 * The message

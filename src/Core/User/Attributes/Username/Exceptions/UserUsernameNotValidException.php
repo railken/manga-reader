@@ -1,8 +1,9 @@
 <?php
 
-namespace Core\User\Exceptions;
+namespace Core\User\Attributes\Username\Exceptions;
+use Core\User\Exceptions\UserAttributeException;
 
-class UserEmailNotValidException extends UserAttributeException
+class UserUsernameNotValidException extends UserAttributeException
 {
 
 	/**
@@ -10,14 +11,14 @@ class UserEmailNotValidException extends UserAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'email';
+	protected $attribute = 'username';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'USER_EMAIL_NOT_VALID';
+	protected $code = 'USER_USERNAME_NOT_VALID';
 
 	/**
 	 * The message

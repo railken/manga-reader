@@ -27,7 +27,7 @@ class RegistrationController extends Controller
 
         $params = new Bag();
 
-        $result = $um->register($request->only(['username', 'password', 'email']));
+        $result = $um->create($request->only(['username', 'password', 'email']));
 
         $errors = $result->getErrors();
 

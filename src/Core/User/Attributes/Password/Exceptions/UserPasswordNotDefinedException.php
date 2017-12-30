@@ -1,6 +1,7 @@
 <?php
 
-namespace Core\User\Exceptions;
+namespace Core\User\Attributes\Password\Exceptions;
+use Core\User\Exceptions\UserAttributeException;
 
 class UserPasswordNotDefinedException extends UserAttributeException
 {
