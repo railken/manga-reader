@@ -43,9 +43,9 @@ class GithubProvider extends Provider
         try {
             $params =  [
                 'form_params' => [
-                    'client_id' => $this->request->get('client_id'),
-                    'client_secret' => $this->request->get('client_secret'),
-                    'code' => $request->request->get('code')
+                    'client_id' => $request->input('client_id'),
+                    'client_secret' => $request->input('client_secret'),
+                    'code' => $request->input('code')
                 ],
                 'headers' => [
                     'Accept' => 'application/json'
