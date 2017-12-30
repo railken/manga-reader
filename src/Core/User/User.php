@@ -54,6 +54,16 @@ class User extends Authenticatable implements EntityContract
         return $this->belongsToMany(Manga::class, 'libraries', 'user_id', 'manga_id');
     }
 
+    /**
+     * Pending email
+     *
+     * @return Relation
+     */
+    public function pendingEmail()
+    {
+        return $this->hasOne(UserPendingEmail::class, 'user_id')->latest();
+    }
+
     /** 
      * Has manga in library
      *
@@ -76,5 +86,19 @@ class User extends Authenticatable implements EntityContract
     public function setPasswordAttribute($pass)
     {
         $this->attributes['password'] = bcrypt($pass);
+    }
+
+    /**
+     * Retrieve user for passport oauth
+     *
+     * @param string $identifier
+     *
+     * @return User
+     */
+    public function findForPassport($identifier)
+    {
+        return User::orWhere(function($q) use ($identifier) {
+            return $q->orWhere('email', $identifier)->orWhere('username', $identifier);
+        })->where('enabled', 1)->first();
     }
 }

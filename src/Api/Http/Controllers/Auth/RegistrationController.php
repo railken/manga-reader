@@ -4,13 +4,31 @@ namespace Api\Http\Controllers\Auth;
 
 use Api\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Core\User\UserManager;
+use Core\User\UserService;
 use Railken\Bag;
 use Api\Exceptions\BadRequestException;
 use Illuminate\Support\Collection;
 
 class RegistrationController extends Controller
 {
+
+    /**
+     * Serialize token
+     *
+     * @param Token $token
+     *
+     * @return array
+     */
+    public function serializeToken($token)
+    {
+
+        return [
+            'access_token' => $token->accessToken,
+            'token_type' => 'Bearer',
+            'expire_in' => 0
+        ];
+    }
+
 
     /**
      * Register a user
@@ -23,11 +41,9 @@ class RegistrationController extends Controller
      */
     public function index(Request $request)
     {
-        $um = new UserManager();
+        $um = new UserService();
 
-        $params = new Bag();
-
-        $result = $um->create($request->only(['username', 'password', 'email']));
+        $result = $um->register($request->only(['username', 'password', 'email']));
 
         $errors = $result->getErrors();
 
@@ -38,8 +54,35 @@ class RegistrationController extends Controller
         $user = $result->getResource();
 
         return $this->success([
-            'message' => 'ok',
-            'code' => 'USER_REGISTERED'
+            'code' => 'USER_REGISTERED',
+            'message' => 'ok'
         ]);
+    }
+
+    /**
+     * Confirm email
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function confirmEmail(Request $request)
+    {
+        $um = new UserService();
+            
+        $user = $um->confirmEmail($request->input('token'));
+
+        
+        if (!$user) {
+            return $this->error([
+                'code' => 'SIGNUP.CONFIRM_EMAIL_TOKEN_INVALID',
+                'message' => "Token invalid"
+            ]);
+        }
+
+        $token = $user->createToken('login');
+
+        return $this->success($this->serializeToken($token));
+
     }
 }

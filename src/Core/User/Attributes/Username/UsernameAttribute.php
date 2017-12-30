@@ -55,7 +55,7 @@ class UsernameAttribute implements AttributeContract
      */
 	public function valid(EntityContract $entity, $value)
 	{
-		return v::length(1, 255)->validate($value);
+		return v::length(3, 32)->validate($value);
 	}
 
 }
