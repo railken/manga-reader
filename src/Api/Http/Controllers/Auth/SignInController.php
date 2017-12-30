@@ -77,7 +77,10 @@ class SignInController extends Controller
                 ]
             ]);
         } catch (\Exception $e) {
-            return $this->error(['message' => 'Credenziali errate']);
+            return $this->error([ 
+                'code' => "AUTH.CREDENTIALS_NOT_VALID",
+                'message' => 'Credenziali errate'
+            ]);
         }
 
         $body = json_decode($response->getBody());
@@ -104,7 +107,10 @@ class SignInController extends Controller
         $provider = $this->getProvider($provider);
 
         if (!$provider) {
-            return $this->error(['message' => 'No provider found']);
+            return $this->error([
+                'code' => 'AUTH.PROVIDER.PROVIDER_NOT_FOUND',
+                'message' => 'No provider found'
+            ]);
         }
 
         try {
@@ -113,6 +119,7 @@ class SignInController extends Controller
 
         } catch (\Exception $e) {
             return $this->error([
+                'code' => 'AUTH.PROVIDER.CODE_NOT_VALID',
                 'message' => 'Code invalid or expired'
             ]);
         } 
@@ -154,13 +161,17 @@ class SignInController extends Controller
         $provider = $this->getProvider($provider);
 
         if (!$provider) {
-            return $this->error(['message' => 'No provider found']);
+            return $this->error([
+                'code' => 'AUTH.PROVIDER.PROVIDER_NOT_FOUND',
+                'message' => 'No provider found'
+            ]);
         }
 
         $access_token = $request->input('access_token');
 
         if (!$access_token) {
             return $this->error([
+                "code" => "AUTH.PROVIDER.ACCESS_TOKEN_MISSING",
                 "message" => "access_token is missing"
             ]);
         }
@@ -169,12 +180,12 @@ class SignInController extends Controller
             $provider_user = $provider->getUser($access_token);
         } catch (\Api\Oauth\Exceptions\EmailNotFoundException $e) {
             return $this->error([
-                'code' => 'EMAIL_NOT_FOUND',
+                'code' => 'AUTH.PROVIDER.EMAIL_NOT_FOUND',
                 'message' => 'Email not found'
             ]);
         } catch (\Exception $e) {
-            echo $e;
             return $this->error([
+                'code' => 'AUTH.PROVIDER.ACCESS_TOKEN_NOT_VALID',
                 'message' => 'Token invalid or expired'
             ]);
         } 
