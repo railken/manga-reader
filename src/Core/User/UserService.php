@@ -10,7 +10,7 @@ class UserService
 	 *
 	 * @var UserManager
 	 */
-	protected $manager;
+	public $manager;
 
 	/**
 	 * Construct
@@ -40,11 +40,33 @@ class UserService
 			$this->manager->createConfirmationEmailToken($user, $user->email);
 
 			event(new Events\UserRegistered($user));
+			$this->requestConfirmEmail($user);
 		}
 
-
-
 		return $result;
+	}
+
+
+
+	/**
+	 * Request confirmation email
+	 *
+	 * @param User $user
+	 *
+	 * @return void
+	 */
+	public function requestConfirmEmail(User $user)
+	{
+
+		$email = $user->pendingEmail;
+
+		// Prevent spam
+		if (!$email->notified_at || $email->notified_at < (new \Datetime())->modify('-10 minutes')) {
+
+			$email->notified_at = new \DateTime();
+			$email->save();
+			event(new Events\UserRequestConfirmEmail($user));
+		}
 	}
 
 	/**

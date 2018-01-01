@@ -4,7 +4,7 @@ namespace Emails\Listeners;
 
 use Emails\Mail\UserConfirmationMail;
 use Core\User\User;
-use Core\User\Events\UserRegistered;
+use Core\User\Events\UserRequestConfirmEmail;
 use Illuminate\Support\Facades\Mail;
 
 class UserSendConfirmationEmail
@@ -25,7 +25,7 @@ class UserSendConfirmationEmail
      * @param UserRegistered $event
      * @return void
      */
-    public function handle(UserRegistered $event)
+    public function handle(UserRequestConfirmEmail $event)
     {
         Mail::to($event->user->email)->send(new UserConfirmationMail($event->user));
     }

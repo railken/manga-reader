@@ -85,4 +85,25 @@ class RegistrationController extends Controller
         return $this->success($this->serializeToken($token));
 
     }
+
+    /**
+     * Request Confirm email
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function requestConfirmEmail(Request $request)
+    {
+        $um = new UserService();
+            
+        $user = $um->manager->repository->findOneByEmail($request->input('email'));
+
+        if ($user && !$user->enabled) {
+            $um->requestConfirmEmail($user);
+        }
+
+        return $this->success(['message' => 'ok']);
+
+    }
 }
