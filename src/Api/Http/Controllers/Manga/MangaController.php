@@ -4,33 +4,17 @@ namespace Api\Http\Controllers\Manga;
 
 use Api\Http\Controllers\Traits\RestIndexTrait;
 use Api\Http\Controllers\Traits\RestShowTrait;
-use Api\Http\Controllers\Controller;
+use Api\Http\Controllers\RestController;
 use Core\Manga\MangaManager;
 
 use Illuminate\Http\Request;
 
-class MangaController extends Controller
+class MangaController extends RestController
 {
     use RestIndexTrait;
     // use RestShowTrait;
 
-    protected $only = [
-        'title',
-        'slug',
-        'overview', 
-        'aliases', 
-        'mangafox_url', 
-        'mangafox_uid', 
-        'mangafox_id', 
-        'status', 
-        'artist', 
-        'author', 
-        'aliases', 
-        'genres', 
-        'released_year'
-    ];
-
-    protected $selectable = [
+    protected static $query = [
         'id',
         'title',
         'slug',
@@ -44,8 +28,14 @@ class MangaController extends Controller
         'author', 
         'aliases', 
         'genres', 
-        'released_year'
+        'released_year',
+        'created_at',
+        'updated_at'
     ];
+
+
+    protected static $fillable = [];
+
 
     /**
      * Construct
@@ -55,6 +45,7 @@ class MangaController extends Controller
     public function __construct(MangaManager $manager)
     {
         $this->manager = $manager;
+        parent::__construct();
     }
 
     /**
@@ -76,5 +67,17 @@ class MangaController extends Controller
             'resource' => $this->manager->serializer->serialize($resource)->all()
         ]);
     }
+
+    /**
+     * Create a new instance for query
+     *
+     * @return QueryBuilder
+     */
+    public function getQuery()
+    {
+        return $this->manager->repository->getQuery();
+    }
+
+    
 
 }

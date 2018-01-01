@@ -9,7 +9,7 @@ use Api\Helper\Sorter;
 
 use Api\Helper\Exceptions\FilterSyntaxException;
 
-trait RestShowTrait
+trait RestRemoveTrait
 {
 
     /**
@@ -20,16 +20,18 @@ trait RestShowTrait
      *
      * @return response
      */
-    public function show($id, Request $request)
+    public function remove($id, Request $request)
     {
         $resource = $this->manager->findOneBy(['id' => $id]);
 
         if (!$resource)
             return $this->not_found();
 
-        return $this->success([
-            'resource' => $this->manager->serializer->serialize($resource, $this->keys->selectable)->all()
-        ]);
+        $result = $this->manager->remove($resource);
+
+        return $result->ok() 
+            ? $this->success(['message' => 'Removed'])
+            : $this->error(['errors' => $result->getSimpleErrors()]);
     }
 
 }

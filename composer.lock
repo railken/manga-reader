@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a8b97e1d9fa0303ffdffba35815edeb",
+    "content-hash": "e0131c7bf3207d5c7c0d26cca2c0f942",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1919,6 +1919,44 @@
             "time": "2017-12-28T16:14:16+00:00"
         },
         {
+            "name": "railken/api-helpers",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/railken/api-helpers.git",
+                "reference": "254a5334718ff1115a7ce77b3b6a2606305574ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/railken/api-helpers/zipball/254a5334718ff1115a7ce77b3b6a2606305574ca",
+                "reference": "254a5334718ff1115a7ce77b3b6a2606305574ca",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.4",
+                "php": ">=7.0.0",
+                "railken/bag": "^1.2",
+                "railken/search-query": "^2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Railken\\ApiHelpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "api"
+            ],
+            "time": "2017-12-09T22:52:45+00:00"
+        },
+        {
             "name": "railken/bag",
             "version": "v1.2.5",
             "source": {
@@ -1943,6 +1981,45 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2017-09-26T20:53:42+00:00"
+        },
+        {
+            "name": "railken/laravel-api-helpers",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/railken/laravel-api-helpers.git",
+                "reference": "790abf3703a7b325159a84d2ae35ab22442d149b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/railken/laravel-api-helpers/zipball/790abf3703a7b325159a84d2ae35ab22442d149b",
+                "reference": "790abf3703a7b325159a84d2ae35ab22442d149b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.4",
+                "php": ">=7.0.0",
+                "railken/api-helpers": "^1.2",
+                "railken/bag": "^1.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Railken\\Laravel\\ApiHelpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "api"
+            ],
+            "time": "2017-12-09T23:26:18+00:00"
         },
         {
             "name": "railken/laravel-application",
@@ -2041,6 +2118,43 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "time": "2017-10-08T22:33:17+00:00"
+        },
+        {
+            "name": "railken/search-query",
+            "version": "v2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/railken/search-query.git",
+                "reference": "696d37dfe395e6c5d067a26a411c668a670fb9c0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/railken/search-query/zipball/696d37dfe395e6c5d067a26a411c668a670fb9c0",
+                "reference": "696d37dfe395e6c5d067a26a411c668a670fb9c0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.4",
+                "php": ">=7.0.0",
+                "railken/bag": "^1.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Railken\\SQ\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "api"
+            ],
+            "time": "2017-12-18T13:41:34+00:00"
         },
         {
             "name": "ramsey/uuid",

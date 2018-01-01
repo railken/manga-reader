@@ -8,12 +8,22 @@ use Api\Helper\Paginator;
 use Railken\Laravel\Manager\ModelContract;
 use Illuminate\Http\Request;
 use Api\Http\Controllers\Traits\RestIndexTrait;
+use Railken\Bag;
 
 abstract class RestController extends Controller
 {
 
-    use RestIndexTrait;
+    
+    public function __construct()
+    {
 
+        $this->keys = new Bag();
+        $this->keys->query = static::$query;
+        $this->keys->selectable = collect(empty(static::$selectable) ? static::$query : static::$selectable);
+        $this->keys->sortable = collect(empty(static::$sortable) ? static::$query : static::$sortable);
+        $this->keys->fillable = static::$fillable;
+    }
+    
     /**
      * Return a new instance of Manager
      *
@@ -25,111 +35,39 @@ abstract class RestController extends Controller
     }
 
     /**
-     * Return an array rappresentation of entity
+     * Parse the key before using it in the query
      *
-     * @param ModelContract $entity
+     * @param string $key
+     *
+     * @return string
+     */
+    public function parseKey($key)
+    {
+
+        $keys = explode(".", $key);
+
+        if (count($keys) === 1) {
+            $keys = [$this->manager->repository->newEntity()->getTable(), $keys[0]];
+        }
+
+        return \DB::raw("`".implode(".", array_slice($keys, 0, -1))."`.".$keys[count($keys)-1]);
+    }
+    
+    /**
+     * Serialize entity
+     *
+     * @param mixed $record
+     * @param array $select
      *
      * @return array
      */
-    public function serialize(ModelContract $entity)
+    public function serialize($record, $select)
     {
-        return $this->manager->serializer->serialize($entity);
-    }
+        return $this
+            ->manager
+            ->serializer
+            ->serialize($record, $select)
+            ->all();
 
-    /**
-     * Return a json response to insert
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    public function create(Request $request)
-    {
-        $this->initialize($request);
-        $manager = $this->getManager();
-
-        $parameters = $request->all();
-        $parameters['user'] = $this->getUser();
-
-        $entity = $manager->create($parameters);
-        
-        return $this->show($entity->id, $request);
-    }
-
-    /**
-     * Return a json response to get
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    public function show($id, Request $request)
-    {
-        $this->initialize($request);
-        $manager = $this->getManager();
-
-        $entity = $manager->find($id);
-
-        if (empty($entity)) {
-            abort(404);
-        }
-
-        return $this->success([
-            'message' => 'ok',
-            'data' => [
-                'resources' => $this->serialize($entity)
-            ]
-        ]);
-    }
-
-    /**
-     * Return a json response to insert
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    public function update($id, Request $request)
-    {
-        $this->initialize($request);
-        $manager = $this->getManager();
-
-        $entity = $manager->find($id);
-
-        if (empty($entity)) {
-            abort(404);
-        }
-
-        $manager->update($entity, $request->all());
-
-        return $this->show($entity->id, $request);
-    }
-
-    /**
-     * Return a json response to insert
-     *
-     * @Route("/{id}")
-     *  @Method("DELETE")
-     *
-     * @param Request $request
-     *
-     * @return Response
-    */
-    public function delete($id, Request $request)
-    {
-        $this->initialize($request);
-        $manager = $this->getManager();
-
-        $entity = $manager->find($id);
-
-        if (empty($entity)) {
-            abort(404);
-        }
-
-        $manager->delete($entity);
-
-        return $this->success([
-            'message' => 'ok'
-        ]);
     }
 }

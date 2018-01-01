@@ -9,20 +9,22 @@ use Railken\Laravel\ApiHelpers\Sorter;
 
 use Railken\SQ\Exceptions\QuerySyntaxException;
 
-trait RestIndexTrait
+trait RestIndexRelationTrait
 {
 
     /**
      * Display resources
      *
+     * @param int $id
      * @param Request $request
      *
      * @return response
      */
-    public function index(Request $request)
-    {   
+    public function index($id, Request $request)
+    {
 
-        $query = $this->getQuery();
+
+        $query = $this->getQuery($id);
         \DB::enableQueryLog();
 
         # FilterSyntaxException
@@ -78,9 +80,11 @@ trait RestIndexTrait
             // ->select($selectable->toArray())
             ->get();
 
+        // print_r(\DB::getQueryLog());
         $response = $this->success([
             'resources' => $resources->map(function($record) use ($select) {
                 return $this->serialize($record, $select);
+
             }),
             'select' => $select->values(),
             'pagination' => $paginator->all(),
@@ -88,17 +92,6 @@ trait RestIndexTrait
             'filter' => $filter
         ]);
 
-        // print_r(\DB::getQueryLog());
         return $response;
-    }
-
-    public function assignArrayByPath(&$arr, $path, $value, $separator='.') {
-        $keys = explode($separator, $path);
-
-        foreach ($keys as $key) {
-            $arr = &$arr[$key];
-        }
-
-        $arr = $value;
     }
 }
