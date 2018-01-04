@@ -15,14 +15,14 @@ trait RestShowTrait
     /**
      * Display a resource
      *
-     * @param integer $id
+     * @param mixed $key
      * @param Request $request
      *
      * @return response
      */
-    public function show($id, Request $request)
+    public function show($key, Request $request)
     {
-        $resource = $this->manager->findOneBy(['id' => $id]);
+        $resource = $this->findOneByIdentifier($key);
 
         if (!$resource)
             return $this->not_found();

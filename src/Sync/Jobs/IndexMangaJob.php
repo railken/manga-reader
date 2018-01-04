@@ -48,8 +48,8 @@ class IndexMangaJob implements ShouldQueue
             'slug' => (new Slugify())->slugify($result->name),
             'artist' => $result->artist,
             'author' => $result->author,
-            'aliases' => implode(";", $result->aliases),
-            'genres' => implode(";", $result->genres),
+            'aliases' => $result->aliases,
+            'genres' => $result->genres,
             'released_year' => $result->released_year,
             'status' => $result->status,
             'overview' => $result->description,
@@ -61,7 +61,8 @@ class IndexMangaJob implements ShouldQueue
 
         $ext = pathinfo(strtok($result->cover, '?'), PATHINFO_EXTENSION);
 
-        Storage::put('manga-covers/'.$entity->id.'/'.md5($entity->id).".".$ext, file_get_contents($result->cover));
+        Storage::put('public/manga-covers/'.$entity->id.'/'.md5($entity->id).".".$ext, file_get_contents($result->cover));
+        
 
     }
 

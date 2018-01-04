@@ -182,6 +182,7 @@ return [
 
         Core\User\UserServiceProvider::class,
         Core\Manga\MangaServiceProvider::class,
+        Core\Chapter\ChapterServiceProvider::class,
 
     ],
 

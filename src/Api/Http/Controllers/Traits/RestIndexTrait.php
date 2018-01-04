@@ -36,6 +36,7 @@ trait RestIndexTrait
             }
             
         } catch (QuerySyntaxException $e) {
+            echo $e;
             return $this->error(["code" => "QUERY_SYNTAX_ERROR", "message" => "syntax error detected in filter"]);
         }
 

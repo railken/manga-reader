@@ -5,32 +5,27 @@ namespace Api\Http\Controllers\Manga;
 use Api\Http\Controllers\Traits\RestIndexTrait;
 use Api\Http\Controllers\Traits\RestShowTrait;
 use Api\Http\Controllers\RestController;
-use Core\Manga\MangaManager;
+use Core\Chapter\ChapterManager;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 
-class MangaController extends RestController
+class ChaptersController extends RestController
 {
     use RestIndexTrait;
     use RestShowTrait;
 
     protected static $query = [
         'id',
+        'volume',
+        'number',
         'title',
-        'slug',
-        'overview', 
-        'aliases', 
-        'mangafox_url', 
-        'mangafox_uid', 
-        'mangafox_id', 
-        'status', 
-        'artist', 
-        'author', 
-        'aliases', 
-        'genres', 
-        'released_year',
+        'released_at',
         'created_at',
         'updated_at',
+        'scans',
+        'resources',
+        'manga.id',
+        'manga.slug'
     ];
 
 
@@ -40,9 +35,9 @@ class MangaController extends RestController
     /**
      * Construct
      *
-     * @param MangaManager $manager
+     * @param ChapterManager $manager
      */
-    public function __construct(MangaManager $manager)
+    public function __construct(ChapterManager $manager)
     {
         $this->manager = $manager;
         parent::__construct();
@@ -53,7 +48,7 @@ class MangaController extends RestController
      *
      * @param mixed $key
      *
-     * @return Manga
+     * @return Chapter
      */
     public function findOneByIdentifier($key)
     {
@@ -67,7 +62,7 @@ class MangaController extends RestController
      */
     public function getQuery()
     {
-        return $this->manager->repository->getQuery();
+        return $this->manager->repository->getQuery()->leftJoin('manga as manga', 'manga.id', '=', 'chapters.manga_id')->select('chapters.*');
     }
 
 }

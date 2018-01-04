@@ -5,32 +5,26 @@ namespace Api\Http\Controllers\Manga;
 use Api\Http\Controllers\Traits\RestIndexTrait;
 use Api\Http\Controllers\Traits\RestShowTrait;
 use Api\Http\Controllers\RestController;
-use Core\Manga\MangaManager;
+use Core\Chapter\ChapterManager;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 
-class MangaController extends RestController
+class MangaChaptersController extends RestController
 {
     use RestIndexTrait;
     use RestShowTrait;
 
     protected static $query = [
         'id',
+        'volume',
+        'number',
         'title',
-        'slug',
-        'overview', 
-        'aliases', 
-        'mangafox_url', 
-        'mangafox_uid', 
-        'mangafox_id', 
-        'status', 
-        'artist', 
-        'author', 
-        'aliases', 
-        'genres', 
-        'released_year',
+        'released_at',
         'created_at',
         'updated_at',
+        'scans',
+        'manga.id',
+        'manga.slug'
     ];
 
 
@@ -40,9 +34,9 @@ class MangaController extends RestController
     /**
      * Construct
      *
-     * @param MangaManager $manager
+     * @param ChapterManager $manager
      */
-    public function __construct(MangaManager $manager)
+    public function __construct(ChapterManager $manager)
     {
         $this->manager = $manager;
         parent::__construct();
@@ -53,7 +47,7 @@ class MangaController extends RestController
      *
      * @param mixed $key
      *
-     * @return Manga
+     * @return Chapter
      */
     public function findOneByIdentifier($key)
     {
@@ -69,5 +63,29 @@ class MangaController extends RestController
     {
         return $this->manager->repository->getQuery();
     }
+
+
+    /**
+     * Display resources
+     *
+     * @param $manga_key
+     * @param Request $request
+     *
+     * @return response
+     */
+    public function index($manga_key, Request $request)
+    {
+
+        $pc = new ChaptersController($this->manager);
+        $query = $request->input('query') 
+            ? "(manga.id eq {$manga_key} or manga.slug eq {$manga_key}) and (".$request->input('query').")" 
+            : "manga.id eq {$manga_key} or manga.slug eq {$manga_key}";
+
+
+        print_r($query);
+        $request->request->add(['query' => $query]);
+        return $pc->index($request);
+    }
+
 
 }

@@ -32,6 +32,9 @@ Route::group(['middleware' => ['errors'], 'prefix' => 'v1'], function() {
 
         Route::get('/manga', ['uses' => '\Api\Http\Controllers\Manga\MangaController@index']);
         Route::get('/manga/{key}', ['uses' => '\Api\Http\Controllers\Manga\MangaController@show']);
+        Route::get('/manga/{key}/chapters', ['uses' => '\Api\Http\Controllers\Manga\MangaChaptersController@index']);
+        Route::get('/chapters', ['uses' => '\Api\Http\Controllers\Manga\ChaptersController@index']);
+        Route::get('/chapters/{key}', ['uses' => '\Api\Http\Controllers\Manga\ChaptersController@show']);
         Route::get('/library', ['uses' => '\Api\Http\Controllers\Manga\LibraryController@index']);
         Route::post('/library/{key}', ['uses' => '\Api\Http\Controllers\Manga\LibraryController@addManga']);
         Route::delete('/library/{key}', ['uses' => '\Api\Http\Controllers\Manga\LibraryController@removeManga']);
