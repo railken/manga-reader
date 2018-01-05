@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Railken\Laravel\Manager\Contracts\EntityContract;
 use Core\Chapter\Chapter;
+use Illuminate\Support\Facades\Storage;
 
 class Manga extends Model implements EntityContract
 {
@@ -67,6 +68,16 @@ class Manga extends Model implements EntityContract
     public function chapters()
     {
         return $this->hasMany(Chapter::class, 'manga_id');
+    }
+
+    /**
+     * Get Cover attribute
+     *
+     * @return string
+     */
+    public function getCoverAttribute()
+    {   
+        return env("APP_URL").Storage::url("public/manga/{$this->slug}/covers/cover.jpg");
     }
 
 }

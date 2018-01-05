@@ -23,6 +23,7 @@ class MangaChaptersController extends RestController
         'created_at',
         'updated_at',
         'scans',
+        'resources',
         'manga.id',
         'manga.slug'
     ];
@@ -82,10 +83,38 @@ class MangaChaptersController extends RestController
             : "manga.id eq {$manga_key} or manga.slug eq {$manga_key}";
 
 
-        print_r($query);
         $request->request->add(['query' => $query]);
         return $pc->index($request);
     }
 
+
+    /**
+     * Get single chapter by manga and number
+     *
+     * @param string $key
+     * @param string $number
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function show($key, $number, Request $request)
+    {
+
+        $resource = $this->manager->repository->getQuery()
+            ->leftJoin('manga as manga', 'manga.id', '=', 'chapters.manga_id')
+            ->where(function($q) use ($key) {
+                return $q->orWhere('manga.id', $key)->orWhere('manga.slug', $key);
+            })
+            ->where('chapters.number', $number)
+            ->select('chapters.*')
+            ->first();
+
+        if (!$resource)
+            return $this->not_found();
+
+        return $this->success([
+            'resource' => $this->manager->serializer->serialize($resource, $this->keys->selectable)->all()
+        ]);
+    }
 
 }

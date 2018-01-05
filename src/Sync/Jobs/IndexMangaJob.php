@@ -63,7 +63,7 @@ class IndexMangaJob implements ShouldQueue
 
         $ext = pathinfo(strtok($result->cover, '?'), PATHINFO_EXTENSION);
 
-        Storage::put('public/manga-covers/'.$entity->id.'/'.md5($entity->id).".".$ext, file_get_contents($result->cover));
+        Storage::put("public/manga/{$entity->slug}/covers/cover.{$ext}", file_get_contents($result->cover));
         
 
     }

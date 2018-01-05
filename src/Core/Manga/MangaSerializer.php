@@ -63,6 +63,10 @@ class MangaSerializer
             
         });
 
+        if ($select->search('cover'))
+            $bag->set('cover', $entity->cover);
+
+
 
 		return $bag;
 	}
