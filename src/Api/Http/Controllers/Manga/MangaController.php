@@ -70,4 +70,24 @@ class MangaController extends RestController
         return $this->manager->repository->getQuery();
     }
 
+
+    /**
+     * Follow manga chapters
+     *
+     * @param mixed $key
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function request($key, Request $request)
+    {
+        $manga = $this->findOneByIdentifier($key);
+
+        if (!$manga)
+            abort(404);
+
+        $this->manager->follow($manga);
+
+        return $this->success(['message' => 'ok']);
+    }
 }

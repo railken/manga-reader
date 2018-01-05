@@ -36,8 +36,11 @@ class Manga extends Model implements EntityContract
 		'aliases', 
 		'genres', 
 		'released_year', 
-		'status', 
-		'slug'
+		'status',
+		'follow', 
+		'slug',
+		'synced_at',
+		'last_chapter_released_at'
 	];
 
 	/**
@@ -46,7 +49,9 @@ class Manga extends Model implements EntityContract
 	 * @var array
 	 */
 	protected $dates = [
-		'deleted_at'
+		'deleted_at',
+		'synced_at',
+		'last_chapter_released_at'
 	];
 	
 	/**

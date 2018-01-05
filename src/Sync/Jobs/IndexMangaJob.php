@@ -43,6 +43,7 @@ class IndexMangaJob implements ShouldQueue
         ->resource($this->uid)
         ->get();
 
+        
         $entity = $this->manager->updateOrCreate(['mangafox_uid' => $result->uid], [
             'title' => $result->name,
             'slug' => (new Slugify())->slugify($result->name),
@@ -54,7 +55,8 @@ class IndexMangaJob implements ShouldQueue
             'status' => $result->status,
             'overview' => $result->description,
             'mangafox_url' => $result->url,
-            'mangafox_uid' => $result->uid
+            'mangafox_uid' => $result->uid,
+            'mangafox_id' => $result->id,
         ]);
 
         $entity = $entity->getResource();

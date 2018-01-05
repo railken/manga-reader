@@ -77,7 +77,7 @@ class Chapter extends Model implements EntityContract
 
     	
     	foreach (Storage::allFiles($filename) as $resource) {
-    		$resources[] = Storage::url($resource);
+    		$resources[] = env("APP_URL").Storage::url($resource);
     	}	
 
     	return $resources;
