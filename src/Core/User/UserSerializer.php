@@ -21,6 +21,8 @@ class UserSerializer
 	{
         $bag = (new Bag($entity->toArray()))->only($select->toArray());
 
+        $bag->set('avatar', \Avatar::create($entity->username)->toBase64()->getEncoded());
+        $bag->set('jobs', \DB::table('jobs')->count());
 		return $bag;
 	}
 

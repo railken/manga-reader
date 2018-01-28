@@ -12,12 +12,14 @@ use Core\Chapter\ChapterManager;
 use Core\Manga\Manga;
 use Illuminate\Support\Facades\Storage;
 use Cocur\Slugify\Slugify;
+use Exception;
 
 class SyncChaptersJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $manga;
+    protected $logger;
 
     /**
      * Create a new job instance.
@@ -27,6 +29,7 @@ class SyncChaptersJob implements ShouldQueue
     public function __construct(Manga $manga)
     {
         $this->manga = $manga;
+        $this->logger = new \Core\Log\LogService();
     }
 
     /**
@@ -39,6 +42,10 @@ class SyncChaptersJob implements ShouldQueue
 
         $this->mangafox = new Mangafox();
         $this->manager = new ChapterManager();
+
+
+        $parent = $this->logger->log("info", "manga:sync:chapters", "Indexing chapters for manga #{$this->manga->id} '{$this->manga->title}'");
+
         $manga = $this->mangafox
         ->resource($this->manga->mangafox_uid)
         ->get();
@@ -49,6 +56,9 @@ class SyncChaptersJob implements ShouldQueue
                 $chapter = $this->manager->findOneBy(['manga_id' => $this->manga->id, 'number' => $mangafox_chapter->number]);
 
                 if (!$chapter) {
+
+
+                    $parent = $this->logger->log("info", "manga:sync:chapters", "A new chapter has been found for manga #{$this->manga->id} '{$this->manga->title}': V{$mangafox_chapter->volume} C{$mangafox_chapter->number} - {$mangafox_chapter->title}");
 
                     $chapter = $this->manager->create([
                         'number' => $mangafox_chapter->number,
@@ -71,11 +81,26 @@ class SyncChaptersJob implements ShouldQueue
             }
         }
 
-        // Delete chapter not detected
-        // $entity = $entity->getResource();
 
+        // Some chapters may be deleted/renamed during the update
+        // This should be handled with log (warning)
+    }
 
-
+    /**
+     * The job failed to process.
+     *
+     * @param  Exception  $exception
+     *
+     * @return void
+     */
+    public function failed(Exception $exception)
+    {
+        $parent = $this->logger->log("error", "manga:sync:chapters", "Error while indexing chapters for manga #{$this->manga->id} '{$this->manga->title}'", [
+            'exception' => [
+                'class' => get_class($exception), 
+                'message' => $exception->getMessage()
+            ]
+        ]);
     }
 
 }

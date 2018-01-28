@@ -25,7 +25,7 @@ class Chapter extends Model implements EntityContract
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['id', 'number', 'volume', 'title', 'slug', 'scans', 'manga_id'];
+	protected $fillable = ['id', 'number', 'volume', 'title', 'slug', 'scans', 'manga_id', 'released_at'];
 
 	/**
 	 * The attributes that should be mutated to dates.

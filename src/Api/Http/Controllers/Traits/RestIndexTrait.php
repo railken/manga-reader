@@ -11,8 +11,7 @@ use Railken\SQ\Exceptions\QuerySyntaxException;
 
 trait RestIndexTrait
 {
-
-    /**
+   /**
      * Display resources
      *
      * @param Request $request
@@ -21,9 +20,11 @@ trait RestIndexTrait
      */
     public function index(Request $request)
     {   
+        return $this->createIndexResponseByQuery($this->getQuery(), $request);
+    }
 
-        $query = $this->getQuery();
-        \DB::enableQueryLog();
+    public function createIndexResponseByQuery($query, Request $request)
+    {
 
         # FilterSyntaxException
         try {
@@ -36,7 +37,6 @@ trait RestIndexTrait
             }
             
         } catch (QuerySyntaxException $e) {
-            echo $e;
             return $this->error(["code" => "QUERY_SYNTAX_ERROR", "message" => "syntax error detected in filter"]);
         }
 

@@ -15,7 +15,8 @@
         "railken/laravel-application": "^1.0",
         "railken/laravel-manager": "^2.5.0",
         "railken/laravel-api-helpers": "^1.0",
-        "railken/mangafox": "^1.1"
+        "railken/mangafox": "^1.1",
+        "laravolt/avatar": "^2.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

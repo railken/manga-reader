@@ -5,30 +5,19 @@ namespace Api\Http\Controllers\Manga;
 use Api\Helper\Paginator;
 use Api\Helper\Filter;
 use Api\Helper\Sorter;
-use Api\Http\Controllers\Controller;
+use Api\Http\Controllers\RestController;
 use Core\Manga\MangaManager;
 use Illuminate\Http\Request;
+use Api\Http\Controllers\Traits\RestIndexTrait;
 
-class LibraryController extends Controller
+class LibraryController extends RestController
 {
 
-    protected $only = [
-        'title',
-        'slug',
-        'overview', 
-        'aliases', 
-        'mangafox_url', 
-        'mangafox_uid', 
-        'mangafox_id', 
-        'status', 
-        'artist', 
-        'author', 
-        'aliases', 
-        'genres', 
-        'released_year'
-    ];
+    use RestIndexTrait;
 
-    protected $selectable = [
+    protected static $fillable = [];
+
+    protected static $query = [
         'id',
         'title',
         'slug',
@@ -41,8 +30,12 @@ class LibraryController extends Controller
         'artist', 
         'author', 
         'aliases', 
+        'follow',
         'genres', 
-        'released_year'
+        'cover',
+        'released_year',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -53,61 +46,17 @@ class LibraryController extends Controller
     public function __construct(MangaManager $manager)
     {
         $this->manager = $manager;
+        parent::__construct();
     }
-
     /**
-     * Display a resource
+     * Create a new instance for query
      *
-     * @param mixed $key
-     * @param Request $request
-     *
-     * @return response
+     * @return QueryBuilder
      */
-    public function index(Request $request)
+    public function getQuery()
     {
-        $query = $this->getUser()->library();
-
-        # Filter
-        try {
-            $filter = new Filter($this->only);
-            $filter->build($query, $request->input('query'));
-        } catch (FilterSyntaxException $e) {
-            return $this->error(["code" => "REQUEST_QUERY_SYNTAX_ERROR", "message" => "syntax error detected in filter"]);
-        }
-
-        # Pagination
-        $paginator = new Paginator();
-        $paginator = $paginator->execute($query, $request->input('page', 1), $request->input('show', 10));
-
-        # Sorter
-        $sort = new Sorter();
-        $sort = $sort->fill($request->input('sort_field', 'id'), $request->input('sort_direction', 'desc'));
-
-        # Select
-        $select = collect(explode(",", $request->input("select", "")))->intersect($this->selectable);
-        $select->count() == 0 && $select = collect($this->selectable);
-
-        $table = $this->manager->repository->newEntity()->getTable();
-
-        $resources = $query
-            ->orderBy($sort->get('field'), $sort->get('direction'))
-            ->skip($paginator->get('first_result'))
-            ->take($paginator->get('max_results'))
-            ->select($select->map(function($v) use ($table) { return $table.".".$v; })->toArray())
-            ->get();
-
-
-        return $this->success([
-            'resources' => $resources->map(function($record) use ($select) {
-
-                return $this->manager->serializer->serializeBrief($record)->only($select->toArray())->all();
-            }),
-            'pagination' => $paginator->all(),
-            'sort' => $sort,
-            'filter' => $filter
-        ]);
+        return $this->getUser()->library();
     }
-        
 
     /**
      * Add a manga
@@ -155,5 +104,25 @@ class LibraryController extends Controller
         $user->library()->detach($manga);
 
         return $this->success(['code' => 'LIBRARY_MANGA_REMOVED', 'message' => 'manga removed from the library']);
+    }
+
+
+
+    /**
+     * Show info a manga
+     *
+     * @param mixed $key
+     * @param Request $request
+     *
+     * @return response
+     */
+    public function showManga($key, Request $request)
+    {
+        $user = $this->getUser();
+        $manga = $this->manager->repository->findOneByIdOrSlug($key);
+
+        return $user->hasMangaInLibrary($manga)
+            ? $this->success()
+            : $this->error();
     }
 }

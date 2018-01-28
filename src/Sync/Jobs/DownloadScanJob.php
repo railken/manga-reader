@@ -13,12 +13,14 @@ use Core\Chapter\Chapter;
 use Core\Manga\Manga;
 use Illuminate\Support\Facades\Storage;
 use Cocur\Slugify\Slugify;
+use Exception;
 
 class DownloadScanJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $chapter;
+    protected $logger;
 
     /**
      * Create a new job instance.
@@ -28,6 +30,7 @@ class DownloadScanJob implements ShouldQueue
     public function __construct(Chapter $chapter)
     {
         $this->chapter = $chapter;
+        $this->logger = new \Core\Log\LogService();
     }
 
     /**
@@ -37,6 +40,8 @@ class DownloadScanJob implements ShouldQueue
      */
     public function handle()
     {
+
+        $parent = $this->logger->log("info", "manga:sync:download", "Downloading chapter #{$this->chapter->id} for manga #{$this->chapter->manga->id} '{$this->chapter->manga->title}'");
 
         $mangafox = new Mangafox();
         $chapter = $this->chapter;
@@ -56,6 +61,24 @@ class DownloadScanJob implements ShouldQueue
         $chapter->scans = 1;
         $chapter->save();
 
+    }
+
+
+    /**
+     * The job failed to process.
+     *
+     * @param  Exception  $exception
+     *
+     * @return void
+     */
+    public function failed(Exception $exception)
+    {
+        $parent = $this->logger->log("error", "manga:sync:download", "Error while downloading scans for a chapter", [
+            'exception' => [
+                'class' => get_class($exception), 
+                'message' => $exception->getMessage()
+            ]
+        ]);
     }
 
 }

@@ -11,6 +11,7 @@ use Railken\Mangafox\Mangafox;
 use Core\Manga\MangaManager;
 use Illuminate\Support\Facades\Storage;
 use Cocur\Slugify\Slugify;
+use Exception;
 
 class IndexMangaJob implements ShouldQueue
 {
@@ -26,6 +27,7 @@ class IndexMangaJob implements ShouldQueue
     public function __construct($uid)
     {
         $this->uid = $uid;
+        $this->logger = new \Core\Log\LogService();
     }
 
     /**
@@ -35,6 +37,9 @@ class IndexMangaJob implements ShouldQueue
      */
     public function handle()
     {
+
+
+        $parent = $this->logger->log("info", "manga:sync:index", "Retrieving info about {$this->uid}");
 
         $this->mangafox = new Mangafox();
         $this->manager = new MangaManager();
@@ -66,6 +71,23 @@ class IndexMangaJob implements ShouldQueue
         Storage::put("public/manga/{$entity->slug}/covers/cover.{$ext}", file_get_contents($result->cover));
         
 
+    }
+
+    /**
+     * The job failed to process.
+     *
+     * @param  Exception  $exception
+     *
+     * @return void
+     */
+    public function failed(Exception $exception)
+    {
+        $parent = $this->logger->log("error", "manga:sync:index", "Error while retrieving info about {$this->uid}", [
+            'exception' => [
+                'class' => get_class($exception), 
+                'message' => $exception->getMessage()
+            ]
+        ]);
     }
 
 }

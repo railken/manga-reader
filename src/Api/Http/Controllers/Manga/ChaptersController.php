@@ -25,7 +25,10 @@ class ChaptersController extends RestController
         'scans',
         'resources',
         'manga.id',
-        'manga.slug'
+        'manga.title',
+        'manga.slug',
+        'manga.genres',
+        'manga.cover'
     ];
 
 
