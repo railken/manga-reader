@@ -83,7 +83,7 @@ class SyncReleasesJob implements ShouldQueue
                     $manga->save();
                 } else {
 
-                    $this->logger->log("info", "manga:sync:releases:detail", "Skipping {$uid} #{$manga->id}", [], $parent);
+                    $this->logger->log("info", "manga:sync:releases:detail", "Skipping '{$uid}'", [], $parent);
 
                 }
             }
