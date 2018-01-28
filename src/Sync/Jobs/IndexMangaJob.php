@@ -18,6 +18,7 @@ class IndexMangaJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $uid;
+    protected $logger;
 
     /**
      * Create a new job instance.
