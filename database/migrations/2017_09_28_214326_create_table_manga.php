@@ -28,8 +28,8 @@ class CreateTableManga extends Migration
             $table->text('overview')->nullable();
             $table->string('status')->nullable();
             $table->boolean('follow')->default(0);
-            $table->timestamp('synced_at')->default(null);
-            $table->timestamp('last_chapter_released_at')->default(null);
+            $table->timestamp('synced_at')->nullable();
+            $table->timestamp('last_chapter_released_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
