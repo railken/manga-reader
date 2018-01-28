@@ -23,7 +23,7 @@ class CreateTableManga extends Migration
             $table->string('released_year')->nullable();
             $table->string('mangafox_url');
             $table->string('mangafox_uid');
-            $table->string('mangafox_id');
+            $table->string('mangafox_id')->nullable();
             $table->text('aliases')->nullable();
             $table->text('overview')->nullable();
             $table->string('status')->nullable();
