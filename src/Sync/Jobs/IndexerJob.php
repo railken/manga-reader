@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Railken\Mangafox\Mangafox;
 use Core\Manga\MangaManager;
 use Cocur\Slugify\Slugify;
+use Illuminate\Support\Facades\Cache;
 
 class IndexerJob implements ShouldQueue
 {
@@ -41,9 +42,16 @@ class IndexerJob implements ShouldQueue
         $mangafox = new Mangafox();
         $manager = new MangaManager();
 
-        $list = $mangafox->index()->get();
+
+        $list = Cache::get('sync.manga.index', $mangafox->index()->get());
+
+        if (empty($list)) {
+            $list = $mangafox->index()->get();
+        }
+        Cache::put('sync.manga.index', $list, 10);
 
         $results = $list->results;
+
 
         foreach ($results as $result) {
 
@@ -57,8 +65,11 @@ class IndexerJob implements ShouldQueue
                     'mangafox_id' => $result->id
                 ]);
 
-                dispatch((new \Sync\Jobs\IndexMangaJob($result->uid))->onQueue('sync.index'));
+            }
 
+            if ($manager->getRepository()->getQuery()->where('mangafox_uid', $result->uid)->whereNull('released_year')->count() > 0) {
+
+                dispatch((new \Sync\Jobs\IndexMangaJob($result->uid))->onQueue('sync.index'));
             }
 
         }
