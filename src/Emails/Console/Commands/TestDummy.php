@@ -4,21 +4,24 @@ namespace Emails\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class Welcome extends Command
+use Illuminate\Support\Facades\Mail;
+use Emails\Mail\DummyMail;
+
+class TestDummy extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'emails:go';
+    protected $signature = 'emails:test {email}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'A demonstration of a simple command';
+    protected $description = 'A smtp test';
 
     /**
      * The drip e-mail service.
@@ -44,6 +47,6 @@ class Welcome extends Command
      */
     public function handle()
     {
-        $this->info("Live little man!!!");
+        Mail::to($this->argument('email'))->send(new DummyMail());
     }
 }
