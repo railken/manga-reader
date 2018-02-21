@@ -1,9 +1,9 @@
 <?php
 
-namespace Core\Log\Attributes\Name\Exceptions;
+namespace Core\Log\Attributes\Message\Exceptions;
 use Core\Log\Exceptions\LogAttributeException;
 
-class LogNameNotValidException extends LogAttributeException
+class LogMessageNotUniqueException extends LogAttributeException
 {
 
 	/**
@@ -11,20 +11,20 @@ class LogNameNotValidException extends LogAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'name';
+	protected $attribute = 'message';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'LOG_NAME_NOT_VALID';
+	protected $code = 'LOG_MESSAGE_NOT_UNIQUE';
 
 	/**
 	 * The message
 	 *
 	 * @var string
 	 */
-	protected $message = "The %s is not valid";
+	protected $message = "The %s is not unique";
 
 }

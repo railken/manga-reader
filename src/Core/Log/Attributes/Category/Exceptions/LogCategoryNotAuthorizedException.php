@@ -1,9 +1,9 @@
 <?php
 
-namespace Core\Log\Attributes\Name\Exceptions;
+namespace Core\Log\Attributes\Category\Exceptions;
 use Core\Log\Exceptions\LogAttributeException;
 
-class LogNameNotAuthorizedException extends LogAttributeException
+class LogCategoryNotAuthorizedException extends LogAttributeException
 {
 
 	/**
@@ -11,14 +11,14 @@ class LogNameNotAuthorizedException extends LogAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'name';
+	protected $attribute = 'category';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'LOG_NAME_NOT_AUTHTORIZED';
+	protected $code = 'LOG_CATEGORY_NOT_AUTHTORIZED';
 	
 	/**
 	 * The message

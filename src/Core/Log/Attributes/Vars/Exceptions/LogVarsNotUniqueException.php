@@ -1,9 +1,9 @@
 <?php
 
-namespace Core\Log\Attributes\Name\Exceptions;
+namespace Core\Log\Attributes\Vars\Exceptions;
 use Core\Log\Exceptions\LogAttributeException;
 
-class LogNameNotDefinedException extends LogAttributeException
+class LogVarsNotUniqueException extends LogAttributeException
 {
 
 	/**
@@ -11,20 +11,20 @@ class LogNameNotDefinedException extends LogAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'name';
+	protected $attribute = 'vars';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'LOG_NAME_NOT_DEFINED';
+	protected $code = 'LOG_VARS_NOT_UNIQUE';
 
 	/**
 	 * The message
 	 *
 	 * @var string
 	 */
-	protected $message = "The %s is required";
+	protected $message = "The %s is not unique";
 
 }

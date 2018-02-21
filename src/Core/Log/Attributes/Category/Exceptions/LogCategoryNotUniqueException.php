@@ -1,9 +1,9 @@
 <?php
 
-namespace Core\Log\Attributes\Name\Exceptions;
+namespace Core\Log\Attributes\Category\Exceptions;
 use Core\Log\Exceptions\LogAttributeException;
 
-class LogNameNotUniqueException extends LogAttributeException
+class LogCategoryNotUniqueException extends LogAttributeException
 {
 
 	/**
@@ -11,14 +11,14 @@ class LogNameNotUniqueException extends LogAttributeException
 	 *
 	 * @var string
 	 */
-	protected $attribute = 'name';
+	protected $attribute = 'category';
 
 	/**
 	 * The code to identify the error
 	 *
 	 * @var string
 	 */
-	protected $code = 'LOG_NAME_NOT_UNIQUE';
+	protected $code = 'LOG_CATEGORY_NOT_UNIQUE';
 
 	/**
 	 * The message

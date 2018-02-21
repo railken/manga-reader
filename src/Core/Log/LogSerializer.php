@@ -7,6 +7,7 @@ use Railken\Laravel\Manager\Contracts\EntityContract;
 use Railken\Laravel\Manager\ModelSerializer;
 use Railken\Laravel\Manager\Tokens;
 use Railken\Bag;
+use Illuminate\Support\Collection;
 
 class LogSerializer extends ModelSerializer
 {

@@ -4,15 +4,14 @@ namespace Core\Log\Attributes\Category;
 
 
 use Railken\Laravel\Manager\Contracts\EntityContract;
-use Railken\Laravel\Manager\Contracts\AttributeContract;
+use Railken\Laravel\Manager\ModelAttribute;
 use Railken\Laravel\Manager\Traits\AttributeValidateTrait;
 use Core\Log\Attributes\Category\Exceptions as Exceptions;
 use Respect\Validation\Validator as v;
+use Railken\Laravel\Manager\Tokens;
 
-class CategoryAttribute implements AttributeContract
+class CategoryAttribute extends ModelAttribute
 {
-
-	use AttributeValidateTrait;
 
 	/**
 	 * Name attribute
@@ -22,7 +21,8 @@ class CategoryAttribute implements AttributeContract
 	protected $name = 'category';
 
     /**
-     * Is the attribute required 
+     * Is the attribute required
+     * This will throw not_defined exception for non defined value and non existent model
      *
      * @var boolean
      */
@@ -41,8 +41,17 @@ class CategoryAttribute implements AttributeContract
      * @var array
      */
     protected $exceptions = [
-    	'not_defined' => Exceptions\LogCategoryNotDefinedException::class,
-    	'not_valid' => Exceptions\LogCategoryNotValidException::class
+    	Tokens::NOT_DEFINED => Exceptions\LogCategoryNotDefinedException::class,
+    	Tokens::NOT_VALID => Exceptions\LogCategoryNotValidException::class,
+        Tokens::NOT_AUTHORIZED => Exceptions\LogCategoryNotAuthorizedException::class
+    ];
+
+    /**
+     * List of all permissions
+     */
+    protected $permissions = [
+        Tokens::PERMISSION_FILL => 'log.attributes.category.fill',
+        Tokens::PERMISSION_SHOW => 'log.attributes.category.show'
     ];
 
     /**
@@ -55,7 +64,8 @@ class CategoryAttribute implements AttributeContract
      */
 	public function valid(EntityContract $entity, $value)
 	{
-		return true;
+		return v::length(1, 255)->validate($value);
 	}
+
 
 }

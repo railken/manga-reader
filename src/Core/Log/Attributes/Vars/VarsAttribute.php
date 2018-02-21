@@ -4,15 +4,14 @@ namespace Core\Log\Attributes\Vars;
 
 
 use Railken\Laravel\Manager\Contracts\EntityContract;
-use Railken\Laravel\Manager\Contracts\AttributeContract;
+use Railken\Laravel\Manager\ModelAttribute;
 use Railken\Laravel\Manager\Traits\AttributeValidateTrait;
 use Core\Log\Attributes\Vars\Exceptions as Exceptions;
 use Respect\Validation\Validator as v;
+use Railken\Laravel\Manager\Tokens;
 
-class VarsAttribute implements AttributeContract
+class VarsAttribute extends ModelAttribute
 {
-
-	use AttributeValidateTrait;
 
 	/**
 	 * Name attribute
@@ -22,7 +21,8 @@ class VarsAttribute implements AttributeContract
 	protected $name = 'vars';
 
     /**
-     * Is the attribute required 
+     * Is the attribute required
+     * This will throw not_defined exception for non defined value and non existent model
      *
      * @var boolean
      */
@@ -41,8 +41,17 @@ class VarsAttribute implements AttributeContract
      * @var array
      */
     protected $exceptions = [
-    	'not_defined' => Exceptions\LogVarsNotDefinedException::class,
-    	'not_valid' => Exceptions\LogVarsNotValidException::class
+    	Tokens::NOT_DEFINED => Exceptions\LogVarsNotDefinedException::class,
+    	Tokens::NOT_VALID => Exceptions\LogVarsNotValidException::class,
+        Tokens::NOT_AUTHORIZED => Exceptions\LogVarsNotAuthorizedException::class
+    ];
+
+    /**
+     * List of all permissions
+     */
+    protected $permissions = [
+        Tokens::PERMISSION_FILL => 'log.attributes.vars.fill',
+        Tokens::PERMISSION_SHOW => 'log.attributes.vars.show'
     ];
 
     /**
@@ -57,5 +66,6 @@ class VarsAttribute implements AttributeContract
 	{
 		return true;
 	}
+
 
 }
