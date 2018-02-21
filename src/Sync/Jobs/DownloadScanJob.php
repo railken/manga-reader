@@ -56,7 +56,12 @@ class DownloadScanJob implements ShouldQueue
             $ext = pathinfo(strtok($scan->scan, '?'), PATHINFO_EXTENSION);
             $key = str_pad($key, 5, '0', STR_PAD_LEFT);
             $filename = $chapter->getPathChapter()."/{$key}.{$ext}";
-            Storage::put($filename, file_get_contents($scan->scan));
+
+            try {
+                Storage::put($filename, file_get_contents($scan->scan));
+            } catch (\Exception $e) {
+
+            }
         });
         $chapter->scans = 1;
         $chapter->save();
