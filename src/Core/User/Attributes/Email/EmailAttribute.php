@@ -33,7 +33,7 @@ class EmailAttribute extends ModelAttribute
      *
      * @var boolean
      */
-    protected $unique = false;
+    protected $unique = true;
 
     /**
      * List of all exceptions used in validation
