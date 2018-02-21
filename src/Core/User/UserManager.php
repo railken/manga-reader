@@ -5,6 +5,7 @@ namespace Core\User;
 use Railken\Laravel\Manager\Contracts\EntityContract;
 use Railken\Laravel\Manager\ModelManager;
 use Railken\Laravel\Manager\ParameterBag;
+use Railken\Laravel\Manager\Contracts\AgentContract;
 
 class UserManager extends ModelManager
 {
@@ -19,13 +20,13 @@ class UserManager extends ModelManager
 		Attributes\Password\PasswordAttribute::class,
 	];
 
-	/**
-	 * Construct
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    /**
+     * Construct
+     */
+    public function __construct(AgentContract $agent = null)
+    {   
+    	parent::__construct($agent);
+    }
 
 	/**
 	 * Create a confirmation email token for given user

@@ -184,7 +184,7 @@ return [
         Core\Manga\MangaServiceProvider::class,
         Core\Chapter\ChapterServiceProvider::class,
         Core\Log\LogServiceProvider::class,
-
+        
     ],
 
     /*

@@ -4,10 +4,12 @@ namespace Core\Manga;
 
 use Railken\Laravel\Manager\Contracts\ModelSerializerContract;
 use Railken\Laravel\Manager\Contracts\EntityContract;
+use Railken\Laravel\Manager\ModelSerializer;
 use Illuminate\Support\Collection;
+use Railken\Laravel\Manager\Tokens;
 use Railken\Bag;
 
-class MangaSerializer
+class MangaSerializer extends ModelSerializer
 {
 
     /**
@@ -48,18 +50,21 @@ class MangaSerializer
 
     }
 
-	/**
-	 * Serialize entity
-	 *
-	 * @param EntityContract $entity
-	 *
-	 * @return array
-	 */
-	public function serialize(EntityContract $entity, Collection $select)
-	{
-        $bag = (new Bag($entity->toArray()))->only($select->toArray());
 
-		$this->serializeCollection($bag, $entity, $select, 'chapters', new \Core\Chapter\ChapterSerializer(), function($bag, $chapter) {
+    /**
+     * Serialize entity
+     *
+     * @param EntityContract $entity
+     * @param Collection $select
+     *
+     * @return array
+     */
+    public function serialize(EntityContract $entity, Collection $select = null)
+    {
+
+        $bag = new Bag($entity->toArray());
+
+        $this->serializeCollection($bag, $entity, $select, 'chapters', new \Core\Chapter\ChapterSerializer(), function($bag, $chapter) {
             
         });
 
@@ -67,8 +72,14 @@ class MangaSerializer
             $bag->set('cover', $entity->cover);
 
 
+        if ($select)
+            $bag = $bag->only($select->toArray());
 
-		return $bag;
-	}
+
+        $bag = $bag->only($this->manager->authorizer->getAuthorizedAttributes(Tokens::PERMISSION_SHOW, $entity)->keys()->toArray());
+
+        return $bag;
+    }
+
 
 }
