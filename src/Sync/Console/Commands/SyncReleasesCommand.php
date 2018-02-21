@@ -30,18 +30,12 @@ class SyncReleasesCommand extends Command
     protected $drip;
 
     /**
-     * @var MangaManager
-     */
-    protected $manager;
-
-    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(MangaManager $manager)
+    public function __construct()
     {
-        $this->manager = $manager;
         parent::__construct();
     }
 

@@ -30,18 +30,12 @@ class SyncChaptersCommand extends Command
     protected $drip;
 
     /**
-     * @var MangaManager
-     */
-    protected $manager;
-
-    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(MangaManager $manager)
+    public function __construct()
     {
-        $this->manager = $manager;
         parent::__construct();
     }
 
@@ -52,6 +46,9 @@ class SyncChaptersCommand extends Command
      */
     public function handle()
     {
+
+
+        $this->manager = new MangaManager();
 
         $manga = $this->manager->findOneBy(['id' => $this->argument('manga_id')]);
 
