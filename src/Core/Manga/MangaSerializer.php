@@ -19,12 +19,12 @@ class MangaSerializer extends ModelSerializer
      * @param Entity $entity
      * @param Collection $select
      * @param string $attribute
-     * @param Serializer $serializer
+     * @param Serializer $manager
      * @param Closure $callback
      * 
      * @return void
      */
-    public function serializeCollection($bag, $entity, $select, $attribute, $serializer, $callback = null)
+    public function serializeCollection($bag, $entity, $select, $attribute, $manager, $callback = null)
     {
         $sub = $select->filter(function($v) use ($attribute) { 
             return preg_match("/^{$attribute}\./", $v); 
@@ -36,8 +36,8 @@ class MangaSerializer extends ModelSerializer
             })->values();
 
             $bag->$attribute = $entity->$attribute 
-                ? $entity->$attribute->map(function($sub_entity) use ($serializer, $sub_select, $callback){ 
-                    $bag = $serializer->serialize($sub_entity, $sub_select);
+                ? $entity->$attribute->map(function($sub_entity) use ($manager, $sub_select, $callback){ 
+                    $bag = $manager->serializer->serialize($sub_entity, $sub_select);
 
                     $callback && $callback($bag, $sub_entity);
                     
@@ -64,7 +64,7 @@ class MangaSerializer extends ModelSerializer
 
         $bag = new Bag($entity->toArray());
 
-        $this->serializeCollection($bag, $entity, $select, 'chapters', new \Core\Chapter\ChapterSerializer(), function($bag, $chapter) {
+        $this->serializeCollection($bag, $entity, $select, 'chapters', new \Core\Chapter\ChapterManager(), function($bag, $chapter) {
             
         });
 
@@ -76,7 +76,7 @@ class MangaSerializer extends ModelSerializer
             $bag = $bag->only($select->toArray());
 
 
-        $bag = $bag->only($this->manager->authorizer->getAuthorizedAttributes(Tokens::PERMISSION_SHOW, $entity)->keys()->toArray());
+        // $bag = $bag->only($this->manager->authorizer->getAuthorizedAttributes(Tokens::PERMISSION_SHOW, $entity)->keys()->toArray());
 
         return $bag;
     }

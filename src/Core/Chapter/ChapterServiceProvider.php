@@ -19,5 +19,6 @@ class ChapterServiceProvider extends ServiceProvider
         ChapterManager::serializer(ChapterSerializer::class);
         ChapterManager::parameters(ChapterParameterBag::class);
         ChapterManager::validator(ChapterValidator::class);
+        ChapterManager::authorizer(ChapterAuthorizer::class);
     }
 }

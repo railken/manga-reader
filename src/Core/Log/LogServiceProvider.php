@@ -19,5 +19,6 @@ class LogServiceProvider extends ServiceProvider
         LogManager::serializer(LogSerializer::class);
         LogManager::parameters(LogParameterBag::class);
         LogManager::validator(LogValidator::class);
+        LogManager::authorizer(LogAuthorizer::class);
     }
 }

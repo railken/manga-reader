@@ -26,7 +26,7 @@ class PasswordAttribute extends ModelAttribute
      *
      * @var boolean
      */
-    protected $required = false;
+    protected $required = true;
 
     /**
      * Is the attribute unique 

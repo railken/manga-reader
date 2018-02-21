@@ -18,5 +18,6 @@ class MangaServiceProvider extends ServiceProvider
         MangaManager::serializer(MangaSerializer::class);
         MangaManager::parameters(MangaParameterBag::class);
         MangaManager::validator(MangaValidator::class);
+        MangaManager::authorizer(MangaAuthorizer::class);
     }
 }
