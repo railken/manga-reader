@@ -60,6 +60,11 @@ class UserService
 
 		$email = $user->pendingEmail;
 
+		if (!$email) {
+
+			$email = $this->manager->createConfirmationEmailToken($user, $user->email);
+		}
+
 		// Prevent spam
 		if (!$email->notified_at || $email->notified_at < (new \Datetime())->modify('-10 minutes')) {
 
