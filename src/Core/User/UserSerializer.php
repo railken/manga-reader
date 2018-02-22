@@ -32,7 +32,7 @@ class UserSerializer extends ModelSerializer
         	$bag = $bag->only($select->toArray());
 
 
-        $bag = $bag->only($this->manager->authorizer->getAuthorizedAttributes(Tokens::PERMISSION_SHOW, $entity)->keys()->toArray());
+        // $bag = $bag->only($this->manager->authorizer->getAuthorizedAttributes(Tokens::PERMISSION_SHOW, $entity)->keys()->toArray());
 
 		return $bag;
 	}
