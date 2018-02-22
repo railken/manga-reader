@@ -70,6 +70,10 @@ class Manga extends Model implements EntityContract
         return $this->hasMany(Chapter::class, 'manga_id');
     }
 
+    public function last_chapter()
+    {
+        return $this->hasOne(Chapter::class, 'manga_id')->orderBy('released_at', 'DESC');
+    }
     /**
      * Get Cover attribute
      *

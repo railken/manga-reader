@@ -54,10 +54,10 @@ class ChapterSerializer extends ModelSerializer
 
         $bag = new Bag($entity->toArray());
 
-        if ($select->search('resources'))
+        if ($select && $select->search('resources'))
             $bag->set('resources', $entity->resources);
 
-        $this->serializeEntity($bag, $entity, $select, 'manga', new MangaManager());
+        $select && $this->serializeEntity($bag, $entity, $select, 'manga', new MangaManager());
 
         if ($select)
             $bag = $bag->only($select->toArray());

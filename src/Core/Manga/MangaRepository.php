@@ -25,4 +25,15 @@ class MangaRepository extends ModelRepository
 	{
 		return $this->getQuery()->orWhere('id', $key)->orWhere('slug', $key)->first();
 	}
+
+	/**
+	 * Create a new query to select last released manga
+	 *
+	 * @return QueryBuilder
+	 *
+	 */
+	public function newQueryLastReleased()
+	{
+		return $this->getQuery()->orderBy('last_chapter_released_at', 'DESC')->whereNotNull('last_chapter_released_at');
+	}
 }

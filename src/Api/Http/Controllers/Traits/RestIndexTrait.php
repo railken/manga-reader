@@ -8,6 +8,8 @@ use Railken\Laravel\ApiHelpers\Filter;
 use Railken\Laravel\ApiHelpers\Sorter;
 
 use Railken\SQ\Exceptions\QuerySyntaxException;
+use Railken\ApiHelpers\Exceptions\InvalidSorterDirectionException;
+use Railken\ApiHelpers\Exceptions\InvalidSorterFieldException;
 
 trait RestIndexTrait
 {
@@ -46,7 +48,16 @@ trait RestIndexTrait
 
 
         # Check if sort field has 
-        $sort->add($request->input('sort_field', 'id'), $request->input('sort_direction', 'desc'));
+        try {
+            $sort->add($request->input('sort_field', 'id'), $request->input('sort_direction', 'desc'));
+        } catch (InvalidSorterDirectionException $e) {
+
+            return $this->error(["code" => "SORT_DIRECTION_NOT_VALID", "message" => $e->getMessage()]);
+        } catch (InvalidSorterFieldException $e) {
+
+            return $this->error(["code" => "SORT_PARAMETER_NOT_VALID", "message" => $e->getMessage()]);
+        }
+
 
         foreach ($sort->get() as $attribute)
             $query->orderBy($this->parseKey($attribute->getName()), $attribute->getDirection());

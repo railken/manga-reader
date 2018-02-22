@@ -28,6 +28,7 @@ Route::group(['middleware' => ['errors'], 'prefix' => 'v1'], function() {
     Route::post('/oauth/{name}/exchange_token', ['uses' => '\Api\Http\Controllers\Auth\SignInController@exchangeToken']);
 
 
+    Route::get('/releases', ['uses' => '\Api\Http\Controllers\Manga\MangaController@releases']);
     Route::get('/manga', ['uses' => '\Api\Http\Controllers\Manga\MangaController@index']);
     Route::get('/manga/{key}', ['uses' => '\Api\Http\Controllers\Manga\MangaController@show']);
     Route::get('/manga/{key}/chapters', ['uses' => '\Api\Http\Controllers\Manga\MangaChaptersController@index']);

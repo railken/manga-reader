@@ -64,17 +64,17 @@ class MangaSerializer extends ModelSerializer
 
         $bag = new Bag($entity->toArray());
 
-        $this->serializeCollection($bag, $entity, $select, 'chapters', new \Core\Chapter\ChapterManager(), function($bag, $chapter) {
-            
-        });
 
-        if ($select->search('cover'))
+        if ($select && $select->search('cover'))
             $bag->set('cover', $entity->cover);
+
+        if ($select && $select->search('last_chapter')) {
+            $bag->set('last_chapter', $entity->last_chapter ? (new \Core\Chapter\ChapterManager())->serializer->serialize($entity->last_chapter)->toArray() : null);
+        }
 
 
         if ($select)
             $bag = $bag->only($select->toArray());
-
 
         // $bag = $bag->only($this->manager->authorizer->getAuthorizedAttributes(Tokens::PERMISSION_SHOW, $entity)->keys()->toArray());
 
