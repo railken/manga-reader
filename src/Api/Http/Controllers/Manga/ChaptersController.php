@@ -67,4 +67,21 @@ class ChaptersController extends RestController
     {
         return $this->manager->repository->getQuery()->leftJoin('manga as manga', 'manga.id', '=', 'chapters.manga_id')->select('chapters.*');
     }
+    
+    /**
+     * Parse the key before using it in the query
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    public function parseKey($key)
+    {
+
+        if ($key === 'number') {
+            return \DB::raw('CAST(number as DECIMAL(10,5))');
+        }
+
+        return parent::parseKey($key);
+    }
 }
