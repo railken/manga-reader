@@ -22,6 +22,8 @@ class ChaptersController extends RestController
         'released_at',
         'created_at',
         'updated_at',
+        'prev',
+        'next',
         'scans',
         'resources',
         'manga.id',
@@ -67,7 +69,7 @@ class ChaptersController extends RestController
     {
         return $this->manager->repository->getQuery()->leftJoin('manga as manga', 'manga.id', '=', 'chapters.manga_id')->select('chapters.*');
     }
-    
+
     /**
      * Parse the key before using it in the query
      *

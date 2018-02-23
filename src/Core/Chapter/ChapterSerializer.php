@@ -59,6 +59,18 @@ class ChapterSerializer extends ModelSerializer
 
         $select && $this->serializeEntity($bag, $entity, $select, 'manga', new MangaManager());
 
+
+        if ($select && $select->search('next')) {
+            $first = $entity->next()->first();
+            $bag->set('next', $first ? $this->serialize($first, new Collection(['id', 'number', 'title']))->toArray() : null);
+        }
+
+
+        if ($select && $select->search('prev')) {
+            $prev = $entity->prev()->first();
+            $bag->set('prev', $prev ? $this->serialize($prev, new Collection(['id', 'number', 'title']))->toArray() : null);
+        }
+        
         if ($select)
             $bag = $bag->only($select->toArray());
 

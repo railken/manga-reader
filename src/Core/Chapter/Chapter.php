@@ -42,6 +42,28 @@ class Chapter extends Model implements EntityContract
      *
      * @return Relation
      */
+    public function prev()
+    {
+        return Chapter::where('manga_id', $this->manga_id)->where(\DB::raw('CAST(number as DECIMAL(10,5))'), '<', (float)$this->number)->orderBy(\DB::raw('CAST(number as DECIMAL(10,5))'), 'DESC');
+    }
+
+
+    /**
+     * Chapter N -> 1 Manga
+     *
+     * @return Relation
+     */
+    public function next()
+    {
+        return Chapter::where('manga_id', $this->manga_id)->where(\DB::raw('CAST(number as DECIMAL(10,5))'), '>', (float)$this->number)->orderBy(\DB::raw('CAST(number as DECIMAL(10,5))'), 'ASC');
+    }
+
+
+    /**
+     * Chapter N -> 1 Manga
+     *
+     * @return Relation
+     */
     public function manga()
     {
         return $this->belongsTo(Manga::class);
@@ -83,5 +105,4 @@ class Chapter extends Model implements EntityContract
     	return $resources;
 
     }
-
 }

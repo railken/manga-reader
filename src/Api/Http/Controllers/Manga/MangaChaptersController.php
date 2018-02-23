@@ -23,6 +23,8 @@ class MangaChaptersController extends RestController
         'created_at',
         'updated_at',
         'scans',
+        'prev',
+        'next',
         'resources',
         'manga.id',
         'manga.slug'
@@ -117,4 +119,5 @@ class MangaChaptersController extends RestController
         ]);
     }
 
+    
 }
