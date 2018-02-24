@@ -3,7 +3,7 @@
 namespace Core\User;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use Railken\Laravel\Manager\Contracts\EntityContract;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +12,7 @@ use Core\Manga\Manga;
 
 class User extends Authenticatable implements EntityContract
 {
-    use HasApiTokens, Notifiable, SoftDeletes;
+    use HasApiTokens, Notifiable;
     
 	/**
 	 * The table associated with the model.
@@ -44,7 +44,7 @@ class User extends Authenticatable implements EntityContract
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = [];
 
     /**
      * Library relation

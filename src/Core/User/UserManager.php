@@ -74,5 +74,14 @@ class UserManager extends ModelManager
 		return UserPendingEmail::where(['token' => $token])->first();
 	}
 
+	/**
+	 * @inherit
+	 */
+	public function delete(EntityContract $entity) {
+
+		$entity->pendingEmail && $entity->pendingEmail->delete();
+		$entity->library && $entity->library()->sync([]);
+		$r = parent::delete($entity);
+	}
 
 }
