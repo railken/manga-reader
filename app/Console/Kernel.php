@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('sync:releases 1')->everyFifteenMinutes();
+
+        $schedule->command('app:clean')->hourly();
     }
 
     /**
