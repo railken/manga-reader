@@ -88,7 +88,7 @@ class MangaObserver
      */
     public function saved(EntityContract $entity)
     {
-    	// ..
+        // ..
     }
 
     /**

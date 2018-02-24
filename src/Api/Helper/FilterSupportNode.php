@@ -4,10 +4,9 @@ namespace Api\Helper;
 
 class FilterSupportNode
 {
+    public $parts = [];
 
-	public $parts = [];
+    public $childs = [];
 
-	public $childs = [];
-
-	public $parent;
+    public $parent;
 }

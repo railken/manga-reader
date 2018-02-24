@@ -27,7 +27,6 @@ class FacebookProvider extends Provider
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -63,7 +62,6 @@ class FacebookProvider extends Provider
         $body = json_decode($response->getBody());
 
         return $body;
-
     }
 
     /**
@@ -73,7 +71,6 @@ class FacebookProvider extends Provider
      */
     public function getUser($token)
     {
-       
         $client = new \GuzzleHttp\Client();
         $user = new \stdClass;
 
@@ -96,8 +93,9 @@ class FacebookProvider extends Provider
             throw $e;
         }
 
-        if (!isset($body->email))
+        if (!isset($body->email)) {
             throw new Exceptions\EmailNotFoundException();
+        }
 
         $user->username = $body->first_name;
         $user->email = $body->email;

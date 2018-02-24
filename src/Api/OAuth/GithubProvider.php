@@ -110,5 +110,4 @@ class GithubProvider extends Provider
 
         return $user;
     }
-
 }

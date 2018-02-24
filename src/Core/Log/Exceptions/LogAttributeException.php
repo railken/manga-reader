@@ -37,5 +37,4 @@ abstract class LogAttributeException extends LogException
 
         return parent::__construct($value);
     }
-
 }

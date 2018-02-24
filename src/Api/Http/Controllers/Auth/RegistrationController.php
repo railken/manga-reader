@@ -21,7 +21,6 @@ class RegistrationController extends Controller
      */
     public function serializeToken($token)
     {
-
         return [
             'access_token' => $token->accessToken,
             'token_type' => 'Bearer',
@@ -83,7 +82,6 @@ class RegistrationController extends Controller
         $token = $user->createToken('login');
 
         return $this->success($this->serializeToken($token));
-
     }
 
     /**
@@ -104,6 +102,5 @@ class RegistrationController extends Controller
         }
 
         return $this->success(['message' => 'ok']);
-
     }
 }

@@ -14,12 +14,12 @@ class User extends Authenticatable implements EntityContract
 {
     use HasApiTokens, Notifiable;
     
-	/**
-	 * The table associated with the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -39,7 +39,7 @@ class User extends Authenticatable implements EntityContract
         'password', 'remember_token',
     ];
 
-	/**
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
@@ -64,7 +64,7 @@ class User extends Authenticatable implements EntityContract
         return $this->hasOne(UserPendingEmail::class, 'user_id')->latest();
     }
 
-    /** 
+    /**
      * Has manga in library
      *
      * @param Manga $manga
@@ -97,7 +97,7 @@ class User extends Authenticatable implements EntityContract
      */
     public function findForPassport($identifier)
     {
-        return User::orWhere(function($q) use ($identifier) {
+        return User::orWhere(function ($q) use ($identifier) {
             return $q->orWhere('email', $identifier)->orWhere('username', $identifier);
         })->where('enabled', 1)->first();
     }

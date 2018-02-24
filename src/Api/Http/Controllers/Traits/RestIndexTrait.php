@@ -13,15 +13,15 @@ use Railken\ApiHelpers\Exceptions\InvalidSorterFieldException;
 
 trait RestIndexTrait
 {
-   /**
-     * Display resources
-     *
-     * @param Request $request
-     *
-     * @return response
-     */
+    /**
+      * Display resources
+      *
+      * @param Request $request
+      *
+      * @return response
+      */
     public function index(Request $request)
-    {   
+    {
         return $this->createIndexResponseByQuery($this->getQuery(), $request);
     }
 
@@ -34,10 +34,11 @@ trait RestIndexTrait
 
             if ($request->input('query')) {
                 $filter->setKeys($this->keys->query);
-                $filter->setParseKey(function($key) { return $this->parseKey($key); });
+                $filter->setParseKey(function ($key) {
+                    return $this->parseKey($key);
+                });
                 $filter->build($query, $request->input('query'));
             }
-            
         } catch (QuerySyntaxException $e) {
             return $this->error(["code" => "QUERY_SYNTAX_ERROR", "message" => "syntax error detected in filter"]);
         }
@@ -47,35 +48,36 @@ trait RestIndexTrait
         $sort->setKeys($this->keys->sortable->toArray());
 
 
-        # Check if sort field has 
+        # Check if sort field has
         try {
             $sort->add($request->input('sort_field', 'id'), $request->input('sort_direction', 'desc'));
         } catch (InvalidSorterDirectionException $e) {
-
             return $this->error(["code" => "SORT_DIRECTION_NOT_VALID", "message" => $e->getMessage()]);
         } catch (InvalidSorterFieldException $e) {
-
             return $this->error(["code" => "SORT_PARAMETER_NOT_VALID", "message" => $e->getMessage()]);
         }
 
 
-        foreach ($sort->get() as $attribute)
+        foreach ($sort->get() as $attribute) {
             $query->orderBy($this->parseKey($attribute->getName()), $attribute->getDirection());
+        }
 
 
         # Select
         $select = collect(explode(",", $request->input("select", "")));
 
-        $select->count() > 0 && 
-            $select = $this->keys->selectable->filter(function($attr) use ($select) { return $select->contains($attr); });
+        $select->count() > 0 &&
+            $select = $this->keys->selectable->filter(function ($attr) use ($select) {
+                return $select->contains($attr);
+            });
 
        
-        $select->count() == 0 && 
+        $select->count() == 0 &&
             $select = $this->keys->selectable;
 
 
         $selectable = $select
-            ->map(function($key){ 
+            ->map(function ($key) {
                 return $this->parseKey($key);
             });
 
@@ -91,7 +93,7 @@ trait RestIndexTrait
             ->get();
 
         $response = $this->success([
-            'resources' => $resources->map(function($record) use ($select) {
+            'resources' => $resources->map(function ($record) use ($select) {
                 return $this->serialize($record, $select);
             }),
             'select' => $select->values(),
@@ -104,7 +106,8 @@ trait RestIndexTrait
         return $response;
     }
 
-    public function assignArrayByPath(&$arr, $path, $value, $separator='.') {
+    public function assignArrayByPath(&$arr, $path, $value, $separator='.')
+    {
         $keys = explode($separator, $path);
 
         foreach ($keys as $key) {

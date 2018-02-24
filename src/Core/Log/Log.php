@@ -8,21 +8,21 @@ use Railken\Laravel\Manager\Contracts\EntityContract;
 class Log extends Model implements EntityContract
 {
 
-	/**
-	 * The table associated with the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'logs';
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'logs';
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['type', 'category', 'message', 'vars'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['type', 'category', 'message', 'vars'];
 
-	/**
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -40,5 +40,4 @@ class Log extends Model implements EntityContract
     {
         return $this->belongsTo(Log::class);
     }
-
 }

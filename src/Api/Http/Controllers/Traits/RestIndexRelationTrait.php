@@ -22,8 +22,6 @@ trait RestIndexRelationTrait
      */
     public function index($id, Request $request)
     {
-
-
         $query = $this->getQuery($id);
         \DB::enableQueryLog();
 
@@ -33,10 +31,11 @@ trait RestIndexRelationTrait
 
             if ($request->input('query')) {
                 $filter->setKeys($this->keys->query);
-                $filter->setParseKey(function($key) { return $this->parseKey($key); });
+                $filter->setParseKey(function ($key) {
+                    return $this->parseKey($key);
+                });
                 $filter->build($query, $request->input('query'));
             }
-            
         } catch (QuerySyntaxException $e) {
             return $this->error(["code" => "QUERY_SYNTAX_ERROR", "message" => "syntax error detected in filter"]);
         }
@@ -46,26 +45,29 @@ trait RestIndexRelationTrait
         $sort->setKeys($this->keys->sortable->toArray());
 
 
-        # Check if sort field has 
+        # Check if sort field has
         $sort->add($request->input('sort_field', 'id'), $request->input('sort_direction', 'desc'));
 
-        foreach ($sort->get() as $attribute)
+        foreach ($sort->get() as $attribute) {
             $query->orderBy($this->parseKey($attribute->getName()), $attribute->getDirection());
+        }
 
 
         # Select
         $select = collect(explode(",", $request->input("select", "")));
 
-        $select->count() > 0 && 
-            $select = $this->keys->selectable->filter(function($attr) use ($select) { return $select->contains($attr); });
+        $select->count() > 0 &&
+            $select = $this->keys->selectable->filter(function ($attr) use ($select) {
+                return $select->contains($attr);
+            });
 
        
-        $select->count() == 0 && 
+        $select->count() == 0 &&
             $select = $this->keys->selectable;
 
 
         $selectable = $select
-            ->map(function($key){ 
+            ->map(function ($key) {
                 return $this->parseKey($key);
             });
 
@@ -82,9 +84,8 @@ trait RestIndexRelationTrait
 
         // print_r(\DB::getQueryLog());
         $response = $this->success([
-            'resources' => $resources->map(function($record) use ($select) {
+            'resources' => $resources->map(function ($record) use ($select) {
                 return $this->serialize($record, $select);
-
             }),
             'select' => $select->values(),
             'pagination' => $paginator->all(),

@@ -19,17 +19,17 @@ class MangaController extends RestController
         'id',
         'title',
         'slug',
-        'overview', 
-        'aliases', 
-        'mangafox_url', 
-        'mangafox_uid', 
-        'mangafox_id', 
-        'status', 
-        'artist', 
-        'author', 
-        'aliases', 
+        'overview',
+        'aliases',
+        'mangafox_url',
+        'mangafox_uid',
+        'mangafox_id',
+        'status',
+        'artist',
+        'author',
+        'aliases',
         'follow',
-        'genres', 
+        'genres',
         'cover',
         'released_year',
         'last_chapter_released_at',
@@ -88,8 +88,9 @@ class MangaController extends RestController
     {
         $manga = $this->findOneByIdentifier($key);
 
-        if (!$manga)
+        if (!$manga) {
             abort(404);
+        }
 
         $this->manager->follow($manga);
 
@@ -107,7 +108,6 @@ class MangaController extends RestController
      */
     public function releases(Request $request)
     {
-
         $query = $this->getManager()->getRepository()->newQueryLastReleased();
 
         # Pagination
@@ -120,10 +120,10 @@ class MangaController extends RestController
             // ->select($selectable->toArray())
             ->get();
 
-         $select = $this->keys->selectable;
+        $select = $this->keys->selectable;
 
         $response = $this->success([
-            'resources' => $resources->map(function($record) use ($select) {
+            'resources' => $resources->map(function ($record) use ($select) {
                 $manga = $this->serialize($record, $select);
 
                 // $manga['last_chapter'] = (new \Core\Chapter\ChapterManager())->serializer->serialize($manga->last_chapter);

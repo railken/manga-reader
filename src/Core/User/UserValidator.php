@@ -9,7 +9,6 @@ use Core\User\Exceptions as Exceptions;
 use Respect\Validation\Validator as v;
 use Railken\Laravel\Manager\ModelValidator;
 
-
 class UserValidator extends ModelValidator
 {
 }

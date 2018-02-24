@@ -2,7 +2,6 @@
 
 namespace Core\Log\Attributes\Message;
 
-
 use Railken\Laravel\Manager\Contracts\EntityContract;
 use Railken\Laravel\Manager\ModelAttribute;
 use Railken\Laravel\Manager\Traits\AttributeValidateTrait;
@@ -13,12 +12,12 @@ use Railken\Laravel\Manager\Tokens;
 class MessageAttribute extends ModelAttribute
 {
 
-	/**
-	 * Name attribute
-	 *
-	 * @var string
-	 */
-	protected $name = 'message';
+    /**
+     * Name attribute
+     *
+     * @var string
+     */
+    protected $name = 'message';
 
     /**
      * Is the attribute required
@@ -29,7 +28,7 @@ class MessageAttribute extends ModelAttribute
     protected $required = false;
 
     /**
-     * Is the attribute unique 
+     * Is the attribute unique
      *
      * @var boolean
      */
@@ -41,8 +40,8 @@ class MessageAttribute extends ModelAttribute
      * @var array
      */
     protected $exceptions = [
-    	Tokens::NOT_DEFINED => Exceptions\LogMessageNotDefinedException::class,
-    	Tokens::NOT_VALID => Exceptions\LogMessageNotValidException::class,
+        Tokens::NOT_DEFINED => Exceptions\LogMessageNotDefinedException::class,
+        Tokens::NOT_VALID => Exceptions\LogMessageNotValidException::class,
         Tokens::NOT_AUTHORIZED => Exceptions\LogMessageNotAuthorizedException::class
     ];
 
@@ -62,10 +61,8 @@ class MessageAttribute extends ModelAttribute
      *
      * @return boolean
      */
-	public function valid(EntityContract $entity, $value)
-	{
+    public function valid(EntityContract $entity, $value)
+    {
         return true;
-	}
-
-
+    }
 }

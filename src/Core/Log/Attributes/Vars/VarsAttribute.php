@@ -2,7 +2,6 @@
 
 namespace Core\Log\Attributes\Vars;
 
-
 use Railken\Laravel\Manager\Contracts\EntityContract;
 use Railken\Laravel\Manager\ModelAttribute;
 use Railken\Laravel\Manager\Traits\AttributeValidateTrait;
@@ -13,12 +12,12 @@ use Railken\Laravel\Manager\Tokens;
 class VarsAttribute extends ModelAttribute
 {
 
-	/**
-	 * Name attribute
-	 *
-	 * @var string
-	 */
-	protected $name = 'vars';
+    /**
+     * Name attribute
+     *
+     * @var string
+     */
+    protected $name = 'vars';
 
     /**
      * Is the attribute required
@@ -29,7 +28,7 @@ class VarsAttribute extends ModelAttribute
     protected $required = false;
 
     /**
-     * Is the attribute unique 
+     * Is the attribute unique
      *
      * @var boolean
      */
@@ -41,8 +40,8 @@ class VarsAttribute extends ModelAttribute
      * @var array
      */
     protected $exceptions = [
-    	Tokens::NOT_DEFINED => Exceptions\LogVarsNotDefinedException::class,
-    	Tokens::NOT_VALID => Exceptions\LogVarsNotValidException::class,
+        Tokens::NOT_DEFINED => Exceptions\LogVarsNotDefinedException::class,
+        Tokens::NOT_VALID => Exceptions\LogVarsNotValidException::class,
         Tokens::NOT_AUTHORIZED => Exceptions\LogVarsNotAuthorizedException::class
     ];
 
@@ -62,10 +61,8 @@ class VarsAttribute extends ModelAttribute
      *
      * @return boolean
      */
-	public function valid(EntityContract $entity, $value)
-	{
-		return true;
-	}
-
-
+    public function valid(EntityContract $entity, $value)
+    {
+        return true;
+    }
 }

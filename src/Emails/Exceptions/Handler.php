@@ -5,7 +5,8 @@ namespace Emails\Exceptions;
 use Railken\Laravel\App\Exceptions\ExceptionHandler;
 use Exception;
 
-class Handler extends ExceptionHandler{
+class Handler extends ExceptionHandler
+{
 
     /**
      * Report or log an exception.
@@ -17,7 +18,6 @@ class Handler extends ExceptionHandler{
      */
     public function report(Exception $exception)
     {
-
     }
 
     /**
@@ -29,9 +29,8 @@ class Handler extends ExceptionHandler{
      */
     public function render($request, Exception $exception)
     {
-    	
+        
         # Return only if render is different
         // return parent::render($request, $exception);
     }
-
 }

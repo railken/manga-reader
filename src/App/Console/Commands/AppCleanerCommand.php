@@ -46,7 +46,6 @@ class AppCleanerCommand extends Command
      */
     public function handle()
     {
-
         $um = new UserManager();
         $users = $um->getRepository()->getExpiredPendingUsers();
 
@@ -55,6 +54,5 @@ class AppCleanerCommand extends Command
         }
 
         $this->info(sprintf("Deleted %s users", count($users)));
-
     }
 }

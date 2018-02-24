@@ -88,7 +88,7 @@ class UserObserver
      */
     public function saved(EntityContract $entity)
     {
-    	// ..
+        // ..
     }
 
     /**

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller as AppController;
 use Core\Permission\UserAgent;
 use Illuminate\Http\Request;
 
-
 class Controller extends AppController
 {
     /**
@@ -14,7 +13,7 @@ class Controller extends AppController
      *
      * @param array $data
      * @param integer $code
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function success($data = [], $code = 200)
@@ -27,7 +26,7 @@ class Controller extends AppController
      *
      * @param array $data
      * @param integer $code
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function error($data = [], $code = 400)
@@ -40,7 +39,7 @@ class Controller extends AppController
      *
      * @param array $data
      * @param integer $code
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function not_found($data = [], $code = 404)
@@ -53,7 +52,7 @@ class Controller extends AppController
      *
      * @param array $data
      * @param integer $code
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function response($data = [], $code = 200)
@@ -98,8 +97,6 @@ class Controller extends AppController
      */
     public function initialize(Request $request)
     {
-
         $this->manager->setAgent(new UserAgent($this->getUser()));
-
     }
 }

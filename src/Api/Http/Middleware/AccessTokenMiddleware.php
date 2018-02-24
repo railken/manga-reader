@@ -9,11 +9,10 @@ class AccessTokenMiddleware
 {
     public function handle($request, Closure $next)
     {
-    	$request->server->set('ACCEPT', 'application/json'); 
+        $request->server->set('ACCEPT', 'application/json');
 
-    	$request->headers = new HeaderBag($request->server->getHeaders()); 
+        $request->headers = new HeaderBag($request->server->getHeaders());
 
-    	return $next($request); 
-
+        return $next($request);
     }
 }

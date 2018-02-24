@@ -9,7 +9,6 @@ use Core\Chapter\Exceptions as Exceptions;
 use Respect\Validation\Validator as v;
 use Railken\Laravel\Manager\ModelValidator;
 
-
 class ChapterValidator extends ModelValidator
 {
 }

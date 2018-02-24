@@ -30,7 +30,7 @@ class UserController extends Controller
         // $this->initialize($request);
         return $this->success(['data' => [
             'resource' => $this->manager->serializer->serialize(
-                $this->getUser(), 
+                $this->getUser(),
                 collect(['id', 'username', 'email', 'avatar', 'jobs'])
             )->all()
         ]]);

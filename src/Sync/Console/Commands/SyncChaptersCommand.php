@@ -46,8 +46,6 @@ class SyncChaptersCommand extends Command
      */
     public function handle()
     {
-
-
         $this->manager = new MangaManager();
 
         $manga = $this->manager->findOneBy(['id' => $this->argument('manga_id')]);

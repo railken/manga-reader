@@ -39,7 +39,6 @@ class SyncChaptersJob implements ShouldQueue
      */
     public function handle()
     {
-
         $this->mangafox = new Mangafox();
         $this->manager = new ChapterManager();
 
@@ -52,12 +51,9 @@ class SyncChaptersJob implements ShouldQueue
 
         foreach ($manga->volumes as $volume) {
             foreach ($volume->chapters as $mangafox_chapter) {
-
                 $chapter = $this->manager->findOneBy(['manga_id' => $this->manga->id, 'number' => $mangafox_chapter->number]);
 
                 if (!$chapter) {
-
-
                     $parent = $this->logger->log("info", "manga:sync:chapters", "A new chapter has been found for manga #{$this->manga->id} '{$this->manga->title}': V{$mangafox_chapter->volume} C{$mangafox_chapter->number} - {$mangafox_chapter->title}");
 
                     $chapter = $this->manager->create([
@@ -70,14 +66,12 @@ class SyncChaptersJob implements ShouldQueue
                     ]);
 
                     $chapter = $chapter->getResource();
-
                 } else {
-
                 }
                 
-                if ($chapter->scans === NULL)
+                if ($chapter->scans === null) {
                     dispatch((new \Sync\Jobs\DownloadScanJob($chapter))->onQueue('sync.index'));
-
+                }
             }
         }
 
@@ -97,10 +91,9 @@ class SyncChaptersJob implements ShouldQueue
     {
         $parent = $this->logger->log("error", "manga:sync:chapters", "Error while indexing chapters for manga #{$this->manga->id} '{$this->manga->title}'", [
             'exception' => [
-                'class' => get_class($exception), 
+                'class' => get_class($exception),
                 'message' => $exception->getMessage()
             ]
         ]);
     }
-
 }

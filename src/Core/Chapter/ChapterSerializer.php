@@ -21,20 +21,18 @@ class ChapterSerializer extends ModelSerializer
      * @param Collection $select
      * @param string $attribute
      * @param Serializer $manager
-     * 
+     *
      * @return void
      */
     public function serializeEntity($bag, $entity, $select, $attribute, $manager)
     {
-        
-        $sub = $select->filter(function($v) use ($attribute) { 
-            return preg_match("/^{$attribute}\./", $v); 
+        $sub = $select->filter(function ($v) use ($attribute) {
+            return preg_match("/^{$attribute}\./", $v);
         });
 
         if ($sub->count() > 0) {
-
-            $sub_select = $sub->map(function($v) use ($attribute) { 
-                return preg_replace("/^{$attribute}\./", "", $v); 
+            $sub_select = $sub->map(function ($v) use ($attribute) {
+                return preg_replace("/^{$attribute}\./", "", $v);
             });
 
             $bag->$attribute = $entity->$attribute ? $manager->serializer->serialize($entity->$attribute, $sub_select)->all() : null;
@@ -51,11 +49,11 @@ class ChapterSerializer extends ModelSerializer
      */
     public function serialize(EntityContract $entity, Collection $select = null)
     {
-
         $bag = new Bag($entity->toArray());
 
-        if ($select && $select->search('resources'))
+        if ($select && $select->search('resources')) {
             $bag->set('resources', $entity->resources);
+        }
 
         $select && $this->serializeEntity($bag, $entity, $select, 'manga', new MangaManager());
 
@@ -71,13 +69,13 @@ class ChapterSerializer extends ModelSerializer
             $bag->set('prev', $prev ? $this->serialize($prev, new Collection(['id', 'number', 'title']))->toArray() : null);
         }
         
-        if ($select)
+        if ($select) {
             $bag = $bag->only($select->toArray());
+        }
 
 
         // $bag = $bag->only($this->manager->authorizer->getAuthorizedAttributes(Tokens::PERMISSION_SHOW, $entity)->keys()->toArray());
 
         return $bag;
     }
-
 }

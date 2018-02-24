@@ -50,6 +50,4 @@ abstract class Provider implements ProviderContract
     {
         return $this->client_secret;
     }
-
-
 }

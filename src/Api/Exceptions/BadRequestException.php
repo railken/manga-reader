@@ -9,24 +9,24 @@ use ArrayAccess;
 class BadRequestException extends Exception
 {
 
-	/**
-	 * A list of errors that has been detected during request
-	 *
-	 * @var ArrayAccess
-	 */
-	protected $errors;
+    /**
+     * A list of errors that has been detected during request
+     *
+     * @var ArrayAccess
+     */
+    protected $errors;
 
-	/**
-	 * Construct
-	 *
-	 * @param ArrayAccess $errors
-	 */
-	public function __construct(ArrayAccess $errors)
-	{
-		$this->errors = $errors;
+    /**
+     * Construct
+     *
+     * @param ArrayAccess $errors
+     */
+    public function __construct(ArrayAccess $errors)
+    {
+        $this->errors = $errors;
 
-		$this->message = $errors->map(function($error) {
-			return $error->toArray();
-		});
-	}
+        $this->message = $errors->map(function ($error) {
+            return $error->toArray();
+        });
+    }
 }

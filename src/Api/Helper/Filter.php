@@ -6,7 +6,6 @@ use Api\Helper\Exceptions as Exceptions;
 
 class Filter
 {
-
     protected $only = [];
 
     public function __construct($only = [])
@@ -15,7 +14,7 @@ class Filter
     }
 
     /**
-     * Filter query with where 
+     * Filter query with where
      *
      * @param QueryBuilder $query
      * @param stdClass $filter
@@ -25,21 +24,22 @@ class Filter
      */
     public function build($query, $filter, $logic_operator = "and")
     {
-
         if (is_string($filter)) {
             $filter = $this->transform($filter);
         }
 
-        if (!$filter)
+        if (!$filter) {
             return;
+        }
 
 
         if (is_array($filter)) {
-            foreach($filter as $s_filter)
+            foreach ($filter as $s_filter) {
                 $this->build($query, $s_filter, $logic_operator);
+            }
 
             return;
-        }   
+        }
 
         $values = $filter->value;
         $operator = $filter->operator;
@@ -51,17 +51,18 @@ class Filter
         $sub_where = ((object)['and' => 'where', 'or' => 'orWhere'])->$logic_operator;
 
 
-        $operator == "or"           && $query->{"{$sub_where}"}(function($sub_query) use ($values) {
+        $operator == "or"           && $query->{"{$sub_where}"}(function ($sub_query) use ($values) {
             $this->build($sub_query, $values, "or");
         });
 
-        $operator == "and"          && $query->{"{$sub_where}"}(function($sub_query) use ($values) {
-             $this->build($sub_query, $values, "and");
+        $operator == "and"          && $query->{"{$sub_where}"}(function ($sub_query) use ($values) {
+            $this->build($sub_query, $values, "and");
         });
 
 
-        if (!in_array($key, $this->only))
+        if (!in_array($key, $this->only)) {
             return;
+        }
 
         $operator == "in"           && $query->{"{$sub_where}In"}($key, $values);
 
@@ -75,26 +76,23 @@ class Filter
     }
 
     /**
-     * Convert the string query into an object (e.g.) 
+     * Convert the string query into an object (e.g.)
      *
-     * @param string $query (e.g.) title eq 'something' 
+     * @param string $query (e.g.) title eq 'something'
      *
      * @return Object
      */
     public function transform($query)
     {
-
         $filter = "(".$query.")";
         $buffer_string = "";
 
         try {
-
             $node = new FilterSupportNode();
             $in_string = false;
             $escape = false;
 
             foreach (str_split($filter) as $char) {
-
                 if ($char == "\\") {
                     $escape = !$escape;
                 }
@@ -104,15 +102,14 @@ class Filter
                 }
 
                 if ($in_string) {
-
                     $buffer_string .= $char;
                 } else {
-
                     switch ($char) {
 
-                        case  "(": 
-                            if (!empty(trim($buffer_string)))
+                        case  "(":
+                            if (!empty(trim($buffer_string))) {
                                 $node->parts[] = $buffer_string;
+                            }
 
                             $new = new FilterSupportNode();
                             $new->parent = $node;
@@ -124,8 +121,9 @@ class Filter
 
                         case ")":
 
-                            if (!empty(trim($buffer_string)))
+                            if (!empty(trim($buffer_string))) {
                                 $node->parts[] = $buffer_string;
+                            }
 
 
                             # // Going up? Resolving current parts.
@@ -135,40 +133,37 @@ class Filter
                             $current_value = null;
                             $last_logic_operator = "and";
 
-                            // 
+                            //
                             $subs = [];
 
                             foreach ($node->parts as $part) {
-
                                 if (in_array($part, ['or', 'and'])) {
-
                                     $current_key = null;
                                     $current_value = null;
                                     $current_operator = null;
                                     $last_logic_operator = $part;
-                                } else if (in_array($part, ['eq', 'gt', 'lt', 'in', 'contains'])) {
-
-                                    if ($current_key !== null)
+                                } elseif (in_array($part, ['eq', 'gt', 'lt', 'in', 'contains'])) {
+                                    if ($current_key !== null) {
                                         $current_operator = $part;
+                                    }
                                 } else {
-
                                     if ($current_key !== null && $current_value == null) {
                                         $current_value = $part;
                                     }
 
                                     if ($current_key == null) {
                                         $current_key = $part;
-                                    } 
-
+                                    }
                                 }
 
                                 if ($current_key !== null && $current_operator !== null && $current_value !== null) {
-
-                                    if ($current_value[0] == "\"")
+                                    if ($current_value[0] == "\"") {
                                         $current_value = substr($current_value, 1, -1);
+                                    }
 
-                                    if ($current_operator == "in")
+                                    if ($current_operator == "in") {
                                         $current_value = explode(",", $current_value);
+                                    }
 
                                     $subs[] = new FilterNode($current_key, $current_operator, $current_value);
                                 }
@@ -185,8 +180,9 @@ class Filter
                         break;
 
                         case " ":
-                            if (!empty(trim($buffer_string)))
+                            if (!empty(trim($buffer_string))) {
                                 $node->parts[] = $buffer_string;
+                            }
 
                             $buffer_string = "";
                         break;
@@ -197,7 +193,6 @@ class Filter
                         break;
 
                     }
-
                 }
 
                 if ($char != "\\") {
@@ -211,7 +206,6 @@ class Filter
             }
 
             return $node->childs[0];
-        
         } catch (\Exception $e) {
             throw new Exceptions\FilterSyntaxException($string);
         }

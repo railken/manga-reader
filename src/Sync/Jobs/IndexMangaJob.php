@@ -38,8 +38,6 @@ class IndexMangaJob implements ShouldQueue
      */
     public function handle()
     {
-
-
         $parent = $this->logger->log("info", "manga:sync:index", "Retrieving info about {$this->uid}");
 
         $this->mangafox = new Mangafox();
@@ -72,9 +70,7 @@ class IndexMangaJob implements ShouldQueue
         try {
             Storage::put("public/manga/{$entity->slug}/covers/cover.{$ext}", file_get_contents($result->cover));
         } catch (Exception $e) {
-
         }
-
     }
 
     /**
@@ -88,10 +84,9 @@ class IndexMangaJob implements ShouldQueue
     {
         $parent = $this->logger->log("error", "manga:sync:index", "Error while retrieving info about {$this->uid}", [
             'exception' => [
-                'class' => get_class($exception), 
+                'class' => get_class($exception),
                 'message' => $exception->getMessage()
             ]
         ]);
     }
-
 }

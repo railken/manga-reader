@@ -37,5 +37,4 @@ abstract class ChapterAttributeException extends ChapterException
 
         return parent::__construct($value);
     }
-
 }

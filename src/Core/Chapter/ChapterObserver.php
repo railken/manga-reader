@@ -88,7 +88,7 @@ class ChapterObserver
      */
     public function saved(EntityContract $entity)
     {
-    	// ..
+        // ..
     }
 
     /**

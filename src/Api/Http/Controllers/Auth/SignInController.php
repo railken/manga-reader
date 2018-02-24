@@ -77,7 +77,7 @@ class SignInController extends Controller
                 ]
             ]);
         } catch (\Exception $e) {
-            return $this->error([ 
+            return $this->error([
                 'code' => "AUTH.CREDENTIALS_NOT_VALID",
                 'message' => 'Credenziali errate'
             ]);
@@ -86,12 +86,12 @@ class SignInController extends Controller
         $body = json_decode($response->getBody());
 
 
-        if (isset($body->access_token))
+        if (isset($body->access_token)) {
             return $this->success(['data' => $body]);
+        }
 
 
         return $this->error(['message' => $body->error]);
-
     }
 
     /**
@@ -116,19 +116,17 @@ class SignInController extends Controller
         try {
             $response = $provider->issueAccessToken($request);
             $access_token = $response->access_token;
-
         } catch (\Exception $e) {
             return $this->error([
                 'code' => 'AUTH.PROVIDER.CODE_NOT_VALID',
                 'message' => 'Code invalid or expired'
             ]);
-        } 
+        }
 
         return $this->success([
             'access_token' => $access_token,
             'provider' => $provider->getName(),
         ]);
-
     }
 
     /**
@@ -140,7 +138,6 @@ class SignInController extends Controller
      */
     public function serializeToken($token)
     {
-
         return [
             'access_token' => $token->accessToken,
             'token_type' => 'Bearer',
@@ -188,7 +185,7 @@ class SignInController extends Controller
                 'code' => 'AUTH.PROVIDER.ACCESS_TOKEN_NOT_VALID',
                 'message' => 'Token invalid or expired'
             ]);
-        } 
+        }
 
         $user = $this->manager->getRepository()->findOneByEmail($provider_user->email);
 
@@ -212,5 +209,4 @@ class SignInController extends Controller
 
         return $this->success($this->serializeToken($token));
     }
-
 }

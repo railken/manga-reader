@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class UserPendingEmail extends Model
 {
     
-	/**
-	 * The table associated with the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users_pending_emails';
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users_pending_emails';
 
     /**
      * The attributes that are mass assignable.
@@ -41,5 +41,4 @@ class UserPendingEmail extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 }

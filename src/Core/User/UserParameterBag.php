@@ -8,24 +8,23 @@ use Railken\Laravel\Manager\ParameterBag;
 class UserParameterBag extends ParameterBag
 {
 
-	/**
-	 * Filter current bag
-	 *
-	 * @return $this
-	 */
-	public function filterWrite()
-	{
-		return $this;
-	}
+    /**
+     * Filter current bag
+     *
+     * @return $this
+     */
+    public function filterWrite()
+    {
+        return $this;
+    }
 
-	/**
-	 * Filter current bag for a search
-	 *
-	 * @return $this
-	 */
-	public function filterRead()
-	{
-		return $this;
-	}
-
+    /**
+     * Filter current bag for a search
+     *
+     * @return $this
+     */
+    public function filterRead()
+    {
+        return $this;
+    }
 }

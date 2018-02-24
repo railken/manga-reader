@@ -24,14 +24,14 @@ trait RestRemoveTrait
     {
         $resource = $this->manager->findOneBy(['id' => $id]);
 
-        if (!$resource)
+        if (!$resource) {
             return $this->not_found();
+        }
 
         $result = $this->manager->remove($resource);
 
-        return $result->ok() 
+        return $result->ok()
             ? $this->success(['message' => 'Removed'])
             : $this->error(['errors' => $result->getSimpleErrors()]);
     }
-
 }

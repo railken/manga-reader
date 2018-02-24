@@ -12,7 +12,6 @@ use Api\Http\Controllers\Traits\RestIndexTrait;
 
 class LibraryController extends RestController
 {
-
     use RestIndexTrait;
 
     protected static $fillable = [];
@@ -21,17 +20,17 @@ class LibraryController extends RestController
         'id',
         'title',
         'slug',
-        'overview', 
-        'aliases', 
-        'mangafox_url', 
-        'mangafox_uid', 
-        'mangafox_id', 
-        'status', 
-        'artist', 
-        'author', 
-        'aliases', 
+        'overview',
+        'aliases',
+        'mangafox_url',
+        'mangafox_uid',
+        'mangafox_id',
+        'status',
+        'artist',
+        'author',
+        'aliases',
         'follow',
-        'genres', 
+        'genres',
         'cover',
         'released_year',
         'created_at',
@@ -71,11 +70,13 @@ class LibraryController extends RestController
         $user = $this->getUser();
         $manga = $this->manager->repository->findOneByIdOrSlug($key);
 
-        if (!$manga)
+        if (!$manga) {
             return $this->error(['code' => 'LIBRARY_MANGA_NOT_FOUND', 'message' => 'manga not found']);
+        }
 
-        if ($user->hasMangaInLibrary($manga))
+        if ($user->hasMangaInLibrary($manga)) {
             return $this->error(['code' => 'LIBRARY_MANGA_ALREADY_IN', 'message' => 'manga already in the library']);
+        }
 
         $user->library()->attach($manga);
 
@@ -95,11 +96,13 @@ class LibraryController extends RestController
         $user = $this->getUser();
         $manga = $this->manager->repository->findOneByIdOrSlug($key);
 
-        if (!$manga)
+        if (!$manga) {
             return $this->error(['code' => 'LIBRARY_MANGA_NOT_FOUND', 'message' => 'manga not found']);
+        }
 
-        if (!$user->hasMangaInLibrary($manga))
+        if (!$user->hasMangaInLibrary($manga)) {
             return $this->error(['code' => 'LIBRARY_MANGA_ALREADY_NOT_IN', 'message' => 'manga already not in the library']);
+        }
 
         $user->library()->detach($manga);
 

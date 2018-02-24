@@ -79,7 +79,6 @@ class ChaptersController extends RestController
      */
     public function parseKey($key)
     {
-
         if ($key === 'number') {
             return \DB::raw('CAST(number as DECIMAL(10,5))');
         }

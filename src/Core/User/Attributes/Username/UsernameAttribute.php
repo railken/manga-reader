@@ -2,7 +2,6 @@
 
 namespace Core\User\Attributes\Username;
 
-
 use Railken\Laravel\Manager\Contracts\EntityContract;
 use Railken\Laravel\Manager\ModelAttribute;
 use Railken\Laravel\Manager\Traits\AttributeValidateTrait;
@@ -13,12 +12,12 @@ use Railken\Laravel\Manager\Tokens;
 class UsernameAttribute extends ModelAttribute
 {
 
-	/**
-	 * Name attribute
-	 *
-	 * @var string
-	 */
-	protected $name = 'username';
+    /**
+     * Name attribute
+     *
+     * @var string
+     */
+    protected $name = 'username';
 
     /**
      * Is the attribute required
@@ -29,7 +28,7 @@ class UsernameAttribute extends ModelAttribute
     protected $required = true;
 
     /**
-     * Is the attribute unique 
+     * Is the attribute unique
      *
      * @var boolean
      */
@@ -41,8 +40,8 @@ class UsernameAttribute extends ModelAttribute
      * @var array
      */
     protected $exceptions = [
-    	Tokens::NOT_DEFINED => Exceptions\UserUsernameNotDefinedException::class,
-    	Tokens::NOT_VALID => Exceptions\UserUsernameNotValidException::class,
+        Tokens::NOT_DEFINED => Exceptions\UserUsernameNotDefinedException::class,
+        Tokens::NOT_VALID => Exceptions\UserUsernameNotValidException::class,
         Tokens::NOT_AUTHORIZED => Exceptions\UserUsernameNotAuthorizedException::class
     ];
 
@@ -62,10 +61,8 @@ class UsernameAttribute extends ModelAttribute
      *
      * @return boolean
      */
-	public function valid(EntityContract $entity, $value)
-	{
+    public function valid(EntityContract $entity, $value)
+    {
         return v::length(3, 32)->validate($value);
-	}
-
-
+    }
 }

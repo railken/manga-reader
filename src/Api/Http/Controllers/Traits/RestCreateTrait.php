@@ -21,15 +21,12 @@ trait RestCreateTrait
      */
     public function create(Request $request)
     {
-
         $manager = $this->manager;
 
         $result = $manager->create($request->only($this->keys->fillable));
 
-        return $result->ok() 
+        return $result->ok()
             ? $this->success(['resource' => $manager->serializer->serialize($result->getResource(), $this->keys->selectable)->all()])
             : $this->error(['errors' => $result->getSimpleErrors()]);
-
     }
-
 }

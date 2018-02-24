@@ -40,7 +40,6 @@ class DownloadScanJob implements ShouldQueue
      */
     public function handle()
     {
-
         $parent = $this->logger->log("info", "manga:sync:download", "Downloading chapter #{$this->chapter->id} for manga #{$this->chapter->manga->id} '{$this->chapter->manga->title}'");
 
         $mangafox = new Mangafox();
@@ -51,8 +50,7 @@ class DownloadScanJob implements ShouldQueue
         $chapter->scans = null;
         $chapter->save();
         
-        $mangafox->scan($chapter->manga->mangafox_uid, $chapter->volume, $chapter->number)->get()->each(function($scan, $key) use($manga, $chapter) {
-            
+        $mangafox->scan($chapter->manga->mangafox_uid, $chapter->volume, $chapter->number)->get()->each(function ($scan, $key) use ($manga, $chapter) {
             $ext = pathinfo(strtok($scan->scan, '?'), PATHINFO_EXTENSION);
             $key = str_pad($key, 5, '0', STR_PAD_LEFT);
             $filename = $chapter->getPathChapter()."/{$key}.{$ext}";
@@ -60,12 +58,10 @@ class DownloadScanJob implements ShouldQueue
             try {
                 Storage::put($filename, file_get_contents($scan->scan));
             } catch (\Exception $e) {
-
             }
         });
         $chapter->scans = 1;
         $chapter->save();
-
     }
 
 
@@ -80,10 +76,9 @@ class DownloadScanJob implements ShouldQueue
     {
         $parent = $this->logger->log("error", "manga:sync:download", "Error while downloading scans for a chapter", [
             'exception' => [
-                'class' => get_class($exception), 
+                'class' => get_class($exception),
                 'message' => $exception->getMessage()
             ]
         ]);
     }
-
 }

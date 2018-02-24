@@ -10,52 +10,51 @@ use Illuminate\Support\Facades\Storage;
 
 class Manga extends Model implements EntityContract
 {
+    use SoftDeletes;
 
-	use SoftDeletes;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'manga';
 
-	/**
-	 * The table associated with the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'manga';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'overview',
+        'aliases',
+        'mangafox_url',
+        'mangafox_uid',
+        'mangafox_id',
+        'artist',
+        'author',
+        'aliases',
+        'genres',
+        'released_year',
+        'status',
+        'follow',
+        'slug',
+        'synced_at',
+        'last_chapter_released_at'
+    ];
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-		'title', 
-		'overview', 
-		'aliases',
-		'mangafox_url', 
-		'mangafox_uid', 
-		'mangafox_id', 
-		'artist', 
-		'author', 
-		'aliases', 
-		'genres', 
-		'released_year', 
-		'status',
-		'follow', 
-		'slug',
-		'synced_at',
-		'last_chapter_released_at'
-	];
-
-	/**
-	 * The attributes that should be mutated to dates.
-	 *
-	 * @var array
-	 */
-	protected $dates = [
-		'deleted_at',
-		'synced_at',
-		'last_chapter_released_at'
-	];
-	
-	/**
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'deleted_at',
+        'synced_at',
+        'last_chapter_released_at'
+    ];
+    
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -80,8 +79,7 @@ class Manga extends Model implements EntityContract
      * @return string
      */
     public function getCoverAttribute()
-    {   
+    {
         return env("APP_URL").Storage::url("public/manga/{$this->slug}/covers/cover.jpg");
     }
-
 }

@@ -37,5 +37,4 @@ abstract class UserAttributeException extends UserException
 
         return parent::__construct($value);
     }
-
 }

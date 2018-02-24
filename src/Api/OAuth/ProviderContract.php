@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 interface ProviderContract
 {
-
     public function getName();
     
     public function setClientId($client_id);
@@ -20,6 +19,4 @@ interface ProviderContract
     public function issueAccessToken(Request $request);
 
     public function getUser($token);
-
-
 }

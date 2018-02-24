@@ -27,7 +27,6 @@ class GitlabProvider extends Provider
      */
     public function __construct()
     {
-
     }
 
     /**

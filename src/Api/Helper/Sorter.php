@@ -21,5 +21,4 @@ class Sorter
 
         return $bag;
     }
-
 }

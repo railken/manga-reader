@@ -28,7 +28,6 @@ class GoogleProvider extends Provider
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -38,7 +37,6 @@ class GoogleProvider extends Provider
      */
     public function issueAccessToken(Request $request)
     {
-
         $client = new \GuzzleHttp\Client();
 
         try {
@@ -99,4 +97,5 @@ class GoogleProvider extends Provider
         $user->avatar = $body->picture;
 
         return $user;
-    }}
+    }
+}

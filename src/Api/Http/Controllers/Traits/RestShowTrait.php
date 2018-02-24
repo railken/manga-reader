@@ -24,12 +24,12 @@ trait RestShowTrait
     {
         $resource = $this->findOneByIdentifier($key);
 
-        if (!$resource)
+        if (!$resource) {
             return $this->not_found();
+        }
 
         return $this->success([
             'resource' => $this->manager->serializer->serialize($resource, $this->keys->selectable)->all()
         ]);
     }
-
 }

@@ -37,5 +37,4 @@ abstract class MangaAttributeException extends MangaException
 
         return parent::__construct($value);
     }
-
 }

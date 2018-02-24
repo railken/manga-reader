@@ -55,9 +55,7 @@ class IndexerJob implements ShouldQueue
         \Log::info("Processing: ".count($results)." manga");
 
         foreach ($results as $result) {
-
             if (!$manager->findOneBy(['mangafox_uid' => $result->uid])) {
-
                 \Log::info("{$result->uid} doesn't exists");
                 $manager->create([
                     'title' => $result->name,
@@ -66,22 +64,17 @@ class IndexerJob implements ShouldQueue
                     'mangafox_uid' => $result->uid,
                     'mangafox_id' => $result->id
                 ]);
-
             }
 
             if ($manager->getRepository()->getQuery()->where('mangafox_uid', $result->uid)->whereNull('released_year')->count() > 0) {
-
                 \Log::info("Dispatch {$result->uid}");
 
                 try {
                     dispatch((new \Sync\Jobs\IndexMangaJob($result->uid))->onQueue('sync.index'));
                 } catch (\Exception $e) {
-
-                 \Log::info("Error detected: {$e->getMessage()}");
+                    \Log::info("Error detected: {$e->getMessage()}");
                 }
             }
-
         }
-
     }
 }

@@ -10,32 +10,31 @@ use Illuminate\Support\Facades\Storage;
 
 class Chapter extends Model implements EntityContract
 {
+    use SoftDeletes;
 
-	use SoftDeletes;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'chapters';
 
-	/**
-	 * The table associated with the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'chapters';
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['id', 'number', 'volume', 'title', 'slug', 'scans', 'manga_id', 'released_at'];
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = ['id', 'number', 'volume', 'title', 'slug', 'scans', 'manga_id', 'released_at'];
-
-	/**
-	 * The attributes that should be mutated to dates.
-	 *
-	 * @var array
-	 */
-	protected $dates = [
-		'released_at', 
-		'deleted_at'
-	];
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'released_at',
+        'deleted_at'
+    ];
 
     /**
      * Chapter N -> 1 Manga
@@ -75,7 +74,7 @@ class Chapter extends Model implements EntityContract
      * @return string
      */
     public function getPathChapter()
-    {   
+    {
         $volume = $this->volume == "-1" ? $this->volume : str_pad($this->volume, 5, '0', STR_PAD_LEFT);
         $number = str_pad($this->number, 5, '0', STR_PAD_LEFT);
 
@@ -89,20 +88,19 @@ class Chapter extends Model implements EntityContract
      */
     public function getResourcesAttribute()
     {
-        
         $resources = collect();
 
-        if (!$this->scans)
+        if (!$this->scans) {
             return $resources;
+        }
 
         $filename = $this->getPathChapter();
 
-    	
-    	foreach (Storage::allFiles($filename) as $resource) {
-    		$resources[] = env("APP_URL").Storage::url($resource);
-    	}	
+        
+        foreach (Storage::allFiles($filename) as $resource) {
+            $resources[] = env("APP_URL").Storage::url($resource);
+        }
 
-    	return $resources;
-
+        return $resources;
     }
 }

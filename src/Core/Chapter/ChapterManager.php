@@ -20,12 +20,12 @@ class ChapterManager extends ModelManager
         Tokens::NOT_AUTHORIZED => Exceptions\ChapterNotAuthorizedException::class
     ];
 
-	
+    
     /**
      * Construct
      */
     public function __construct(AgentContract $agent = null)
-    {   
-    	parent::__construct($agent);
+    {
+        parent::__construct($agent);
     }
 }

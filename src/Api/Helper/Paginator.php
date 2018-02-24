@@ -39,5 +39,4 @@ class Paginator
 
         return $bag;
     }
-
 }

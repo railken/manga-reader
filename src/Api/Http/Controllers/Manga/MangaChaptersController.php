@@ -78,10 +78,9 @@ class MangaChaptersController extends RestController
      */
     public function index($manga_key, Request $request)
     {
-
         $pc = new ChaptersController($this->manager);
-        $query = $request->input('query') 
-            ? "(manga.id eq {$manga_key} or manga.slug eq {$manga_key}) and (".$request->input('query').")" 
+        $query = $request->input('query')
+            ? "(manga.id eq {$manga_key} or manga.slug eq {$manga_key}) and (".$request->input('query').")"
             : "manga.id eq {$manga_key} or manga.slug eq {$manga_key}";
 
 
@@ -101,23 +100,21 @@ class MangaChaptersController extends RestController
      */
     public function show($key, $number, Request $request)
     {
-
         $resource = $this->manager->repository->getQuery()
             ->leftJoin('manga as manga', 'manga.id', '=', 'chapters.manga_id')
-            ->where(function($q) use ($key) {
+            ->where(function ($q) use ($key) {
                 return $q->orWhere('manga.id', $key)->orWhere('manga.slug', $key);
             })
             ->where('chapters.number', $number)
             ->select('chapters.*')
             ->first();
 
-        if (!$resource)
+        if (!$resource) {
             return $this->not_found();
+        }
 
         return $this->success([
             'resource' => $this->manager->serializer->serialize($resource, $this->keys->selectable)->all()
         ]);
     }
-
-    
 }

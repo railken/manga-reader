@@ -12,11 +12,8 @@ use Railken\Bag;
 
 abstract class RestController extends Controller
 {
-
-    
     public function __construct()
     {
-
         $this->keys = new Bag();
         $this->keys->query = static::$query;
         $this->keys->selectable = collect(empty(static::$selectable) ? static::$query : static::$selectable);
@@ -43,7 +40,6 @@ abstract class RestController extends Controller
      */
     public function parseKey($key)
     {
-
         $keys = explode(".", $key);
 
         if (count($keys) === 1) {
@@ -68,6 +64,5 @@ abstract class RestController extends Controller
             ->serializer
             ->serialize($record, $select)
             ->all();
-
     }
 }

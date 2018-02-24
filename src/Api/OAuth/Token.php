@@ -35,7 +35,6 @@ class Token
 
 
         if ($session && $session->access_token && ($session->access_token->expire_time > time())) {
-
             return $session->access_token;
         }
 

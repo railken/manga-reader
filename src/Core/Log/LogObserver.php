@@ -88,7 +88,7 @@ class LogObserver
      */
     public function saved(EntityContract $entity)
     {
-    	// ..
+        // ..
     }
 
     /**

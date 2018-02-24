@@ -21,23 +21,22 @@ class LogManager extends ModelManager
     ];
 
 
-	/**
-	 * Attributes
-	 *
-	 * @var array
-	 */
-	protected $attributes = [
-		Attributes\Message\MessageAttribute::class,
-		Attributes\Category\CategoryAttribute::class,
-		Attributes\Vars\VarsAttribute::class,
-	];
-	
+    /**
+     * Attributes
+     *
+     * @var array
+     */
+    protected $attributes = [
+        Attributes\Message\MessageAttribute::class,
+        Attributes\Category\CategoryAttribute::class,
+        Attributes\Vars\VarsAttribute::class,
+    ];
+    
     /**
      * Construct
      */
     public function __construct(AgentContract $agent = null)
-    {   
-    	parent::__construct($agent);
+    {
+        parent::__construct($agent);
     }
-
 }

@@ -9,8 +9,6 @@ use Core\Manga\Exceptions as Exceptions;
 use Respect\Validation\Validator as v;
 use Railken\Laravel\Manager\ModelValidator;
 
-
 class MangaValidator extends ModelValidator
 {
-
 }
