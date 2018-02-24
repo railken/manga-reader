@@ -7,6 +7,8 @@ use Railken\Laravel\Manager\ModelManager;
 use Railken\Laravel\Manager\ParameterBag;
 use Railken\Laravel\Manager\Contracts\AgentContract;
 use Railken\Laravel\Manager\Tokens;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 
 class UserManager extends ModelManager
 {
@@ -82,5 +84,46 @@ class UserManager extends ModelManager
         $entity->pendingEmail && $entity->pendingEmail->delete();
         $entity->library && $entity->library()->sync([]);
         $r = parent::delete($entity);
+    }
+
+    /**
+     * Change user password
+     *
+     * @param EntityContract $user
+     * @param string $password_old,
+     * @param string $password_new,
+     */
+    public function changePassword(EntityContract $user, $password_old, $password_new)
+    {
+        // Check password_old
+
+        $errors = new Collection();
+
+        !$this->checkPassword($user, $password_old) && $errors->push(new Attributes\Password\Exceptions\UserPasswordOldNotValidException());
+
+        if ($errors->count() > 0) {
+
+            $result = new \Railken\Laravel\Manager\ResultAction();
+            $result->addErrors($errors);
+
+            return $result;
+        }
+
+        return $this->update($user, new UserParameterBag(['password' => $password_new]));
+
+    }
+
+
+    /**
+     * Is current password
+     *
+     * @param EntityContract $user
+     * @param string $password
+     *
+     * @return boolean
+     */
+    public function checkPassword(EntityContract $user, $password)
+    {
+        return Hash::check($password, $user->password);
     }
 }
