@@ -23,12 +23,31 @@ class AccountController extends Controller
      *
      * @param Request $request
      *
-     * @return response
+     * @return Response
      */
     public function password(Request $request)
     {
        
         $result = $this->manager->changePassword($this->getUser(), $request->input('password_old'), $request->input('password'));
+
+        if (!$result->ok()) {
+            return $this->error(['errors' => $result->getSimpleErrors()]);
+        }
+
+        return $this->success();
+    }
+
+    /**
+     * Delete account
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function delete(Request $request)
+    {
+       
+        $result = $this->manager->delete($this->getUser(), $request->input('password', ''));
 
         if (!$result->ok()) {
             return $this->error(['errors' => $result->getSimpleErrors()]);

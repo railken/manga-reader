@@ -40,6 +40,7 @@ Route::group(['middleware' => ['errors'], 'prefix' => 'v1'], function() {
     Route::group(['middleware' => ['auth:api']], function() {
         Route::get('/user', ['uses' => '\Api\Http\Controllers\User\UserController@index']);
         Route::post('/account/password', ['uses' => '\Api\Http\Controllers\User\AccountController@password']);
+        Route::delete('/account', ['uses' => '\Api\Http\Controllers\User\AccountController@delete']);
 
         Route::get('/library', ['uses' => '\Api\Http\Controllers\Manga\LibraryController@index']);
         Route::post('/library/{key}', ['uses' => '\Api\Http\Controllers\Manga\LibraryController@addManga']);

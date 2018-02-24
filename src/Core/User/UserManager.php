@@ -79,11 +79,26 @@ class UserManager extends ModelManager
     /**
      * @inherit
      */
-    public function delete(EntityContract $entity)
+    public function delete(EntityContract $entity, $password = null)
     {
+
+        if ($password !== null) {
+            $errors = new Collection();
+
+            !$this->checkPassword($entity, $password) && $errors->push(new Attributes\Password\Exceptions\UserPasswordCurrentNotValidException());
+
+            if ($errors->count() > 0) {
+
+                $result = new \Railken\Laravel\Manager\ResultAction();
+                $result->addErrors($errors);
+
+                return $result;
+            }
+        }
+
         $entity->pendingEmail && $entity->pendingEmail->delete();
         $entity->library && $entity->library()->sync([]);
-        $r = parent::delete($entity);
+        return parent::delete($entity);
     }
 
     /**
