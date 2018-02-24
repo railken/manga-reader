@@ -55,7 +55,7 @@ class UserManager extends ModelManager
 			return $p;
 
 		do {
-			$token = str_random(8)."-".str_random(8);
+			$token = strtoupper(str_random(4)."-".str_random(4));
 			$exists = UserPendingEmail::where('token', $token)->count();
 		} while ($exists > 0);
 
