@@ -43,9 +43,14 @@ class IndexMangaJob implements ShouldQueue
         $this->mangafox = new Mangafox();
         $this->manager = new MangaManager();
 
-        $result = $this->mangafox
-        ->resource($this->uid)
-        ->get();
+        try {
+            $result = $this->mangafox
+            ->resource($this->uid)
+            ->get();
+        } catch (Exception $e) {
+            $this->failed($e);
+            return;
+        }
 
         
         $entity = $this->manager->updateOrCreate(['mangafox_uid' => $result->uid], [

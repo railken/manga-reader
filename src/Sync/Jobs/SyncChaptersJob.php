@@ -42,12 +42,16 @@ class SyncChaptersJob implements ShouldQueue
         $this->mangafox = new Mangafox();
         $this->manager = new ChapterManager();
 
-
         $parent = $this->logger->log("info", "manga:sync:chapters", "Indexing chapters for manga #{$this->manga->id} '{$this->manga->title}'");
 
-        $manga = $this->mangafox
-        ->resource($this->manga->mangafox_uid)
-        ->get();
+        try {
+            $manga = $this->mangafox
+            ->resource($this->manga->mangafox_uid)
+            ->get();
+        } catch (Exception $e) {
+            $this->failed($e);
+            return;
+        }
 
         foreach ($manga->volumes as $volume) {
             foreach ($volume->chapters as $mangafox_chapter) {
