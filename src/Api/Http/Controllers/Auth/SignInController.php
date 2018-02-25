@@ -203,6 +203,9 @@ class SignInController extends Controller
             }
 
             $user = $result->getResource();
+
+            $user->enabled = 1;
+            $user->save();
         }
 
         $token = $user->createToken('login');
