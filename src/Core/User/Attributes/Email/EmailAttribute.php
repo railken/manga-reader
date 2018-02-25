@@ -42,7 +42,8 @@ class EmailAttribute extends ModelAttribute
     protected $exceptions = [
         Tokens::NOT_DEFINED => Exceptions\UserEmailNotDefinedException::class,
         Tokens::NOT_VALID => Exceptions\UserEmailNotValidException::class,
-        Tokens::NOT_AUTHORIZED => Exceptions\UserEmailNotAuthorizedException::class
+        Tokens::NOT_AUTHORIZED => Exceptions\UserEmailNotAuthorizedException::class,
+        Tokens::NOT_UNIQUE => Exceptions\UserEmailNotUniqueException::class
     ];
 
     /**

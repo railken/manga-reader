@@ -36,6 +36,6 @@ class UserConfirmationMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view('Emails::user_confirmation_email')->subject('Welcome to MangaReader');
+        return $this->view($this->user->enabled ? 'Emails::user_confirmation_change_email' : 'Emails::user_confirmation_email')->subject('MangaReader');
     }
 }

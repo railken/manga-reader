@@ -83,6 +83,7 @@ class UserService
         if ($result) {
             $user = $result->user;
             $user->enabled = 1;
+            $user->email = $result->email;
             $user->save();
             $result->delete();
 
@@ -90,5 +91,36 @@ class UserService
         }
 
         return null;
+    }
+
+    /**
+     * Request confirmation email
+     *
+     * @param User $user
+     *
+     * @return void
+     */
+    public function requestChangeEmail(User $user, $email)
+    {
+        
+        $result = $this->manager->changeEmail($user, $email);
+
+
+        if (!$result->ok()){
+            return $result;
+        }
+
+
+        $email = $result->getResource();
+
+
+        // Prevent spam
+        if (!$email->notified_at || ($email->notified_at < (new \Datetime())->modify('+10 minutes'))) {
+            $email->notified_at = new \DateTime();
+            $email->save();
+            event(new Events\UserRequestConfirmEmail($user));
+        }
+
+        return $result;
     }
 }

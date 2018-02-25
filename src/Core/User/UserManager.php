@@ -105,8 +105,10 @@ class UserManager extends ModelManager
      * Change user password
      *
      * @param EntityContract $user
-     * @param string $password_old,
-     * @param string $password_new,
+     * @param string $password_old
+     * @param string $password_new
+     *
+     * @return ResultAction
      */
     public function changePassword(EntityContract $user, $password_old, $password_new)
     {
@@ -130,6 +132,37 @@ class UserManager extends ModelManager
 
 
     /**
+     * Change user email
+     *
+     * @param EntityContract $user
+     * @param string $email
+     *
+     * @return ResultAction
+     */
+    public function changeEmail(EntityContract $user, $email)
+    {
+        $errors = new Collection();
+
+        $this->attributes->filter(function($attribute) {
+            return $attribute->getName() === 'email';
+        })->first()->validate($user, new UserParameterBag(['email' => $email]));
+        
+        $result = new \Railken\Laravel\Manager\ResultAction();
+
+        if ($errors->count() > 0) {
+
+            $result->addErrors($errors);
+
+            return $result;
+        }
+
+        $result->setResources(new Collection([$this->createConfirmationEmailToken($user, $email)]));
+
+        return $result;
+    }
+
+
+    /**
      * Is current password
      *
      * @param EntityContract $user
@@ -141,4 +174,5 @@ class UserManager extends ModelManager
     {
         return Hash::check($password, $user->password);
     }
+
 }

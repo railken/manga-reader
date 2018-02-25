@@ -37,6 +37,28 @@ class AccountController extends Controller
         return $this->success();
     }
 
+
+    /**
+     * Change user email
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function email(Request $request)
+    {
+       
+        $us = new \Core\User\UserService();
+
+        $result = $us->requestChangeEmail($this->getUser(), $request->input('email'));
+
+        if (!$result->ok()) {
+            return $this->error(['errors' => $result->getSimpleErrors()]);
+        }
+
+        return $this->success();
+    }
+
     /**
      * Delete account
      *
