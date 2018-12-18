@@ -97,8 +97,8 @@ class Chapter extends Model implements EntityContract
         $filename = $this->getPathChapter();
 
         
-        foreach (Storage::allFiles($filename) as $resource) {
-            $resources[] = env("APP_URL").Storage::url($resource);
+        foreach (Storage::disk('s3')->allFiles($filename) as $resource) {
+            $resources[] = Storage::disk('s3')->url($resource);
         }
 
         return $resources;

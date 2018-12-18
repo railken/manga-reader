@@ -11,12 +11,13 @@
         "laravel/framework": "5.5.*",
         "laravel/passport": "^4.0",
         "laravel/tinker": "~1.0",
+        "laravolt/avatar": "^2.0",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "railken/bag": "^1.0",
+        "railken/laravel-api-helpers": "^1.0",
         "railken/laravel-application": "^1.0",
         "railken/laravel-manager": "^2.5.0",
-        "railken/laravel-api-helpers": "^1.0",
-        "railken/mangafox": "^1.1",
-        "laravolt/avatar": "^2.0"
+        "railken/mangafox": "^1.1"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

@@ -80,6 +80,6 @@ class Manga extends Model implements EntityContract
      */
     public function getCoverAttribute()
     {
-        return env("APP_URL").Storage::url("public/manga/{$this->slug}/covers/cover.jpg");
+        return Storage::disk('s3')->url("public/manga/{$this->slug}/covers/cover.jpg");
     }
 }

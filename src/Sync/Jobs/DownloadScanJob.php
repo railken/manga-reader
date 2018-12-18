@@ -56,7 +56,7 @@ class DownloadScanJob implements ShouldQueue
             $filename = $chapter->getPathChapter()."/{$key}.{$ext}";
 
             try {
-                Storage::put($filename, file_get_contents($scan->scan));
+                Storage::disk('s3')->put($filename, file_get_contents($scan->scan));
             } catch (\Exception $e) {
             }
         });
