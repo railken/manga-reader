@@ -15,19 +15,7 @@ use Illuminate\Http\Request;
 
 
 
-Route::group(['middleware' => ['errors'], 'prefix' => 'v1'], function() {
-
-
-	Route::post('/sign-in', ['as' => 'login', 'uses' => '\Api\Http\Controllers\Auth\SignInController@signIn']);
-	Route::post('/sign-up', ['uses' => '\Api\Http\Controllers\Auth\RegistrationController@index']);
-    Route::post('/confirm-email', ['uses' => '\Api\Http\Controllers\Auth\RegistrationController@confirmEmail']);
-    Route::post('/request-confirm-email', ['uses' => '\Api\Http\Controllers\Auth\RegistrationController@requestConfirmEmail']);
-
-
-    Route::post('/oauth/{name}/access_token', ['uses' => '\Api\Http\Controllers\Auth\SignInController@accessToken']);
-    Route::post('/oauth/{name}/exchange_token', ['uses' => '\Api\Http\Controllers\Auth\SignInController@exchangeToken']);
-
-
+Route::group(['middleware' => [], 'prefix' => 'v1'], function() {
     Route::get('/releases', ['uses' => '\Api\Http\Controllers\Manga\MangaController@releases']);
     Route::get('/manga', ['uses' => '\Api\Http\Controllers\Manga\MangaController@index']);
     Route::get('/manga/{key}', ['uses' => '\Api\Http\Controllers\Manga\MangaController@show']);
@@ -38,12 +26,6 @@ Route::group(['middleware' => ['errors'], 'prefix' => 'v1'], function() {
     Route::get('/chapters/{key}', ['uses' => '\Api\Http\Controllers\Manga\ChaptersController@show']);
         
     Route::group(['middleware' => ['auth:api']], function() {
-        Route::get('/user', ['uses' => '\Api\Http\Controllers\User\UserController@index']);
-        Route::post('/account/password', ['uses' => '\Api\Http\Controllers\User\AccountController@password']);
-        Route::post('/account/email', ['uses' => '\Api\Http\Controllers\User\AccountController@email']);
-        Route::post('/account/username', ['uses' => '\Api\Http\Controllers\User\AccountController@username']);
-        Route::delete('/account', ['uses' => '\Api\Http\Controllers\User\AccountController@delete']);
-
         Route::get('/library', ['uses' => '\Api\Http\Controllers\Manga\LibraryController@index']);
         Route::post('/library/{key}', ['uses' => '\Api\Http\Controllers\Manga\LibraryController@addManga']);
         Route::delete('/library/{key}', ['uses' => '\Api\Http\Controllers\Manga\LibraryController@removeManga']);
