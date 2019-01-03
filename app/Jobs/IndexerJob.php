@@ -1,36 +1,20 @@
 <?php
 
-namespace Sync\Jobs;
+namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Railken\Mangafox\Mangafox;
-use Core\Manga\MangaManager;
-use Cocur\Slugify\Slugify;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Railken\Amethyst\Managers\MangaManager;
+use Railken\Amethyst\Managers\SourceManager;
+use Railken\Amethyst\Managers\FileManager;
+use Railken\Amethyst\Models\Manga;
 
 class IndexerJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    /**
-     * The number of times the job may be attempted.
-     *
-     * @var int
-     */
-    public $tries = 3;
-
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, ScraperProviders;
 
     /**
      * Execute the job.
@@ -39,42 +23,43 @@ class IndexerJob implements ShouldQueue
      */
     public function handle()
     {
-        $mangafox = new Mangafox();
-        $manager = new MangaManager();
+        $scrapers = $this->getScrapers();
 
+        foreach ($scrapers as $scraper) {
+            $scraper->index(function ($scraperResult) use ($scraper) {
+                $mangaManager = new MangaManager();
+                $sourceManager = new SourceManager();
+                $fileManager = new FileManager();
 
-        $list = Cache::get('sync.manga.index', $mangafox->index()->get());
+                if (!$sourceManager->getRepository()->findOneBy(['vendor' => $scraper->getName(), 'uid' => $scraperResult->uid])) {
 
-        if (empty($list)) {
-            $list = $mangafox->index()->get();
-        }
-        Cache::put('sync.manga.index', $list, 10);
+                    $mangaResult = $mangaManager->createOrFail([
+                        'name' => $scraperResult->name,
+                    ]);
 
-        $results = $list->results;
+                    $manga = $mangaResult->getResource();
 
-        \Log::info("Processing: ".count($results)." manga");
+                    $sourceManager->createOrFail([
+                        'vendor'          => $scraper->getName(),
+                        'weight'          => $scraper->getWeight(),
+                        'url'             => $scraperResult->url,
+                        'uid'             => $scraperResult->uid,
+                        'sourceable_type' => Manga::class,
+                        'sourceable_id'   => $manga->id,
+                    ]);
 
-        foreach ($results as $result) {
-            if (!$manager->findOneBy(['mangafox_uid' => $result->uid])) {
-                \Log::info("{$result->uid} doesn't exists");
-                $manager->create([
-                    'title' => $result->name,
-                    'slug' => (new Slugify())->slugify($result->name),
-                    'mangafox_url' => $result->url,
-                    'mangafox_uid' => $result->uid,
-                    'mangafox_id' => $result->id
-                ]);
-            }
+                    $scraperResult = $scraper->get($scraperResult->uid);
 
-            if ($manager->getRepository()->getQuery()->where('mangafox_uid', $result->uid)->whereNull('released_year')->count() > 0) {
-                \Log::info("Dispatch {$result->uid}");
+                    $result = $mangaManager->update($manga, [
+                        'status' => strtolower($scraperResult->status),
+                        'description' => $scraperResult->description,
+                    ]);
 
-                try {
-                    dispatch((new \Sync\Jobs\IndexMangaJob($result->uid))->onQueue('sync.index'));
-                } catch (\Exception $e) {
-                    \Log::info("Error detected: {$e->getMessage()}");
-                }
-            }
+                    $ext = pathinfo(strtok($scraperResult->cover, '?'), PATHINFO_EXTENSION);
+
+                    $fileResult = $fileManager->uploadFileByContent($scraper->retrieveContentByUrl($scraperResult->cover));
+                    $fileManager->assignToModel($fileResult->getResource(), $manga, ['tags' => ['cover']]);
+            });
         }
     }
 }

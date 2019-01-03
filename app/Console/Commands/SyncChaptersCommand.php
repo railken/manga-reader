@@ -1,13 +1,12 @@
 <?php
 
-namespace Sync\Console\Commands;
+namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use Core\Manga\MangaManager;
+use Illuminate\Console\Command;
 
 class SyncChaptersCommand extends Command
 {
-    
     /**
      * The name and signature of the console command.
      *
@@ -51,10 +50,11 @@ class SyncChaptersCommand extends Command
         $manga = $this->manager->findOneBy(['id' => $this->argument('manga_id')]);
 
         if (!$manga) {
-            $this->error(sprintf("No manga found for %s", $this->argument('manga_id')));
+            $this->error(sprintf('No manga found for %s', $this->argument('manga_id')));
+
             return;
         }
 
-        dispatch((new \Sync\Jobs\SyncChaptersJob($manga))->onQueue('sync.index'));
+        dispatch((new \App\Jobs\SyncChaptersJob($manga))->onQueue('sync.index'));
     }
 }

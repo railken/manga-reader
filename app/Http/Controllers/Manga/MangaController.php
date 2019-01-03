@@ -2,11 +2,10 @@
 
 namespace Api\Http\Controllers\Manga;
 
+use Api\Http\Controllers\RestController;
 use Api\Http\Controllers\Traits\RestIndexTrait;
 use Api\Http\Controllers\Traits\RestShowTrait;
-use Api\Http\Controllers\RestController;
 use Core\Manga\MangaManager;
-use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Railken\Laravel\ApiHelpers\Paginator;
 
@@ -38,12 +37,10 @@ class MangaController extends RestController
         'updated_at',
     ];
 
-
     protected static $fillable = [];
 
-
     /**
-     * Construct
+     * Construct.
      *
      * @param MangaManager $manager
      */
@@ -54,7 +51,7 @@ class MangaController extends RestController
     }
 
     /**
-     * Find one by identifier
+     * Find one by identifier.
      *
      * @param mixed $key
      *
@@ -64,9 +61,9 @@ class MangaController extends RestController
     {
         return $this->manager->repository->findOneByIdOrSlug($key);
     }
-    
+
     /**
-     * Create a new instance for query
+     * Create a new instance for query.
      *
      * @return QueryBuilder
      */
@@ -75,11 +72,10 @@ class MangaController extends RestController
         return $this->manager->repository->getQuery();
     }
 
-
     /**
-     * Follow manga chapters
+     * Follow manga chapters.
      *
-     * @param mixed $key
+     * @param mixed   $key
      * @param Request $request
      *
      * @return Response
@@ -97,10 +93,8 @@ class MangaController extends RestController
         return $this->success(['message' => 'ok']);
     }
 
-
-
     /**
-     * Retrieve releases
+     * Retrieve releases.
      *
      * @param Request $request
      *
@@ -110,7 +104,7 @@ class MangaController extends RestController
     {
         $query = $this->getManager()->getRepository()->newQueryLastReleased();
 
-        # Pagination
+        // Pagination
         $paginator = new Paginator();
         $paginator = $paginator->paginate($query->count(), $request->input('page', 1), $request->input('show', 10));
 
@@ -129,7 +123,7 @@ class MangaController extends RestController
                 // $manga['last_chapter'] = (new \Core\Chapter\ChapterManager())->serializer->serialize($manga->last_chapter);
                 return $manga;
             }),
-            'select' => $select->values(),
+            'select'     => $select->values(),
             'pagination' => $paginator->all(),
         ]);
 

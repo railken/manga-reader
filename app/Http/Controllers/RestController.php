@@ -2,12 +2,6 @@
 
 namespace Api\Http\Controllers;
 
-use Api\Helper\Paginator;
-
-
-use Railken\Laravel\Manager\ModelContract;
-use Illuminate\Http\Request;
-use Api\Http\Controllers\Traits\RestIndexTrait;
 use Railken\Bag;
 
 abstract class RestController extends Controller
@@ -20,9 +14,9 @@ abstract class RestController extends Controller
         $this->keys->sortable = collect(empty(static::$sortable) ? static::$query : static::$sortable);
         $this->keys->fillable = static::$fillable;
     }
-    
+
     /**
-     * Return a new instance of Manager
+     * Return a new instance of Manager.
      *
      * @return UserManager
      */
@@ -32,7 +26,7 @@ abstract class RestController extends Controller
     }
 
     /**
-     * Parse the key before using it in the query
+     * Parse the key before using it in the query.
      *
      * @param string $key
      *
@@ -40,17 +34,17 @@ abstract class RestController extends Controller
      */
     public function parseKey($key)
     {
-        $keys = explode(".", $key);
+        $keys = explode('.', $key);
 
         if (count($keys) === 1) {
             $keys = [$this->manager->repository->newEntity()->getTable(), $keys[0]];
         }
 
-        return \DB::raw("`".implode(".", array_slice($keys, 0, -1))."`.".$keys[count($keys)-1]);
+        return \DB::raw('`'.implode('.', array_slice($keys, 0, -1)).'`.'.$keys[count($keys) - 1]);
     }
-    
+
     /**
-     * Serialize entity
+     * Serialize entity.
      *
      * @param mixed $record
      * @param array $select

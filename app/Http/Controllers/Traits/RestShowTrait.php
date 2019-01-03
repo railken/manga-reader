@@ -3,19 +3,13 @@
 namespace Api\Http\Controllers\Traits;
 
 use Illuminate\Http\Request;
-use Api\Helper\Paginator;
-use Api\Helper\Filter;
-use Api\Helper\Sorter;
-
-use Api\Helper\Exceptions\FilterSyntaxException;
 
 trait RestShowTrait
 {
-
     /**
-     * Display a resource
+     * Display a resource.
      *
-     * @param mixed $key
+     * @param mixed   $key
      * @param Request $request
      *
      * @return response
@@ -29,7 +23,7 @@ trait RestShowTrait
         }
 
         return $this->success([
-            'resource' => $this->manager->serializer->serialize($resource, $this->keys->selectable)->all()
+            'resource' => $this->manager->serializer->serialize($resource, $this->keys->selectable)->all(),
         ]);
     }
 }

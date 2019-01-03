@@ -1,12 +1,11 @@
 <?php
 
-namespace Sync\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
 class SyncMangaCommand extends Command
 {
-    
     /**
      * The name and signature of the console command.
      *
@@ -45,6 +44,6 @@ class SyncMangaCommand extends Command
      */
     public function handle()
     {
-        dispatch((new \Sync\Jobs\IndexMangaJob($this->argument('manga_uid')))->onQueue('sync.index'));
+        dispatch((new \App\Jobs\IndexMangaJob($this->argument('manga_uid')))->onQueue('sync.index'));
     }
 }

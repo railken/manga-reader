@@ -3,19 +3,13 @@
 namespace Api\Http\Controllers\Traits;
 
 use Illuminate\Http\Request;
-use Api\Helper\Paginator;
-use Api\Helper\Filter;
-use Api\Helper\Sorter;
-
-use Api\Helper\Exceptions\FilterSyntaxException;
 
 trait RestUpdateTrait
 {
-
     /**
-     * Display a resource
+     * Display a resource.
      *
-     * @param integer $id
+     * @param int     $id
      * @param Request $request
      *
      * @return response

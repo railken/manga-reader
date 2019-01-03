@@ -17,6 +17,9 @@ trait CreatesApplication
 
         $app->make(Kernel::class)->bootstrap();
 
+        // $this->artisan('migrate:fresh');
+        // $this->artisan('install', ['--force' => true]);
+
         return $app;
     }
 }

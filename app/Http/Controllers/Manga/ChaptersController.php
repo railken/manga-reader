@@ -2,12 +2,10 @@
 
 namespace Api\Http\Controllers\Manga;
 
+use Api\Http\Controllers\RestController;
 use Api\Http\Controllers\Traits\RestIndexTrait;
 use Api\Http\Controllers\Traits\RestShowTrait;
-use Api\Http\Controllers\RestController;
 use Core\Chapter\ChapterManager;
-use Illuminate\Support\Collection;
-use Illuminate\Http\Request;
 
 class ChaptersController extends RestController
 {
@@ -30,15 +28,13 @@ class ChaptersController extends RestController
         'manga.title',
         'manga.slug',
         'manga.genres',
-        'manga.cover'
+        'manga.cover',
     ];
-
 
     protected static $fillable = [];
 
-
     /**
-     * Construct
+     * Construct.
      *
      * @param ChapterManager $manager
      */
@@ -49,7 +45,7 @@ class ChaptersController extends RestController
     }
 
     /**
-     * Find one by identifier
+     * Find one by identifier.
      *
      * @param mixed $key
      *
@@ -59,9 +55,9 @@ class ChaptersController extends RestController
     {
         return $this->manager->repository->findOneByIdOrSlug($key);
     }
-    
+
     /**
-     * Create a new instance for query
+     * Create a new instance for query.
      *
      * @return QueryBuilder
      */
@@ -71,7 +67,7 @@ class ChaptersController extends RestController
     }
 
     /**
-     * Parse the key before using it in the query
+     * Parse the key before using it in the query.
      *
      * @param string $key
      *

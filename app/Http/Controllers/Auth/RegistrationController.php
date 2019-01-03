@@ -2,18 +2,15 @@
 
 namespace Api\Http\Controllers\Auth;
 
-use Api\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Core\User\UserService;
-use Railken\Bag;
 use Api\Exceptions\BadRequestException;
-use Illuminate\Support\Collection;
+use Api\Http\Controllers\Controller;
+use Core\User\UserService;
+use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
 {
-
     /**
-     * Serialize token
+     * Serialize token.
      *
      * @param Token $token
      *
@@ -23,14 +20,13 @@ class RegistrationController extends Controller
     {
         return [
             'access_token' => $token->accessToken,
-            'token_type' => 'Bearer',
-            'expire_in' => 0
+            'token_type'   => 'Bearer',
+            'expire_in'    => 0,
         ];
     }
 
-
     /**
-     * Register a user
+     * Register a user.
      *
      * @param Request $request
      *
@@ -53,13 +49,13 @@ class RegistrationController extends Controller
         $user = $result->getResource();
 
         return $this->success([
-            'code' => 'USER_REGISTERED',
-            'message' => 'ok'
+            'code'    => 'USER_REGISTERED',
+            'message' => 'ok',
         ]);
     }
 
     /**
-     * Confirm email
+     * Confirm email.
      *
      * @param Request $request
      *
@@ -68,14 +64,13 @@ class RegistrationController extends Controller
     public function confirmEmail(Request $request)
     {
         $um = new UserService();
-            
+
         $user = $um->confirmEmail($request->input('token'));
 
-        
         if (!$user) {
             return $this->error([
-                'code' => 'SIGNUP.CONFIRM_EMAIL_TOKEN_INVALID',
-                'message' => "Token invalid"
+                'code'    => 'SIGNUP.CONFIRM_EMAIL_TOKEN_INVALID',
+                'message' => 'Token invalid',
             ]);
         }
 
@@ -85,7 +80,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * Request Confirm email
+     * Request Confirm email.
      *
      * @param Request $request
      *
@@ -94,7 +89,7 @@ class RegistrationController extends Controller
     public function requestConfirmEmail(Request $request)
     {
         $um = new UserService();
-            
+
         $user = $um->manager->repository->findOneByEmail($request->input('email'));
 
         if ($user && !$user->enabled) {

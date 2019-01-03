@@ -3,17 +3,11 @@
 namespace Api\Http\Controllers\Traits;
 
 use Illuminate\Http\Request;
-use Api\Helper\Paginator;
-use Api\Helper\Filter;
-use Api\Helper\Sorter;
-
-use Api\Helper\Exceptions\FilterSyntaxException;
 
 trait RestCreateTrait
 {
-
     /**
-     * Create a new resource
+     * Create a new resource.
      *
      * @param Request $request
      *

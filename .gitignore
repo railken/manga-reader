@@ -4,9 +4,16 @@
 /storage/*.key
 /vendor
 /.idea
+/.vscode
 /.vagrant
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
 .env
+.php_cs_fixer
+/build
+\.php_cs\.cache
+composer\.lock
+laravel-echo-server\.json
+docs

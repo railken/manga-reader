@@ -2,13 +2,10 @@
 
 namespace Api\Http\Controllers\Manga;
 
-use Api\Helper\Paginator;
-use Api\Helper\Filter;
-use Api\Helper\Sorter;
 use Api\Http\Controllers\RestController;
+use Api\Http\Controllers\Traits\RestIndexTrait;
 use Core\Manga\MangaManager;
 use Illuminate\Http\Request;
-use Api\Http\Controllers\Traits\RestIndexTrait;
 
 class LibraryController extends RestController
 {
@@ -38,7 +35,7 @@ class LibraryController extends RestController
     ];
 
     /**
-     * Construct
+     * Construct.
      *
      * @param MangaManager $manager
      */
@@ -47,8 +44,9 @@ class LibraryController extends RestController
         $this->manager = $manager;
         parent::__construct();
     }
+
     /**
-     * Create a new instance for query
+     * Create a new instance for query.
      *
      * @return QueryBuilder
      */
@@ -58,9 +56,9 @@ class LibraryController extends RestController
     }
 
     /**
-     * Add a manga
+     * Add a manga.
      *
-     * @param mixed $key
+     * @param mixed   $key
      * @param Request $request
      *
      * @return response
@@ -84,9 +82,9 @@ class LibraryController extends RestController
     }
 
     /**
-     * Remove a manga
+     * Remove a manga.
      *
-     * @param mixed $key
+     * @param mixed   $key
      * @param Request $request
      *
      * @return response
@@ -109,12 +107,10 @@ class LibraryController extends RestController
         return $this->success(['code' => 'LIBRARY_MANGA_REMOVED', 'message' => 'manga removed from the library']);
     }
 
-
-
     /**
-     * Show info a manga
+     * Show info a manga.
      *
-     * @param mixed $key
+     * @param mixed   $key
      * @param Request $request
      *
      * @return response

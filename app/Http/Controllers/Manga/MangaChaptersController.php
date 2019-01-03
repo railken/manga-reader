@@ -2,11 +2,10 @@
 
 namespace Api\Http\Controllers\Manga;
 
+use Api\Http\Controllers\RestController;
 use Api\Http\Controllers\Traits\RestIndexTrait;
 use Api\Http\Controllers\Traits\RestShowTrait;
-use Api\Http\Controllers\RestController;
 use Core\Chapter\ChapterManager;
-use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 
 class MangaChaptersController extends RestController
@@ -27,15 +26,13 @@ class MangaChaptersController extends RestController
         'next',
         'resources',
         'manga.id',
-        'manga.slug'
+        'manga.slug',
     ];
-
 
     protected static $fillable = [];
 
-
     /**
-     * Construct
+     * Construct.
      *
      * @param ChapterManager $manager
      */
@@ -46,7 +43,7 @@ class MangaChaptersController extends RestController
     }
 
     /**
-     * Find one by identifier
+     * Find one by identifier.
      *
      * @param mixed $key
      *
@@ -56,9 +53,9 @@ class MangaChaptersController extends RestController
     {
         return $this->manager->repository->findOneByIdOrSlug($key);
     }
-    
+
     /**
-     * Create a new instance for query
+     * Create a new instance for query.
      *
      * @return QueryBuilder
      */
@@ -67,9 +64,8 @@ class MangaChaptersController extends RestController
         return $this->manager->repository->getQuery();
     }
 
-
     /**
-     * Display resources
+     * Display resources.
      *
      * @param $manga_key
      * @param Request $request
@@ -80,20 +76,19 @@ class MangaChaptersController extends RestController
     {
         $pc = new ChaptersController($this->manager);
         $query = $request->input('query')
-            ? "(manga.id eq {$manga_key} or manga.slug eq {$manga_key}) and (".$request->input('query').")"
+            ? "(manga.id eq {$manga_key} or manga.slug eq {$manga_key}) and (".$request->input('query').')'
             : "manga.id eq {$manga_key} or manga.slug eq {$manga_key}";
 
-
         $request->request->add(['query' => $query]);
+
         return $pc->index($request);
     }
 
-
     /**
-     * Get single chapter by manga and number
+     * Get single chapter by manga and number.
      *
-     * @param string $key
-     * @param string $number
+     * @param string  $key
+     * @param string  $number
      * @param Request $request
      *
      * @return Response
@@ -114,7 +109,7 @@ class MangaChaptersController extends RestController
         }
 
         return $this->success([
-            'resource' => $this->manager->serializer->serialize($resource, $this->keys->selectable)->all()
+            'resource' => $this->manager->serializer->serialize($resource, $this->keys->selectable)->all(),
         ]);
     }
 }

@@ -1,13 +1,11 @@
 <?php
 
-namespace Sync\Console\Commands;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Core\Manga\MangaManager;
 
 class SyncReleasesCommand extends Command
 {
-    
     /**
      * The name and signature of the console command.
      *
@@ -46,6 +44,6 @@ class SyncReleasesCommand extends Command
      */
     public function handle()
     {
-        dispatch((new \Sync\Jobs\SyncReleasesJob($this->argument('pages')))->onQueue('sync.index'));
+        dispatch((new \App\Jobs\SyncReleasesJob($this->argument('pages')))->onQueue('sync.index'));
     }
 }
