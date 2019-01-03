@@ -3861,6 +3861,58 @@
             "time": "2018-10-28T14:12:23+00:00"
         },
         {
+            "name": "railken/amethyst-alias",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/railken/amethyst-alias.git",
+                "reference": "801bbb5d2d461c19ef47118a4f21aaa1677205c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/railken/amethyst-alias/zipball/801bbb5d2d461c19ef47118a4f21aaa1677205c6",
+                "reference": "801bbb5d2d461c19ef47118a4f21aaa1677205c6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "railken/amethyst-common": "0.1.*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.6.*",
+                "phpunit/phpunit": "~7.0",
+                "railken/amethyst-foo": "^0.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "amethyst": {
+                    "package": "alias",
+                    "namespace": "Railken\\Amethyst"
+                },
+                "laravel": {
+                    "providers": [
+                        "Railken\\Amethyst\\Providers\\AliasServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Railken\\Amethyst\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "alias",
+                "amethyst",
+                "amethyst-alias",
+                "laravel"
+            ],
+            "time": "2019-01-02T18:23:17+00:00"
+        },
+        {
             "name": "railken/amethyst-api",
             "version": "v0.1.10",
             "source": {
@@ -4715,17 +4767,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/amethyst-manga.git",
-                "reference": "087142ad72fb3697aaee2582babc01e41caa703a"
+                "reference": "06047134f120dd6e2d8f187cfa4d1c240653533a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/amethyst-manga/zipball/087142ad72fb3697aaee2582babc01e41caa703a",
-                "reference": "087142ad72fb3697aaee2582babc01e41caa703a",
+                "url": "https://api.github.com/repos/railken/amethyst-manga/zipball/06047134f120dd6e2d8f187cfa4d1c240653533a",
+                "reference": "06047134f120dd6e2d8f187cfa4d1c240653533a",
                 "shasum": ""
             },
             "require": {
                 "cocur/slugify": "^3.1",
                 "php": ">=7.1",
+                "railken/amethyst-alias": "0.1.*",
                 "railken/amethyst-category": "0.1.*",
                 "railken/amethyst-common": "0.1.*",
                 "railken/amethyst-source": "0.1.*"
@@ -4761,7 +4814,7 @@
                 "laravel",
                 "manga"
             ],
-            "time": "2019-01-01T17:27:39+00:00"
+            "time": "2019-01-02T18:30:23+00:00"
         },
         {
             "name": "railken/amethyst-notification",
@@ -5098,16 +5151,16 @@
         },
         {
             "name": "railken/kissmanga",
-            "version": "v1.0.1",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/kissmanga.git",
-                "reference": "c430ba04f3d29321f84034a310917cde6c277211"
+                "reference": "ddf37df949f0447729763b07f6e0348d7b1f77e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/kissmanga/zipball/c430ba04f3d29321f84034a310917cde6c277211",
-                "reference": "c430ba04f3d29321f84034a310917cde6c277211",
+                "url": "https://api.github.com/repos/railken/kissmanga/zipball/ddf37df949f0447729763b07f6e0348d7b1f77e7",
+                "reference": "ddf37df949f0447729763b07f6e0348d7b1f77e7",
                 "shasum": ""
             },
             "require": {
@@ -5132,7 +5185,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-12-18T22:17:15+00:00"
+            "time": "2019-01-03T02:54:46+00:00"
         },
         {
             "name": "railken/lara-eye",
@@ -5174,16 +5227,16 @@
         },
         {
             "name": "railken/lem",
-            "version": "v3.2.28",
+            "version": "v3.2.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/lem.git",
-                "reference": "735407bf2866f2e900dcae9e4f40efc21272dc29"
+                "reference": "8f2d2746ed7503437ab738d40f953b18743509c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/lem/zipball/735407bf2866f2e900dcae9e4f40efc21272dc29",
-                "reference": "735407bf2866f2e900dcae9e4f40efc21272dc29",
+                "url": "https://api.github.com/repos/railken/lem/zipball/8f2d2746ed7503437ab738d40f953b18743509c3",
+                "reference": "8f2d2746ed7503437ab738d40f953b18743509c3",
                 "shasum": ""
             },
             "require": {
@@ -5221,7 +5274,7 @@
             "keywords": [
                 "laravel"
             ],
-            "time": "2019-01-01T16:49:41+00:00"
+            "time": "2019-01-02T18:16:45+00:00"
         },
         {
             "name": "railken/mangafox",
@@ -7849,16 +7902,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v2.5.1",
+            "version": "v2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "8abb4f9aa89ddea9d52112c65bbe8d0125e2fa8e"
+                "reference": "cfd5dc225767ca154853752abc93aeec040fcf36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/8abb4f9aa89ddea9d52112c65bbe8d0125e2fa8e",
-                "reference": "8abb4f9aa89ddea9d52112c65bbe8d0125e2fa8e",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/cfd5dc225767ca154853752abc93aeec040fcf36",
+                "reference": "cfd5dc225767ca154853752abc93aeec040fcf36",
                 "shasum": ""
             },
             "require": {
@@ -7895,7 +7948,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2018-07-29T20:33:41+00:00"
+            "time": "2018-10-30T17:29:25+00:00"
         },
         {
             "name": "wa72/htmlpagedom",
