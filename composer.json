@@ -36,7 +36,7 @@
         "railken/amethyst-template": "0.1.*",
         "railken/amethyst-user": "0.1.*",
         "railken/amethyst-work": "0.1.*",
-        "railken/kissmanga": "^1.0",
+        "railken/mangadex": "^0.1.0",
         "railken/mangafox": "^1.1"
     },
     "require-dev": {

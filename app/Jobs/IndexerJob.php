@@ -57,7 +57,7 @@ class IndexerJob implements ShouldQueue
 
                     $ext = pathinfo(strtok($scraperResult->cover, '?'), PATHINFO_EXTENSION);
 
-                    $fileResult = $fileManager->uploadFileByContent($scraper->retrieveContentByUrl($scraperResult->cover));
+                    $fileResult = $fileManager->uploadFileByContent(file_get_contents($scraperResult->cover));
                     $fileManager->assignToModel($fileResult->getResource(), $manga, ['tags' => ['cover']]);
 
                 }

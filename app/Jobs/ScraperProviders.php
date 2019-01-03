@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Scrapers\KissmangaScraper;
+use App\Scrapers\MangadexScraper;
 use App\Scrapers\MangafoxScraper;
 
 trait ScraperProviders
@@ -10,7 +10,8 @@ trait ScraperProviders
     public function getScrapers()
     {
         return [
-            'kissmanga' => new KissmangaScraper(),
+            'mangadex' => new MangadexScraper(),
+            'mangafox' => new MangafoxScraper(),
         ];
     }
 }
