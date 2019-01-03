@@ -59,6 +59,8 @@ class IndexerJob implements ShouldQueue
 
                     $fileResult = $fileManager->uploadFileByContent($scraper->retrieveContentByUrl($scraperResult->cover));
                     $fileManager->assignToModel($fileResult->getResource(), $manga, ['tags' => ['cover']]);
+
+                }
             });
         }
     }
