@@ -60,7 +60,7 @@ class IndexerJob implements ShouldQueue
                     $fileResult = $fileManager->uploadFileByContent(file_get_contents($scraperResult->cover));
                     $fileManager->assignToModel($fileResult->getResource(), $manga, ['tags' => ['cover']]);
 
-                    usleep(250000);
+                    usleep(500000);
                 }
             });
         }
