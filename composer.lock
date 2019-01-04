@@ -4674,16 +4674,16 @@
         },
         {
             "name": "railken/amethyst-manga",
-            "version": "v0.1.5",
+            "version": "v0.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/amethyst-manga.git",
-                "reference": "abd21f70c0a1940b7a0003c1796126f7ca363bb2"
+                "reference": "05f41f25680d1f1d4b34a6551b6c9d2ac397af29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/amethyst-manga/zipball/abd21f70c0a1940b7a0003c1796126f7ca363bb2",
-                "reference": "abd21f70c0a1940b7a0003c1796126f7ca363bb2",
+                "url": "https://api.github.com/repos/railken/amethyst-manga/zipball/05f41f25680d1f1d4b34a6551b6c9d2ac397af29",
+                "reference": "05f41f25680d1f1d4b34a6551b6c9d2ac397af29",
                 "shasum": ""
             },
             "require": {
@@ -4725,7 +4725,7 @@
                 "laravel",
                 "manga"
             ],
-            "time": "2019-01-04T17:11:15+00:00"
+            "time": "2019-01-04T21:53:45+00:00"
         },
         {
             "name": "railken/amethyst-notification",
