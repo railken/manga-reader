@@ -3822,16 +3822,16 @@
         },
         {
             "name": "railken/amethyst-alias",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/amethyst-alias.git",
-                "reference": "801bbb5d2d461c19ef47118a4f21aaa1677205c6"
+                "reference": "0ceacd073d7993eac62498491362bef7616d9ebc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/amethyst-alias/zipball/801bbb5d2d461c19ef47118a4f21aaa1677205c6",
-                "reference": "801bbb5d2d461c19ef47118a4f21aaa1677205c6",
+                "url": "https://api.github.com/repos/railken/amethyst-alias/zipball/0ceacd073d7993eac62498491362bef7616d9ebc",
+                "reference": "0ceacd073d7993eac62498491362bef7616d9ebc",
                 "shasum": ""
             },
             "require": {
@@ -3870,7 +3870,7 @@
                 "amethyst-alias",
                 "laravel"
             ],
-            "time": "2019-01-02T18:23:17+00:00"
+            "time": "2019-01-04T19:49:05+00:00"
         },
         {
             "name": "railken/amethyst-api",
@@ -5203,16 +5203,16 @@
         },
         {
             "name": "railken/mangadex",
-            "version": "v0.1.0",
+            "version": "v0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/mangadex.git",
-                "reference": "df2171b72f5f8e2c10a69d94746bd1cf3e82ddfa"
+                "reference": "f78292700f626f2aeb0531028354d60ad9ce049e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/mangadex/zipball/df2171b72f5f8e2c10a69d94746bd1cf3e82ddfa",
-                "reference": "df2171b72f5f8e2c10a69d94746bd1cf3e82ddfa",
+                "url": "https://api.github.com/repos/railken/mangadex/zipball/f78292700f626f2aeb0531028354d60ad9ce049e",
+                "reference": "f78292700f626f2aeb0531028354d60ad9ce049e",
                 "shasum": ""
             },
             "require": {
@@ -5239,7 +5239,7 @@
             "keywords": [
                 "mangadex"
             ],
-            "time": "2019-01-03T09:56:50+00:00"
+            "time": "2019-01-04T19:10:14+00:00"
         },
         {
             "name": "railken/mangafox",
