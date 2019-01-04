@@ -5203,16 +5203,16 @@
         },
         {
             "name": "railken/mangadex",
-            "version": "v0.1.1",
+            "version": "v0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/mangadex.git",
-                "reference": "f78292700f626f2aeb0531028354d60ad9ce049e"
+                "reference": "ac9ce637773ad5c5e6a3a7443d43927fb3dab7f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/mangadex/zipball/f78292700f626f2aeb0531028354d60ad9ce049e",
-                "reference": "f78292700f626f2aeb0531028354d60ad9ce049e",
+                "url": "https://api.github.com/repos/railken/mangadex/zipball/ac9ce637773ad5c5e6a3a7443d43927fb3dab7f9",
+                "reference": "ac9ce637773ad5c5e6a3a7443d43927fb3dab7f9",
                 "shasum": ""
             },
             "require": {
@@ -5239,7 +5239,7 @@
             "keywords": [
                 "mangadex"
             ],
-            "time": "2019-01-04T19:10:14+00:00"
+            "time": "2019-01-04T21:33:04+00:00"
         },
         {
             "name": "railken/mangafox",
