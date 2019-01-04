@@ -5243,16 +5243,16 @@
         },
         {
             "name": "railken/mangafox",
-            "version": "v1.1.8",
+            "version": "v1.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/mangafox.git",
-                "reference": "e2950e3b87065b1ffa2262e7cad744f16230ad7f"
+                "reference": "cc6b13434a089d2ced8a30969d8bda2ef7ebcd8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/mangafox/zipball/e2950e3b87065b1ffa2262e7cad744f16230ad7f",
-                "reference": "e2950e3b87065b1ffa2262e7cad744f16230ad7f",
+                "url": "https://api.github.com/repos/railken/mangafox/zipball/cc6b13434a089d2ced8a30969d8bda2ef7ebcd8b",
+                "reference": "cc6b13434a089d2ced8a30969d8bda2ef7ebcd8b",
                 "shasum": ""
             },
             "require": {
@@ -5271,7 +5271,7 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2018-12-30T04:18:26+00:00"
+            "time": "2019-01-04T21:07:45+00:00"
         },
         {
             "name": "railken/search-query",
