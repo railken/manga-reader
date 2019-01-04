@@ -46,7 +46,8 @@ class DownloadCover implements ShouldQueue
 
         $ext = pathinfo(strtok($this->url, '?'), PATHINFO_EXTENSION);
 
-        $fileResult = $fileManager->uploadFileByContent(file_get_contents($this->url));
+        $content = file_get_contents($this->url);
+        $fileResult = $fileManager->uploadFileByContent($content);
         $fileManager->assignToModel($fileResult->getResource(), $manga, ['tags' => ['cover']]);
 
     }

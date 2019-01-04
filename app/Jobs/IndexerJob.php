@@ -15,6 +15,7 @@ use Railken\Amethyst\Managers\TagManager;
 use Railken\Amethyst\Managers\TagEntityManager;
 use Railken\Amethyst\Models\Manga;
 use Railken\Bag;
+use Illuminate\Support\Facades\Log;
 
 class IndexerJob implements ShouldQueue
 {
@@ -31,32 +32,39 @@ class IndexerJob implements ShouldQueue
 
         foreach ($scrapers as $scraper) {
             $scraper->index(function ($scraperResult) use ($scraper) {
-                $mangaManager = new MangaManager();
-                $sourceManager = new SourceManager();
 
-                if (!$sourceManager->getRepository()->findOneBy(['vendor' => $scraper->getName(), 'uid' => $scraperResult->uid])) {
+                try {
+                    $mangaManager = new MangaManager();
+                    $sourceManager = new SourceManager();
 
-                    $mangaResult = $mangaManager->createOrFail([
-                        'name' => $scraperResult->name,
-                    ]);
+                    if (!$sourceManager->getRepository()->findOneBy(['vendor' => $scraper->getName(), 'uid' => $scraperResult->uid])) {
 
-                    $manga = $mangaResult->getResource();
+                        $mangaResult = $mangaManager->createOrFail([
+                            'name' => $scraperResult->name,
+                        ]);
 
-                    $sourceManager->createOrFail([
-                        'vendor'          => $scraper->getName(),
-                        'weight'          => $scraper->getWeight(),
-                        'url'             => $scraperResult->url,
-                        'uid'             => $scraperResult->uid,
-                        'sourceable_type' => Manga::class,
-                        'sourceable_id'   => $manga->id,
-                    ]);
+                        $manga = $mangaResult->getResource();
 
-                    $scraperResult = $scraper->get($scraperResult->uid);
+                        $sourceManager->createOrFail([
+                            'vendor'          => $scraper->getName(),
+                            'weight'          => $scraper->getWeight(),
+                            'url'             => $scraperResult->url,
+                            'uid'             => $scraperResult->uid,
+                            'sourceable_type' => Manga::class,
+                            'sourceable_id'   => $manga->id,
+                        ]);
 
-                    $this->handleManga($manga, $scraperResult);
-                    $this->handleAliases($manga, $scraperResult);
-                    $this->handleTags($manga, $scraperResult);
-                    $this->handleCover($manga, $scraperResult);
+                        $scraperResult = $scraper->get($scraperResult->uid);
+
+                        $this->handleManga($manga, $scraperResult);
+                        $this->handleAliases($manga, $scraperResult);
+                        $this->handleTags($manga, $scraperResult);
+                        $this->handleCover($manga, $scraperResult);
+                    }
+                } catch (\Exception $e) {
+                    Log::error(sprintf("An error has occurred while saving %s:%s", $scraper->getName(), $scraperResult->uid));
+
+                    throw $e;
                 }
             });
         }
