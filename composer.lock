@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c79ae902cdc57c074d6df97995555ed1",
+    "content-hash": "88515bd3c3b7132e47ca5f7b806310eb",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -60,16 +60,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.82.4",
+            "version": "3.82.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e9a22aaec00218e57dcd8915d2e06978255dac5f"
+                "reference": "5382f946b12eaaab830cb9fc1098b28d2efb0cff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e9a22aaec00218e57dcd8915d2e06978255dac5f",
-                "reference": "e9a22aaec00218e57dcd8915d2e06978255dac5f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5382f946b12eaaab830cb9fc1098b28d2efb0cff",
+                "reference": "5382f946b12eaaab830cb9fc1098b28d2efb0cff",
                 "shasum": ""
             },
             "require": {
@@ -139,7 +139,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-01-03T00:46:35+00:00"
+            "time": "2019-01-03T22:54:10+00:00"
         },
         {
             "name": "barryvdh/laravel-cors",
@@ -3974,55 +3974,6 @@
             "time": "2018-10-22T01:09:55+00:00"
         },
         {
-            "name": "railken/amethyst-category",
-            "version": "v0.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/railken/amethyst-category.git",
-                "reference": "655de281f5c0aa5d8b77cafd9208e9ba7acaa516"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/railken/amethyst-category/zipball/655de281f5c0aa5d8b77cafd9208e9ba7acaa516",
-                "reference": "655de281f5c0aa5d8b77cafd9208e9ba7acaa516",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1",
-                "railken/amethyst-common": "0.1.*"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.8.1",
-                "orchestra/testbench": "3.6.*",
-                "phpstan/phpstan": "^0.10",
-                "phpunit/phpunit": "~7.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Railken\\Amethyst\\Providers\\CategoryServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Railken\\Amethyst\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "keywords": [
-                "amethyst",
-                "amethyst-category",
-                "category",
-                "laravel"
-            ],
-            "time": "2018-10-28T15:32:57+00:00"
-        },
-        {
             "name": "railken/amethyst-common",
             "version": "v0.1.10",
             "source": {
@@ -4723,25 +4674,25 @@
         },
         {
             "name": "railken/amethyst-manga",
-            "version": "dev-master",
+            "version": "v0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/railken/amethyst-manga.git",
-                "reference": "06047134f120dd6e2d8f187cfa4d1c240653533a"
+                "reference": "abd21f70c0a1940b7a0003c1796126f7ca363bb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/railken/amethyst-manga/zipball/06047134f120dd6e2d8f187cfa4d1c240653533a",
-                "reference": "06047134f120dd6e2d8f187cfa4d1c240653533a",
+                "url": "https://api.github.com/repos/railken/amethyst-manga/zipball/abd21f70c0a1940b7a0003c1796126f7ca363bb2",
+                "reference": "abd21f70c0a1940b7a0003c1796126f7ca363bb2",
                 "shasum": ""
             },
             "require": {
                 "cocur/slugify": "^3.1",
                 "php": ">=7.1",
                 "railken/amethyst-alias": "0.1.*",
-                "railken/amethyst-category": "0.1.*",
                 "railken/amethyst-common": "0.1.*",
-                "railken/amethyst-source": "0.1.*"
+                "railken/amethyst-source": "0.1.*",
+                "railken/amethyst-tag": "0.1.*"
             },
             "require-dev": {
                 "orchestra/testbench": "3.6.*",
@@ -4774,7 +4725,7 @@
                 "laravel",
                 "manga"
             ],
-            "time": "2019-01-02T18:30:23+00:00"
+            "time": "2019-01-04T17:11:15+00:00"
         },
         {
             "name": "railken/amethyst-notification",
@@ -4926,6 +4877,58 @@
                 "laravel"
             ],
             "time": "2019-01-01T17:22:15+00:00"
+        },
+        {
+            "name": "railken/amethyst-tag",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/railken/amethyst-tag.git",
+                "reference": "26bdb9fb5310052c7628426311f81e6a5e44ac9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/railken/amethyst-tag/zipball/26bdb9fb5310052c7628426311f81e6a5e44ac9a",
+                "reference": "26bdb9fb5310052c7628426311f81e6a5e44ac9a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "railken/amethyst-common": "0.1.*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.6.*",
+                "phpunit/phpunit": "~7.0",
+                "railken/amethyst-foo": "0.1.*"
+            },
+            "type": "library",
+            "extra": {
+                "amethyst": {
+                    "package": "tag",
+                    "namespace": "Railken\\Amethyst"
+                },
+                "laravel": {
+                    "providers": [
+                        "Railken\\Amethyst\\Providers\\TagServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Railken\\Amethyst\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "amethyst",
+                "amethyst-tag",
+                "laravel",
+                "tag"
+            ],
+            "time": "2019-01-04T13:32:08+00:00"
         },
         {
             "name": "railken/amethyst-template",
@@ -5764,16 +5767,16 @@
         },
         {
             "name": "spatie/laravel-medialibrary",
-            "version": "7.5.2",
+            "version": "7.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-medialibrary.git",
-                "reference": "6e5e355ecb262875320904f57c06dbe332eb3d36"
+                "reference": "62f51f87f27a9a78063c6d276f568f8f8223799b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/6e5e355ecb262875320904f57c06dbe332eb3d36",
-                "reference": "6e5e355ecb262875320904f57c06dbe332eb3d36",
+                "url": "https://api.github.com/repos/spatie/laravel-medialibrary/zipball/62f51f87f27a9a78063c6d276f568f8f8223799b",
+                "reference": "62f51f87f27a9a78063c6d276f568f8f8223799b",
                 "shasum": ""
             },
             "require": {
@@ -5843,7 +5846,7 @@
                 "media",
                 "spatie"
             ],
-            "time": "2018-11-19T17:16:59+00:00"
+            "time": "2019-01-04T10:36:22+00:00"
         },
         {
             "name": "spatie/pdf-to-image",
@@ -8419,46 +8422,6 @@
             "time": "2018-06-13T13:22:40+00:00"
         },
         {
-            "name": "kyranrana/cloudflare-bypass",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/KyranRana/cloudflare-bypass.git",
-                "reference": "f3342605cddbe31f42d6a2c93b642c702b3788c8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/KyranRana/cloudflare-bypass/zipball/f3342605cddbe31f42d6a2c93b642c702b3788c8",
-                "reference": "f3342605cddbe31f42d6a2c93b642c702b3788c8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5"
-            },
-            "require-dev": {
-                "guzzlehttp/guzzle": "^6.3",
-                "phpunit/phpunit": "~5.7",
-                "symfony/cache": "^4.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "CloudflareBypass\\": "src/CloudflareBypass"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Library for helping bypass the Cloudflare IUAM page",
-            "homepage": "https://github.com/KyranRana/cloudflare-bypass",
-            "keywords": [
-                "bypass",
-                "cloudflare"
-            ],
-            "time": "2018-12-14T22:55:36+00:00"
-        },
-        {
             "name": "maximebf/debugbar",
             "version": "v1.15.0",
             "source": {
@@ -9995,44 +9958,6 @@
             "time": "2018-12-12T07:20:32+00:00"
         },
         {
-            "name": "railken/kissmanga",
-            "version": "v1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/railken/kissmanga.git",
-                "reference": "ddf37df949f0447729763b07f6e0348d7b1f77e7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/railken/kissmanga/zipball/ddf37df949f0447729763b07f6e0348d7b1f77e7",
-                "reference": "ddf37df949f0447729763b07f6e0348d7b1f77e7",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "~6.0",
-                "illuminate/support": "^5.5",
-                "kyranrana/cloudflare-bypass": "2.0.*",
-                "railken/bag": "^1.0",
-                "symfony/cache": "^4.2",
-                "tunaabutbul/cloudflare-middleware": "^1.2",
-                "wa72/htmlpagedom": "^1.3"
-            },
-            "require-dev": {
-                "codeclimate/php-test-reporter": "^0.4.4",
-                "friendsofphp/php-cs-fixer": "^2.8.1",
-                "phpstan/phpstan": "^0.9.2",
-                "phpunit/phpunit": "~6.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Railken\\Kissmanga\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-01-03T02:54:46+00:00"
-        },
-        {
             "name": "sebastian/code-unit-reverse-lookup",
             "version": "1.0.1",
             "source": {
@@ -10636,48 +10561,6 @@
             "time": "2017-04-07T12:08:54+00:00"
         },
         {
-            "name": "tunaabutbul/cloudflare-middleware",
-            "version": "v1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tunaabutbul/cloudflare-middleware.git",
-                "reference": "05a88cf070f041d501a2d8fc3c01bb66ffc63b15"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tunaabutbul/cloudflare-middleware/zipball/05a88cf070f041d501a2d8fc3c01bb66ffc63b15",
-                "reference": "05a88cf070f041d501a2d8fc3c01bb66ffc63b15",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "6.3.*",
-                "php": ">=5.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Tuna\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tuna Abutbul",
-                    "email": "tuna.abutbul+github@gmail.com"
-                }
-            ],
-            "description": "Cloudflare Middleware For Guzzle",
-            "keywords": [
-                "Guzzle",
-                "cloudflare",
-                "middleware"
-            ],
-            "time": "2018-02-07T09:18:26+00:00"
-        },
-        {
             "name": "webmozart/assert",
             "version": "1.4.0",
             "source": {
@@ -10731,9 +10614,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "railken/amethyst-manga": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

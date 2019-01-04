@@ -10,7 +10,11 @@ use Illuminate\Queue\SerializesModels;
 use Railken\Amethyst\Managers\MangaManager;
 use Railken\Amethyst\Managers\SourceManager;
 use Railken\Amethyst\Managers\FileManager;
+use Railken\Amethyst\Managers\AliasManager;
+use Railken\Amethyst\Managers\TagManager;
+use Railken\Amethyst\Managers\TagEntityManager;
 use Railken\Amethyst\Models\Manga;
+use Railken\Bag;
 
 class IndexerJob implements ShouldQueue
 {
@@ -29,7 +33,6 @@ class IndexerJob implements ShouldQueue
             $scraper->index(function ($scraperResult) use ($scraper) {
                 $mangaManager = new MangaManager();
                 $sourceManager = new SourceManager();
-                $fileManager = new FileManager();
 
                 if (!$sourceManager->getRepository()->findOneBy(['vendor' => $scraper->getName(), 'uid' => $scraperResult->uid])) {
 
@@ -50,19 +53,81 @@ class IndexerJob implements ShouldQueue
 
                     $scraperResult = $scraper->get($scraperResult->uid);
 
-                    $result = $mangaManager->update($manga, [
-                        'status' => strtolower($scraperResult->status),
-                        'description' => $scraperResult->description,
-                    ]);
-
-                    $ext = pathinfo(strtok($scraperResult->cover, '?'), PATHINFO_EXTENSION);
-
-                    $fileResult = $fileManager->uploadFileByContent(file_get_contents($scraperResult->cover));
-                    $fileManager->assignToModel($fileResult->getResource(), $manga, ['tags' => ['cover']]);
-
-                    usleep(500000);
+                    $this->handleManga($manga, $scraperResult);
+                    $this->handleAliases($manga, $scraperResult);
+                    $this->handleTags($manga, $scraperResult);
+                    $this->handleCover($manga, $scraperResult);
                 }
             });
         }
+    }
+
+    /**
+     * @param Manga $manga
+     * @param \Railken\Bag $scraperResult
+     */
+    public function handleAliases(Manga $manga, Bag $scraperResult)
+    {
+        $aliasManager = new AliasManager();
+
+        foreach (array_merge([$scraperResult->name], $scraperResult->aliases) as $alias) {
+            $aliasManager->updateOrCreateOrFail([
+                'name' => $alias,
+                'aliasable_type' => Manga::class,
+                'aliasable_id'   => $manga->id,
+            ]);
+        }
+    }
+
+    /**
+     * @param Manga $manga
+     * @param \Railken\Bag $scraperResult
+     */
+    public function handleTags(Manga $manga, Bag $scraperResult)
+    {
+        $tagManager = new TagManager();
+        $tagEntityManager = new TagEntityManager();
+
+        foreach ($scraperResult->genres as $genre) {
+
+            $genreTag = $tagManager->findOrCreateOrFail([
+                'name' => 'genre'
+            ])->getResource();
+
+            $tag = $tagManager->findOrCreateOrFail([
+                'name' => $genre,
+                'parent_id' => $genreTag->id
+            ])->getResource();
+
+            $tagEntityManager->updateOrCreateOrFail([
+                'tag_id' => $tag->id,
+                'taggable_type' => Manga::class,
+                'taggable_id'   => $manga->id,
+            ]);
+        }
+
+    }
+
+    /**
+     * @param Manga $manga
+     * @param \Railken\Bag $scraperResult
+     */
+    public function handleManga(Manga $manga, Bag $scraperResult)
+    {
+        $mangaManager = new MangaManager();
+
+        $result = $mangaManager->update($manga, [
+            'status' => strtolower($scraperResult->status),
+            'description' => $scraperResult->description,
+        ]);
+    }
+
+    /**
+     * @param Manga $manga
+     * @param \Railken\Bag $scraperResult
+     */
+    public function handleCover(Manga $manga, Bag $scraperResult)
+    {
+        dispatch((new \App\Jobs\DownloadCover($manga->id, $scraperResult->cover))->onQueue('sync.index'));
     }
 }

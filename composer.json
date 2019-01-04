@@ -30,7 +30,7 @@
         "railken/amethyst-file-generator": "0.1.*",
         "railken/amethyst-importer": "0.1.*",
         "railken/amethyst-listener": "0.1.*",
-        "railken/amethyst-manga": "dev-master",
+        "railken/amethyst-manga": "0.1.*",
         "railken/amethyst-notification": "0.1.*",
         "railken/amethyst-schedule": "0.1.*",
         "railken/amethyst-template": "0.1.*",
