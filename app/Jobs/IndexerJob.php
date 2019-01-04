@@ -39,29 +39,29 @@ class IndexerJob implements ShouldQueue
                     $sourceManager = new SourceManager();
 
                     if (!$sourceManager->getRepository()->findOneBy(['vendor' => $scraper->getName(), 'uid' => $scraperResult->uid])) {
-
                         $mangaResult = $mangaManager->createOrFail([
                             'name' => $scraperResult->name,
                         ]);
 
                         $manga = $mangaResult->getResource();
 
-                        $sourceManager->createOrFail([
+                        $source = $sourceManager->createOrFail([
                             'vendor'          => $scraper->getName(),
                             'weight'          => $scraper->getWeight(),
                             'url'             => $scraperResult->url,
                             'uid'             => $scraperResult->uid,
                             'sourceable_type' => Manga::class,
                             'sourceable_id'   => $manga->id,
-                        ]);
-
-                        $scraperResult = $scraper->get($scraperResult->uid);
-
-                        $this->handleManga($manga, $scraper, $scraperResult);
-                        $this->handleAliases($manga, $scraper, $scraperResult);
-                        $this->handleTags($manga, $scraper, $scraperResult);
-                        $this->handleCover($manga, $scraper, $scraperResult);
+                        ])->getResource();
                     }
+                    
+                    $scraperResult = $scraper->get($scraperResult->uid);
+
+                    $this->handleManga($manga, $scraper, $scraperResult);
+                    $this->handleAliases($manga, $scraper, $scraperResult);
+                    $this->handleTags($manga, $scraper, $scraperResult);
+                    $this->handleCover($manga, $scraper, $scraperResult);
+
                 } catch (\Exception $e) {
                     Log::error(sprintf("An error has occurred while saving %s:%s", $scraper->getName(), $scraperResult->uid));
 
@@ -141,6 +141,17 @@ class IndexerJob implements ShouldQueue
      */
     public function handleCover(Manga $manga, ScraperContract $scraper, Bag $scraperResult)
     {
-        dispatch((new \App\Jobs\DownloadCover($manga->id, $scraperResult->cover))->onQueue('sync.index'));
+        $fileManager = new FileManager();
+
+        // Skip if cover is already downloaded
+        $file = $fileManager->getRepository()->findOneBy([
+            'model_type' => Manga::class,
+            'model_id' => $manga->id,
+            'tags' => json_encode(['cover'])
+        ]);
+
+        if (!$file) {
+            dispatch((new \App\Jobs\DownloadCover($manga->id, $scraperResult->cover))->onQueue('sync.index'));
+        }
     }
 }
