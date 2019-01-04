@@ -124,7 +124,7 @@ class IndexerJob implements ShouldQueue
     {
         $mangaManager = new MangaManager();
 
-        $result = $mangaManager->update($manga, [
+        $result = $mangaManager->updateOrFail($manga, [
             'status' => strtolower($scraperResult->status),
             'description' => $scraperResult->description,
         ]);
