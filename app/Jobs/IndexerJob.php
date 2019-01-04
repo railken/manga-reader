@@ -38,7 +38,12 @@ class IndexerJob implements ShouldQueue
                     $mangaManager = new MangaManager();
                     $sourceManager = new SourceManager();
 
-                    if (!$sourceManager->getRepository()->findOneBy(['vendor' => $scraper->getName(), 'uid' => $scraperResult->uid])) {
+                    $source = $sourceManager->getRepository()->findOneBy([
+                        'vendor' => $scraper->getName(), 
+                        'uid' => $scraperResult->uid
+                    ]);
+
+                    if (!$source) {
                         $mangaResult = $mangaManager->createOrFail([
                             'name' => $scraperResult->name,
                         ]);
@@ -53,6 +58,8 @@ class IndexerJob implements ShouldQueue
                             'sourceable_type' => Manga::class,
                             'sourceable_id'   => $manga->id,
                         ])->getResource();
+                    } else {
+                        $manga = $source->sourceable;
                     }
                     
                     $scraperResult = $scraper->get($scraperResult->uid);
