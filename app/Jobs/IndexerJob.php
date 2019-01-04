@@ -16,6 +16,7 @@ use Railken\Amethyst\Managers\TagEntityManager;
 use Railken\Amethyst\Models\Manga;
 use Railken\Bag;
 use Illuminate\Support\Facades\Log;
+use App\Scrapers\ScraperContract;
 
 class IndexerJob implements ShouldQueue
 {
@@ -56,10 +57,10 @@ class IndexerJob implements ShouldQueue
 
                         $scraperResult = $scraper->get($scraperResult->uid);
 
-                        $this->handleManga($manga, $scraperResult);
-                        $this->handleAliases($manga, $scraperResult);
-                        $this->handleTags($manga, $scraperResult);
-                        $this->handleCover($manga, $scraperResult);
+                        $this->handleManga($manga, $scraper, $scraperResult);
+                        $this->handleAliases($manga, $scraper, $scraperResult);
+                        $this->handleTags($manga, $scraper, $scraperResult);
+                        $this->handleCover($manga, $scraper, $scraperResult);
                     }
                 } catch (\Exception $e) {
                     Log::error(sprintf("An error has occurred while saving %s:%s", $scraper->getName(), $scraperResult->uid));
@@ -71,14 +72,15 @@ class IndexerJob implements ShouldQueue
     }
 
     /**
-     * @param Manga $manga
+     * @param \Railken\Amethyst\Models\Manga $manga
+     * @param \App\Scrapers\ScraperContract $scraper
      * @param \Railken\Bag $scraperResult
      */
-    public function handleAliases(Manga $manga, Bag $scraperResult)
+    public function handleAliases(Manga $manga, ScraperContract $scraper, Bag $scraperResult)
     {
         $aliasManager = new AliasManager();
 
-        foreach (array_merge([$scraperResult->name], $scraperResult->aliases) as $alias) {
+        foreach ($scraper->getAliases($scraperResult) as $alias) {
             $aliasManager->updateOrCreateOrFail([
                 'name' => $alias,
                 'aliasable_type' => Manga::class,
@@ -88,10 +90,11 @@ class IndexerJob implements ShouldQueue
     }
 
     /**
-     * @param Manga $manga
+     * @param \Railken\Amethyst\Models\Manga $manga
+     * @param \App\Scrapers\ScraperContract $scraper
      * @param \Railken\Bag $scraperResult
      */
-    public function handleTags(Manga $manga, Bag $scraperResult)
+    public function handleTags(Manga $manga, ScraperContract $scraper, Bag $scraperResult)
     {
         $tagManager = new TagManager();
         $tagEntityManager = new TagEntityManager();
@@ -117,10 +120,11 @@ class IndexerJob implements ShouldQueue
     }
 
     /**
-     * @param Manga $manga
+     * @param \Railken\Amethyst\Models\Manga $manga
+     * @param \App\Scrapers\ScraperContract $scraper
      * @param \Railken\Bag $scraperResult
      */
-    public function handleManga(Manga $manga, Bag $scraperResult)
+    public function handleManga(Manga $manga, ScraperContract $scraper, Bag $scraperResult)
     {
         $mangaManager = new MangaManager();
 
@@ -131,10 +135,11 @@ class IndexerJob implements ShouldQueue
     }
 
     /**
-     * @param Manga $manga
+     * @param \Railken\Amethyst\Models\Manga $manga
+     * @param \App\Scrapers\ScraperContract $scraper
      * @param \Railken\Bag $scraperResult
      */
-    public function handleCover(Manga $manga, Bag $scraperResult)
+    public function handleCover(Manga $manga, ScraperContract $scraper, Bag $scraperResult)
     {
         dispatch((new \App\Jobs\DownloadCover($manga->id, $scraperResult->cover))->onQueue('sync.index'));
     }

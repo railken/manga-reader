@@ -4,6 +4,7 @@ namespace App\Scrapers;
 
 use Closure;
 use Railken\Mangafox\Mangafox;
+use Railken\Bag;
 
 class MangafoxScraper implements ScraperContract
 {
@@ -65,5 +66,17 @@ class MangafoxScraper implements ScraperContract
     public function get(string $uid)
     {
         return $this->api->resource($uid)->get();
+    }
+
+    /**
+     * Retrieve aliases
+     *
+     * @param \Railken\Bag $scraperResult
+     *
+     * @return array
+     */
+    public function getAliases(Bag $scraperResult)
+    {
+        return [$scraperResult->name];
     }
 }

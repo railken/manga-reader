@@ -5,6 +5,7 @@ namespace App\Scrapers;
 use Closure;
 use Railken\Mangadex\MangadexApi;
 use Symfony\Component\Cache\Simple\FilesystemCache;
+use Railken\Bag;
 
 class MangadexScraper implements ScraperContract
 {
@@ -72,5 +73,17 @@ class MangadexScraper implements ScraperContract
     public function get(string $uid)
     {
         return $this->api->resource($uid)->get();
+    }
+
+    /**
+     * Retrieve aliases
+     *
+     * @param \Railken\Bag $scraperResult
+     *
+     * @return array
+     */
+    public function getAliases(Bag $scraperResult)
+    {
+        return array_merge([$scraperResult->name], $scraperResult->aliases);
     }
 }
