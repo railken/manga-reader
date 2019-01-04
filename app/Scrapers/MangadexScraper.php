@@ -10,7 +10,7 @@ use Railken\Bag;
 class MangadexScraper implements ScraperContract
 {
     /**
-     * @var \Railken\Mangadex\Mangadex
+     * @var \Railken\Mangadex\MangadexApi
      */
     protected $api;
 
