@@ -44,6 +44,6 @@ class SyncIndexCommand extends Command
      */
     public function handle()
     {
-        dispatch((new \App\Jobs\IndexerJob())->onQueue('sync.index'));
+        dispatch(new \App\Jobs\IndexerJob());
     }
 }
