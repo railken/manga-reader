@@ -7,7 +7,7 @@ use Railken\Mangadex\MangadexApi;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 use Railken\Bag;
 
-class MangadexScraper implements ScraperContract
+class MangadexScraper extends BaseScraper implements ScraperContract
 {
     /**
      * @var \Railken\Mangadex\MangadexApi
@@ -57,18 +57,18 @@ class MangadexScraper implements ScraperContract
         $page = 1;
         $pages = 0;
 
-
         do {
-            $result = $this->api->search()->page($page)->get();
 
-            if ($pages === 0) {
-                $pages = $result->pages;
-            }
+            $result = $this->retryFor(3, function() use ($page) {
+                return $this->api->search()->page($page)->get();
+            });
             
+            $pages = $result->pages;
+
             ++$page;
 
             foreach ($result->results as $result) {
-                $callback($result);
+                $callback($result, $page);
             }
         } while ($page < $pages);
     }
