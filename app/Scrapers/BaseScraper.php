@@ -7,7 +7,7 @@ use Exception;
 
 class BaseScraper {
 
-    public function retryFor(int $retry, Closure $callback)
+    public function retryFor(int $retry, Closure $callback, int $sleep = 5)
     {
     	if ($retry <= 0) {
     		throw new \Exception("Failed");
@@ -16,6 +16,7 @@ class BaseScraper {
     	try {
         	return $callback();
         } catch (Exception $e) {
+        	sleep($sleep);
         	return $this->retryFor($retry - 1, $callback);
         }
     }
