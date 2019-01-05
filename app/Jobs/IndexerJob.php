@@ -61,7 +61,6 @@ class IndexerJob implements ShouldQueue
                     $manga = $source->sourceable;
                 }
                 
-
                 dispatch(new \App\Jobs\IndexMangaJob($manga->id, $scraper->getName(), $scraperResult->uid));
             });
         }
