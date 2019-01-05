@@ -17,6 +17,7 @@ use Railken\Amethyst\Models\Manga;
 use Railken\Bag;
 use Illuminate\Support\Facades\Log;
 use App\Scrapers\ScraperContract;
+use Exception;
 
 class IndexerJob implements ShouldQueue
 {
@@ -33,132 +34,52 @@ class IndexerJob implements ShouldQueue
 
         foreach ($scrapers as $scraper) {
             $scraper->index(function ($scraperResult) use ($scraper) {
+                $mangaManager = new MangaManager();
+                $sourceManager = new SourceManager();
 
-                try {
-                    $mangaManager = new MangaManager();
-                    $sourceManager = new SourceManager();
+                $source = $sourceManager->getRepository()->findOneBy([
+                    'vendor' => $scraper->getName(), 
+                    'uid' => $scraperResult->uid
+                ]);
 
-                    $source = $sourceManager->getRepository()->findOneBy([
-                        'vendor' => $scraper->getName(), 
-                        'uid' => $scraperResult->uid
+                if (!$source) {
+                    $mangaResult = $mangaManager->createOrFail([
+                        'name' => $scraperResult->name,
                     ]);
 
-                    if (!$source) {
-                        $mangaResult = $mangaManager->createOrFail([
-                            'name' => $scraperResult->name,
-                        ]);
+                    $manga = $mangaResult->getResource();
 
-                        $manga = $mangaResult->getResource();
-
-                        $source = $sourceManager->createOrFail([
-                            'vendor'          => $scraper->getName(),
-                            'weight'          => $scraper->getWeight(),
-                            'url'             => $scraperResult->url,
-                            'uid'             => $scraperResult->uid,
-                            'sourceable_type' => Manga::class,
-                            'sourceable_id'   => $manga->id,
-                        ])->getResource();
-                    } else {
-                        $manga = $source->sourceable;
-                    }
-                    
-                    $scraperResult = $scraper->get($scraperResult->uid);
-
-                    $this->handleManga($manga, $scraper, $scraperResult);
-                    $this->handleAliases($manga, $scraper, $scraperResult);
-                    $this->handleTags($manga, $scraper, $scraperResult);
-                    $this->handleCover($manga, $scraper, $scraperResult);
-
-                } catch (\Exception $e) {
-                    Log::error(sprintf("An error has occurred while saving %s:%s", $scraper->getName(), $scraperResult->uid));
-
-                    throw $e;
+                    $source = $sourceManager->createOrFail([
+                        'vendor'          => $scraper->getName(),
+                        'weight'          => $scraper->getWeight(),
+                        'url'             => $scraperResult->url,
+                        'uid'             => $scraperResult->uid,
+                        'sourceable_type' => Manga::class,
+                        'sourceable_id'   => $manga->id,
+                    ])->getResource();
+                } else {
+                    $manga = $source->sourceable;
                 }
+                
+
+                dispatch(new \App\Jobs\IndexMangaJob($manga->id, $scraper->getName(), $scraperResult->uid));
             });
         }
     }
 
     /**
-     * @param \Railken\Amethyst\Models\Manga $manga
-     * @param \App\Scrapers\ScraperContract $scraper
-     * @param \Railken\Bag $scraperResult
+     * The job failed to process.
+     *
+     * @param Exception $exception
+     *
+     * @return void
      */
-    public function handleAliases(Manga $manga, ScraperContract $scraper, Bag $scraperResult)
+    public function failed(Exception $exception)
     {
-        $aliasManager = new AliasManager();
-
-        foreach ($scraper->getAliases($scraperResult) as $alias) {
-            $aliasManager->updateOrCreateOrFail([
-                'name' => $alias,
-                'aliasable_type' => Manga::class,
-                'aliasable_id'   => $manga->id,
-            ]);
-        }
-    }
-
-    /**
-     * @param \Railken\Amethyst\Models\Manga $manga
-     * @param \App\Scrapers\ScraperContract $scraper
-     * @param \Railken\Bag $scraperResult
-     */
-    public function handleTags(Manga $manga, ScraperContract $scraper, Bag $scraperResult)
-    {
-        $tagManager = new TagManager();
-        $tagEntityManager = new TagEntityManager();
-
-        foreach ($scraperResult->genres as $genre) {
-
-            $genreTag = $tagManager->findOrCreateOrFail([
-                'name' => 'genre'
-            ])->getResource();
-
-            $tag = $tagManager->findOrCreateOrFail([
-                'name' => $genre,
-                'parent_id' => $genreTag->id
-            ])->getResource();
-
-            $tagEntityManager->updateOrCreateOrFail([
-                'tag_id' => $tag->id,
-                'taggable_type' => Manga::class,
-                'taggable_id'   => $manga->id,
-            ]);
-        }
-
-    }
-
-    /**
-     * @param \Railken\Amethyst\Models\Manga $manga
-     * @param \App\Scrapers\ScraperContract $scraper
-     * @param \Railken\Bag $scraperResult
-     */
-    public function handleManga(Manga $manga, ScraperContract $scraper, Bag $scraperResult)
-    {
-        $mangaManager = new MangaManager();
-
-        $result = $mangaManager->updateOrFail($manga, [
-            'status' => strtolower($scraperResult->status),
-            'description' => $scraperResult->description,
-        ]);
-    }
-
-    /**
-     * @param \Railken\Amethyst\Models\Manga $manga
-     * @param \App\Scrapers\ScraperContract $scraper
-     * @param \Railken\Bag $scraperResult
-     */
-    public function handleCover(Manga $manga, ScraperContract $scraper, Bag $scraperResult)
-    {
-        $fileManager = new FileManager();
-
-        // Skip if cover is already downloaded
-        $file = $fileManager->getRepository()->findOneBy([
-            'model_type' => Manga::class,
-            'model_id' => $manga->id,
-            'tags' => json_encode(['cover'])
-        ]);
-
-        if (!$file) {
-            dispatch((new \App\Jobs\DownloadCover($manga->id, $scraperResult->cover))->onQueue('sync.index'));
-        }
+        Log::error(sprintf(
+            "An error has occurred while scanning pages. %s, Message: %s", 
+            get_class($exception), 
+            $exception->getMessage()
+        ));
     }
 }
