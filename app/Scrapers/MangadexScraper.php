@@ -55,10 +55,16 @@ class MangadexScraper implements ScraperContract
     public function index(Closure $callback)
     {
         $page = 1;
+        $pages = 0;
+
 
         do {
             $result = $this->api->search()->page($page)->get();
-            $pages = $result->pages;
+
+            if ($pages === 0) {
+                $pages = $result->pages;
+            }
+            
             ++$page;
 
             foreach ($result->results as $result) {
